@@ -1,0 +1,1321 @@
+*{
+    margin: 0;
+    box-sizing: border-box;
+}
+
+body{
+    font-family: sans-serif;
+    background-image: linear-gradient(360deg, rgb(0 82 113), rgb(0 255 246));
+    
+}
+
+header{
+    background-color: rgb(23, 114, 109);
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    padding: 10px px;
+    animation: bajarNav both;
+    animation-timeline: scroll();
+    position: sticky;
+    top: 0;
+    z-index: 30;
+}
+
+@keyframes bajarNav {
+    from {
+        padding: auto;
+        background-color: teal;
+    }to{
+        padding: 0px;
+        background-color: rgba(0, 128, 128, 0.904);
+    }
+}
+
+.menuPrincipal ul{
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    padding: 0;
+}
+
+.menuPrincipal li{
+    list-style: none;
+    margin: 4px;
+}
+
+.botones{
+    color: rgb(255, 255, 255);
+    display: inline-block;
+    padding: 6px 9px;
+    font-size: 1.2rem;
+    margin-right: 10px;
+    text-decoration: none;
+    text-align: center;
+}
+
+a:hover{
+    color: #b9fffc;
+}
+
+#logo{
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+}
+
+#tituloPrincipal{
+    display: inline-block;
+    font-size: 2.7rem;
+    font-family: "Lobster", sans-serif;
+    text-shadow: 1px 2px 1px rgb(46, 45, 45);
+    color:rgb(255, 255, 255);
+    text-decoration: none;
+}
+
+
+.logotipo{
+    width: 105px;
+    margin-right: 10px;
+    margin-left: 10px;
+}
+
+nav{
+    display: flex;
+    align-items: center;
+    margin-right: 8px;
+}
+
+.menuDeServicios input{
+    display: none;
+}
+
+.menuDeServicios ul{
+    display: none;
+}
+
+.menuDeServicios label{
+    color: white;
+    font-size: 1.2rem;
+}
+
+#flecha{
+    font-size: 1rem;
+}
+
+.menuDeServicios input:checked  ~ul{
+    width: 20%;
+    background-color: #083d7b6e;
+}
+
+.menuDeServicios li{
+
+    display: block;
+    color: white;
+    background: teal;
+    margin: 0;
+    padding: 15px;
+    list-style: none;
+    border-bottom: 1px solid grey;
+    margin-bottom: 10px;
+  
+}
+
+.menuDeServicios a{
+    text-decoration: none;
+    color: white;
+}
+
+.MenuHambur{
+    display: none;   
+}
+
+.MenuHambur ul{
+    display: none;
+    padding: 0;
+}
+
+input:checked  ~ ul{
+    display:block;
+    background-color: teal;
+    position: absolute;
+    top: 125px;
+    right:0;
+    height: auto;
+    width: 70%;
+    display: flex;
+    flex-direction: column;
+  
+}
+
+.MenuHambur input {
+    display: none;
+}
+
+.MenuHambur label{
+    box-sizing: border-box;
+    display: inline-block;
+    border: 1px solid black;
+    border-radius: 5px;
+    width: 30px;
+    height: 30px;
+    line-height: 30px;
+    font-weight: bold;
+    text-align: center;
+    user-select: none;
+    position:absolute;
+    top: 10;
+    right: 0;
+}
+
+.MenuHambur li {
+    display: block;
+  background: lightgrey;
+  margin: 0;
+  padding: 10px;
+  list-style: none;
+  border-bottom: 1px solid grey;
+  margin-bottom: 10px;
+}
+
+.especialidades{
+    margin: auto;
+    width: 60%;
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    justify-content: center;
+    align-items: center;
+    height: auto;
+    gap: 20px;
+    padding-bottom: 20px;
+    padding-top: 20px;
+
+}
+
+button{
+    font-size: 1.5em;
+    font-weight: bold;
+    padding: 10px 20px;
+    border-radius: 10px;
+    border: 1px solid black;
+    box-shadow: 2px 2px 10px black;
+    color: white;
+    background-color:#2a9690;
+    transition: 1s;
+    margin-top: 20px;
+}
+
+button:hover{
+    background-color: #00bbb2;
+}
+
+
+.tarjetas{
+    height: 350px;
+    width: calc(33.33% - 20px); /* 3 tarjetas por fila, teniendo en cuenta el espacio */
+    align-items: center;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    /* margin: 15px; */
+    /* margin-right: 25px; */
+    border-radius: 8px;
+    border: solid rgb(62 203 192 / 93%);
+    align-items: normal;
+}
+
+.tarjetas img {
+    width: 100%; /* Hacer que la imagen ocupe todo el ancho */
+    height: 85%; /* Hacer que la imagen ocupe todo el alto */
+    object-fit: cover; /* La imagen se adapta sin perder la proporción */
+}
+
+
+.seccionInicio{
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    height: 90vh;
+    font-size: 32px;
+    color: #f3eee7;
+    position: relative;
+    /* background-repeat: no-repeat;
+    background-size: cover;    
+    background-image: linear-gradient(0deg,
+    rgba(0,0,0,0.5),
+    rgba(0,0,0,0.2)), url(imagenes/edificio2.jpg);
+    background-attachment: fixed;
+    justify-content: center;
+    align-items: center; */
+}
+
+.seccionInicio img{
+
+    width: 100%; /* Hacer que la imagen ocupe todo el ancho */
+    height: 100%; /* Hacer que la imagen ocupe todo el alto */
+    object-fit: cover; /* La imagen se adapta sin perder la proporción */
+    background-attachment: fixed;
+
+}
+
+#seccionInicio1{
+    display: flex;
+    flex-direction: column;
+    justify-content: space-evenly;
+    align-items: center;
+    flex-wrap: wrap;
+    margin: auto;
+    background:#002c7361;
+    min-height: 420px;
+    width: 500px;
+    padding-left: 10px;
+    padding-right: 10px;
+    border: solid #2bb5b9;
+    border-radius: 15%;
+    position: absolute;
+    top: 25%;
+}
+
+h1{
+    font-size: 3rem;
+    text-shadow: 1px 2px 1px rgb(0, 0, 0);
+    padding-left: 30px;
+}
+
+#seccionInicio1 p{
+    padding-left: 35px;
+    font-size: 2.3rem;
+}
+
+#seccionInicio1 a{
+    text-decoration: none;
+    color: white;
+}
+
+#imagenPrincipal{
+    object-fit: cover;
+}
+
+#botonInicio{
+    font-size: 1.8rem;
+    width: 300px;
+    height: 80px;
+    background-color:#008f87;
+}
+
+#botonInicio:hover{
+    background-color: #008378;
+}
+
+#titulo2{
+    font-size: 62px;
+}
+
+.SeccionEspecialidades{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: flex-start;
+    color: white;
+    background-image: linear-gradient(360deg, rgb(0 82 113), rgb(0 255 246));
+    background-size: cover;
+    min-height: 75vh;
+    margin-top: 5px;
+}
+
+.SeccionEspecialidades a {
+    text-decoration: none;
+    color: white;
+}
+
+.SeccionEspecialidades a:hover {
+    outline: 2px solid rgb(254, 255, 255);
+}
+
+.SeccionEspecialidades h2{
+    font-size:28px;
+    text-shadow: 2px 3px 5px black;
+}
+.tituloEsecialidad{
+    padding-left: 25px;
+    padding-top: 110px;
+    padding-bottom: 0px
+}
+.tituloTarjeta{
+    width: 100%;
+    text-align: center;
+    height: 50px;
+    background-color: #1ba39b;
+    border-radius: 6px;
+    text-shadow: 2px 4px 5px black;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+#areatraumatologia{
+    background-image:linear-gradient(0deg,
+    rgba(0,0,0,0.1),
+    rgba(0,0,0,0.1)), url(imagenes/Traumatologia.jpg);
+    background-position: center;
+    background-size: 380px 400px;
+}
+
+#areaCardio{
+    background-image: url(imagenes/cardiology.webp);
+    background-size: cover;
+    background-position: center;
+}
+
+#areaOdontologia{
+    background-image: url(imagenes/odontologia.jpg);
+    background-size: cover;
+}
+#contenedorPrincipal{
+    height: 75vh;
+    width: 82%;
+    margin: auto;
+    
+}
+
+#citaOnline{
+    padding-left: 20px;
+    padding-top: 10px;
+    text-align: center;
+    margin-bottom: 25px;
+    margin-top: 25px;
+}
+
+
+#citaOnline h2{
+    font-size: 62px;
+    color: white;
+    text-shadow: 2px 3px 5px black;
+}
+
+#contenedorCita{
+    width: 100%;
+    display: flex;
+    flex-direction: row;
+    position: relative;
+
+}
+
+.cita{
+    width: 50%;
+    height: 650px;
+    color: white;
+}
+
+#listaDeCitas{
+    padding-top: 20px;
+    padding-left: 30px;
+    /* border-left: 4px solid chartreuse;
+    border-top: 4px solid aquamarine; */
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    justify-content: center;
+}
+
+/* .Margenabajo{
+    border: 4px solid chartreuse;
+    position: relative;
+    top: 195px;
+    left: -30px;
+    width: 50px;
+} */
+
+.mensaje{
+    font-size: 24px;
+    color: #28ff6a;
+    position: absolute;
+    top: 72%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+}
+
+#mensajeFecha{
+    margin-top: 15px;
+    margin-bottom:10px;
+    color: #00d400;
+    font-size: 1.1rem;
+    font-weight: 600;
+    text-align: center;
+}
+
+
+
+.bad{
+    font-size: 24px;
+    color: #ffa928;
+    position: absolute;
+    top: 72%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+}
+
+#mensajeHora{
+    margin-top: 10px;
+    text-align: center;
+    font-size: 1.1rem;
+}
+
+.cita li{
+    font-size: 28px;
+    margin: 10px;
+}
+
+.cita ul{
+    margin: 50px 0px 50px 0px;
+}
+
+#H3Online{
+    font-size: 38px;
+    margin-left: 15px;
+}
+
+#H3InfoDoctores{
+    font-size: 38px;
+    margin-left: 15px;
+}
+
+#citasOnline{
+    margin-left: 15px;
+}
+
+#imagenOnline img{
+    width: 100%; 
+    height: 100%; 
+    object-fit: cover;
+}
+
+dialog{
+    margin: auto;
+     border: none;
+     padding: 0;
+     background-color: #0711148f;
+     width: 600px;
+     padding-bottom: 10px;
+}
+
+ #ventana{
+    width: 1500px;
+
+ }
+ 
+ dialog::backdrop{
+     background: #0a0a0a86;
+ }
+ 
+ .contenidoDialog{
+     padding: 0%;
+     display: flex;
+     flex-direction: column;
+     width: 100%;
+     min-height: auto;
+     margin: auto;
+     background-color: #363636;
+ }
+ 
+ .contenedorBoton{
+ display: flex;
+ flex-direction: row;
+ justify-content: right;
+ }
+ 
+ #botonDialog{
+     width: 180px;
+     font-size: 1.3rem;
+     background-color: teal;
+     margin-top:15px ;
+     margin-right: 10px;
+ }
+ 
+ #botonDialog:hover{
+     background-color: #00776f;
+ }
+ 
+ .ModalClose{
+     margin: 0;
+     position: absolute;
+     top: 0;
+     right: 0;
+     background:#4f4f4f;
+     color: white;
+     border: none;
+     height: 40px;
+     font-size: 1rem;
+ }
+ 
+ .headerModel{
+     padding: 5px;
+     width: 100%;
+     min-height: 80px;
+     background-color: teal;
+     color: white;
+     font-size: 1.4rem;
+     text-align: center;
+     display: flex;
+     flex-direction: row;
+     justify-content: center;
+     align-items: center;
+ }
+
+ .headerModel h2{
+    letter-spacing: 4px;
+ }
+ 
+.botonesLogin{
+    background-color: #363636;
+    border-radius: 6px;
+    border: 1px solid #fff3;
+    color: rgba(255, 255, 255, 0.438);
+    font-size: 1.3rem;
+    margin-right: 15px;
+    margin-top: 0px;
+    margin-top: 20px;
+}
+
+.botonesLoginSelecionado {
+    border-radius: 6px;
+    font-size: 1.3rem;
+    margin-right: 15px;
+    margin-top: 0px;
+    margin-top: 20px;
+    background-color: #363636 ;
+    border-color: rgb(65, 255, 239);
+    color: rgb(111, 255, 243);
+    box-shadow: 6px 0px 6px rgba(62, 237, 250, 0.2), 6px 0px 16px rgba(17, 233, 233, 0.445) ;
+    text-shadow: 0px 0px 9px rgba(68, 227, 238, 0.933), 0px 0px 3px rgba(159, 255, 239, 0.454)
+}
+
+.botonesLogin:hover{
+    background-color: #363636 ;
+    border-color: rgb(65, 255, 239);
+    color: rgb(111, 255, 243);
+    box-shadow: 6px 0px 6px rgba(62, 237, 250, 0.2), 6px 0px 16px rgba(17, 233, 233, 0.445) ;
+    text-shadow: 0px 0px 9px rgba(68, 227, 238, 0.933), 0px 0px 3px rgba(159, 255, 239, 0.454)
+}
+ 
+
+#tituloHoras{
+    color: white;
+    font-size: 1.8rem;
+    margin-left: 8px;
+    margin-top: 10px;
+    text-shadow: 2px 3px 5px black;
+}
+
+
+.cuadrosDeRegistro{
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    margin-top: 20px;
+    margin-left: 20px;
+    margin-right: 20px;
+}
+
+#iniciarSeccion{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 80%;
+    min-height: 580px;
+    background-color:transparent;
+    padding: 10px;
+    font-size: 1.2rem;
+    color: white;
+    margin-right: 12px;
+    border: 1px solid teal;
+    border-radius: 15px;
+    margin-bottom: 25px;
+    box-shadow: 0px 0px 10px teal;
+}
+
+#iniciarSeccion form{
+    display: flex;
+    flex-direction: column;
+    margin-top: 30px;
+    width: 80%;
+}
+
+#iniciarSeccion input{
+    margin-bottom: 20px;
+    border: none;
+    border-bottom: 1px solid rgb(255, 255, 255);
+    background: transparent;
+    height: 30px;
+    margin-top: 3px;
+    border-radius: 3px;
+    color: white;
+}
+
+#RegistroUsuario{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 80%;
+    min-height: 580px;
+    background-color: transparent;
+    padding: 10px;
+    font-size: 1.2rem;
+    color: white;
+    border: 1px solid teal;
+    border-radius: 15px;
+    display: none;
+    margin-bottom: 25px;
+    box-shadow: 0px 0px 10px teal;
+
+}
+
+#RegistroUsuario form{
+    display: flex;
+    flex-direction: column;
+    font-size: 1.2rem;
+    margin-top: 30px;
+    width: 80%;
+}
+
+#RegistroUsuario input{
+    margin-bottom: 30px;
+    border: none;
+    border-bottom: 1px solid rgb(255, 255, 255);
+    background: transparent;
+    height: 20px;
+    margin-top: 3px;
+    border-radius: 3px;
+    color: white;
+}
+
+#RegistroUsuario label{
+    color: white;
+}
+
+#LinkRegistro{
+    margin-top: 45px;
+    font-size: 1.4rem;
+    color: rgb(168, 168, 168);
+}
+
+#LinkRegistro:hover{
+    color: teal;
+}
+
+span{
+    color: #ffffff;
+    font-weight: 700;
+}
+
+.Horarios{
+    height: 75vh;
+    Background-image: linear-gradient(0deg, #0f3b53, #00c7bc);
+    display: flex;
+    justify-content: center;
+    padding-bottom: 25px;
+}
+
+caption {
+    font-size: 20px;
+    padding: 20px;
+    font-size: 28px;
+    color: #002e72;
+    font-weight: 700;
+
+}
+
+th {
+    background-color: #1681ac;
+    color: black;
+    height: 30px;
+}
+  
+td {
+    background-color: #4a5252;
+    color: white;
+    padding: #4fc3f7;
+    text-align: center;
+    height: 30px;
+}
+
+.Horarios ul{
+    text-align: left;
+}
+
+.registroDeCita{
+    width: 100%;
+    min-height: 75vh;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
+#dialogCitasOnline{
+    width: 100%;
+}
+
+.camposFron{
+    width: 95%;
+    min-height: 70vh;
+}
+
+.titulo{
+    font-size: 3.1rem;
+    color: white;
+    text-align: center;
+    margin-top: 10px;
+    margin-bottom: 15px
+}
+
+#formCitas{
+    display: flex;
+    flex-direction: row;
+    width: 100%;
+    margin: auto;
+    min-height: 800px;
+    border: 1px solid rgb(0, 138, 126);
+    border-radius: 15px;
+    background-color: #232323;
+    padding: 8px;
+}
+
+.espacioU{
+    margin-right: 7px;
+    border-radius: 7px;
+    background-color: #434343;
+}
+
+.nombrePaciente{
+    width: 20%;
+    color: white;
+    border: 1px solid black;
+    
+}
+
+.nombrePaciente h3{
+    margin: 10px;
+}
+
+.headerCitas{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+    background-color: teal;
+    color: white;
+    height: 75px;
+    border-radius: 8px;
+    font-size: 1.1rem
+}
+
+.ParteEspc{
+    width: 25%;
+    color: white;
+    border: 1px solid black;
+}
+
+.especialidadesCita {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+}
+.especialidadesCita div {
+    padding: 8px;
+    cursor: pointer;
+    width: 100%;
+    height: 60px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    border-bottom: 1px solid #006552;
+    transition: background-color 0.2s ease;
+    font-size: 1.4rem;
+    margin-top: 0px;
+    margin-bottom: 0px;
+}
+.especialidadesCita div:hover {
+    background-color: #00b0a6;
+}
+
+
+.especialidad.seleccionada {
+    background-color: #009688;
+    color: white;
+    font-weight: 700;
+    box-shadow: 0 0 5px rgb(0 219 105 / 40%);
+}
+
+
+.parteMedicos{
+    width: 25%;
+    color: white;
+    border: 1px solid black;
+}
+
+.doctor-item {
+    display: flex;
+    align-items: center;
+    padding: 10px;
+    cursor: pointer;
+    border-bottom: 1px solid #006552;
+    font-size: 1.1rem;
+    transition: background-color 0.2s ease;
+    height: 75px;
+
+}
+
+.doctor-item img {
+    width: 55px;
+    height: 55px;
+    border-radius: 50%;
+    object-fit: cover;
+    margin-right: 10px;
+}
+
+.doctor-item:hover {
+    background-color: #009688;
+}
+
+.doctor-item.seleccionado {
+    background-color: #009688;
+    font-weight: bold;
+}
+
+.parteCalendario_hora{
+    width: 30%;
+    color: white;
+    border: 1px solid black;
+    position: relative;
+    display: flex;
+    flex-direction: column;
+}
+
+.espacioCalendario{
+    width: 100%;
+    height: 65%;
+    padding: 8px;
+    display: flex;
+    flex-direction: column;
+}
+
+.espacioHoras{
+    width: 100%;
+    height: 35%;
+    padding: 8px;
+    display: flex;
+    flex-direction: column;
+}
+
+#horaSelect{
+    padding: 8px;
+    border-radius: 7px;
+    background-color: transparent;
+    color: white;
+    font-size: 1.1rem;
+}
+
+.optionHoras{
+    background-color: #585858;;
+    padding: 5px;
+}
+
+#submit_button{
+    position: absolute;
+    background: darkcyan !important;
+    color: white;
+    bottom: 20px;
+    right: 20px;
+    width: 180px;
+    height: 50px;
+    font-size: 1.3rem !important;
+    border: none;
+}
+
+#submit_button:hover{
+    background-color: #00a1a1 !important;
+}
+
+
+#formCitas input{
+    padding: 8px;
+    color: white;
+    font-size: 1.1rem;
+    margin-bottom: 8px;
+    border-radius: 7px;
+    background-color: transparent;
+}
+
+#formCitas label{
+    color: white;
+    font-size: 1.4rem;
+}
+
+.nombreUsuario{
+
+    color: white;
+    font-size: 24px;
+
+}
+
+#fecha{
+    padding: 5px;
+}
+
+.campoSelect{
+    padding: 5px;
+}
+
+#CargosOpciones{
+    padding: 5px;
+    margin-bottom: 15px;
+    color: white;
+    background-color: #002e72;
+
+}
+
+.Ajax{
+    width: 100%;
+    height: 70vh;
+    background-color: #1b71a3;
+}
+
+.highlighted {
+    background-color: yellow !important; /* Resalta los días con color amarillo */
+}
+
+footer{
+    background-color: hsl(0deg 0% 20.62%);
+    color: white;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    margin: 5px 0px 0px 0px;
+}
+
+.footerSuperior{
+    display: flex;
+    flex-direction: row;
+    width: 100%;
+    margin-top: 15px;
+}
+
+footer .contactos{
+    background-color: #76ABAE;
+    width: 50%;
+    height: 400px;
+    margin-right: 15px;
+    padding-left: 20px;
+    padding-top: 15px;
+}
+
+#redesSociales{
+    margin-bottom: 15px;
+}
+
+
+.bi{
+
+    font-size: 32px;
+    margin-right: 20px;
+    color: black;
+}
+
+.bi:hover{
+    color: #404142;
+}
+
+.bi-facebook{
+    color: blue;
+}
+
+.bi-twitter-x{
+    color: black
+}
+
+.bi-instagram{
+    color: rgb(255, 38, 31);
+}
+
+.bi-whatsapp{
+    color: rgb(7, 153, 7);
+}
+footer .ubicacion{
+    display: flex;
+    flex-direction: row;
+    background-color: #76ABAE;
+    width: 50%;
+    height: 400px;
+    padding-left: 15px;
+    padding-top: 15px;
+    padding-bottom: 15px;
+    padding-right: 12px;
+    margin-left: 15px;
+}
+
+.mapa{
+    background-size: cover;
+}
+
+iframe{
+    width: 500px;
+}
+
+.conteinerUbi{
+    display: flex;
+    flex-direction: column;
+    margin-right:15px;
+    width: 40%;
+}
+
+#horaSelect{
+    padding: 8px;
+}
+
+footer .piePagina{
+    align-items: center;
+    background-color:hsl(0deg 0% 20.62%);
+    height: 100px;
+    width: 100%;
+    display: flex;
+    justify-content: center;
+}
+
+.secttionMedicos{
+    background-color: #00776f;
+    height: 75vh;
+    width: 100%;
+    margin: auto;
+
+}
+
+.ParafoEspecialistas{
+    font-size: 28px;
+    color: rgb(247, 247, 247);
+    margin-top: 15px;
+    margin-bottom: 15px;
+}
+
+.contenedorInfoDoctor{
+    height: 75vh;
+    width: 82%;
+    margin: auto;
+    display: flex;
+    align-items: center;
+}
+
+#btnDirectorio a{
+    text-decoration: none;
+    color: white;
+}
+
+#btnDeServicios{
+    margin-left: 15px;
+}
+
+#btnDeServicios a{
+    text-decoration: none;
+    color: white;
+}
+
+.Margenabajo{
+    border-bottom: 4px solid #00ffe9;
+    border-left: 4px solid #00e7a5;
+    position:absolute;
+    bottom: 0 ;
+    width: 150px;
+    height: 100px;
+} 
+
+.MargenArriba{
+    width: 150px;
+    height: 100px;
+    border-top: 4px solid #00ffe9;
+    border-left: 4px solid #00e7a5;
+    position: absolute;
+    top: 0;
+}
+
+/* ------------------------------------------------------------section Servicios---------------------------------------------------- */
+
+#espacioDeServicios{
+    background-color: #007a83;
+    height: 50vh;
+    width: 100%;
+    margin: auto;
+}
+
+.contenedorServicios{
+    height: 50vh;
+    width: 82%;
+    margin: auto;
+    display: flex;
+    flex-direction: row-reverse;
+}
+
+.informacionServicios{
+    width: 50%;
+    min-height: 300px;
+    padding-top: 25px;
+    color: white;
+}
+
+.informacionServicios h2{
+    color: rgb(255, 255, 255);
+    font-size: 3rem;
+    margin-bottom: 25px;
+    margin-left: 25px;
+}
+
+.informacionServicios p{
+    color: rgb(255, 255, 255);
+    font-size: 1.8rem;
+    margin-bottom: 25px;
+    margin-left: 25px;
+}
+
+
+.informacionServiciosImg{
+    width: 50%;
+    min-height: 300px;
+    background-color: rgb(123, 0, 172);
+}
+
+.informacionServiciosImg img{
+    width: 100%; /* Hacer que la imagen ocupe todo el ancho */
+    height: 100%; /* Hacer que la imagen ocupe todo el alto */
+    object-fit: cover; /* La imagen se adapta sin perder la proporción */
+}
+
+
+/* ------------------------dialog mensaje al usuario------------------------ */
+
+#mesajeCitaOnline{
+    width: 50%;
+    height: 400px;
+    background-color: #404142;
+    padding: 20px;
+    border-radius: 18px;
+}
+
+.bodyMensaje{
+    color:white;
+    width: 100%;
+    height: 330px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    margin: auto;
+    font-size: 1.3rem;
+    border: 1px solid #008370;
+    border-radius: 10px;
+    padding: 15px;
+    margin-top: 25px;
+}
+
+#enlaceRegistro {
+    text-decoration: none;
+    color: white;
+    font-size: 1.4rem;
+}
+
+/* -------------------------------------------------------------------------------------- */
+
+#directorio{
+    padding-top: 20px;
+    padding-left: 30px;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    justify-content: center;
+}
+
+#imagenMedicos img{ 
+    width: 100%; /* Hacer que la imagen ocupe todo el ancho */
+    height: 100%; /* Hacer que la imagen ocupe todo el alto */
+    object-fit: cover; /* La imagen se adapta sin perder la proporción */
+}
+
+@media screen and (max-width: 1000px) {
+    .menuPrincipal{
+        display: none;
+    }
+    .MenuHambur{
+        display: flex;
+    }
+}
+
+@media screen and (max-width: 700px)  {
+      #imagenOnline{
+        display: none;
+      }
+      #listaDeCitas{
+        width: 100%;
+      }  
+}
+
+@media screen and (max-width: 800px)  {
+
+    .footerSuperior{
+      display: flex;
+      flex-direction: column;
+    } 
+    footer .contactos{
+        width: 100%;
+        margin-bottom: 15px;
+    }
+
+    footer .conteinerUbi{
+        width: 100%;
+        padding: 10px 0;
+    }
+
+    footer .ubicacion{
+        padding: 0;
+        display: flex;
+        flex-direction: column;
+        width: 100%;
+        height: auto;
+        margin-left: 1px;
+    }
+
+    footer .mapa{
+        display: flex;
+        justify-content: center;
+    }
+}
+
+@media screen and (max-width: 800px)  {
+    .Horarios{
+      display: none;
+ }
+}
+
+@media screen and (max-width: 600px)  {
+    Dialog{
+      width: 100%;
+ }
+    #iniciarSeccion{
+        width: 100%;
+        margin: 0;
+        padding: 0;
+    }
+    #RegistroUsuario{
+        width: 100%;
+    }
+    iframe{
+        width:380px; 
+        height: 390px;
+    }
+}
+
+
+/*<a href="#" class="dotorCardiologo">
+                  <img src="imagenes/doctorArigas.jpeg" alt="Jhoan" class="fotoDoctor">
+                  <p>Jhoan Artigas</p>
+                </a>-
+                /*                

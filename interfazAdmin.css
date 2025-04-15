@@ -1,0 +1,1433 @@
+*{
+    box-sizing: border-box;
+}
+
+body,div,ul,li,a,h1,h2.h3,h4{
+    margin: 0;
+    padding: 0;
+}
+
+body{
+    --bg-gradient: linear-gradient(45deg, #13fff5, #2540d09e);
+    --sidebar-color: #fff;
+    --dark-color: #f62;
+    --text-color: #313131;
+    background: var(--bg-gradient);
+    min-height: 100vh;
+}
+
+.sidebar{
+    background-color: var(--sidebar-color);
+    position: fixed;
+    height: 100dvh;
+    width: clamp(220px, 20vw, 230px);
+    font-size: clamp(1rem, 2.2vw, 2rem);
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    padding: 30px 0 30x 6px;
+}
+
+.sidebar__nav{
+    flex: 1;
+    display: flex;
+}
+
+.sidebar__nav ul{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    width: 100%;
+}
+
+.sidebar__item{
+    list-style: none;
+    display: flex;
+    align-items: center;
+    text-transform: uppercase;
+    font-size: .9rem;
+    padding-right: 6px;
+    color: var(--dark-color) !important ;
+    margin-bottom: 15px;
+    border-radius: 36px 0 0 36px;
+    position: relative;
+}
+
+.sedebar__iten span{
+    padding: 12px;
+    font-size: 2rem;
+}
+
+.sidebar__item:hover{
+    background-color: var(--bg-color);
+    color: var(--sidebar_color);
+}
+
+.sidebar__item a{
+    color: inherit;
+    text-decoration: none;
+}
+
+
+
+.sidebar__item:hover::before,
+.sidebar__item:hover::after{
+    content: "";
+    position: absolute;
+    right: 0;
+    width: 18px;
+    height: 18px;
+    background-color: transparent;
+} 
+
+.sidebar__item:hover::before{
+    top: -18px;
+    border-bottom-right-radius: 25px;
+    box-shadow: 4px 4px 0 4px var(--bg-color);
+}
+
+.sidebar__item:hover::after{
+    bottom: -18px;
+    border-top-right-radius: 25px;
+    box-shadow: 4px -4px 0 4px var(--bg-color);
+}
+
+.sidebar__picture{
+    margin-left: 1.5rem;
+    position: relative;
+    z-index: 10;
+}
+
+/* seccion de perfil */
+
+.sidebar__profile img{
+    border-radius: 50%;
+    width: 3rem;
+}
+
+.item__profile .profile-option{
+    font-size: .9rem ;
+    color: var(--text-color);
+    padding: 0 12px 0 9px;
+    color: inherit;
+}
+
+.item__profile{
+    margin: 12px;
+    width: fit-content;
+    color: var(--text-color);
+    padding: 3px;
+    
+}
+
+.item__profile:hover{
+    width: fit-content;
+    border-radius: 25px;
+    background-color: var(--bg-color);
+
+}
+
+.item__profile:hover img{
+    opacity: .7;    
+
+}
+
+.item__profile::before, .item--profile::after {
+    display: none;
+}
+
+
+input[type="checkbox"]{
+    display: none;
+}
+
+.sidebar__form{
+    position: absolute;
+    z-index: 20;
+    right: -1rem;
+    top: 30px;
+}
+
+.sidebar__form label{
+    position: relative;
+    background:  var(--bg-gradient);
+    color: rgba(0, 31, 204, 0.993);
+    font-size: 2rem;
+    border-radius: 50%;
+    padding: .4rem;
+
+}
+
+.sidebar__form .open-button{
+    display: none;
+    background-color: rgb(94, 69, 38);
+}
+
+/* ------------------------------------- */
+
+.sidebar label::before,
+.sidebar label::after{
+    content: "";
+    background-color: var(--bg-color);
+    position: absolute;
+    width: 13px;
+    height: 25px;
+    background-color: transparent;
+}
+
+.sidebar label::before{
+    top: -25px;
+    left: 19px;
+    border-bottom-right-radius: 25px;
+    box-shadow: 4px 4px 0 4px var(--bg-color);
+}
+
+
+.sidebar label::after{
+    bottom: -25px;
+    left: 19px;
+    border-top-right-radius: 25px;
+    box-shadow: 4px -4px 0 4px var(--bg-color);
+}
+
+input[type="checkbox"]:checked ~ label{
+    color: var(--text-color);
+    background-color: var(--bg-color);
+}
+
+input[type="checkbox"]:checked ~ label::after,
+input[type="checkbox"]:checked ~ label::before{
+    display: none;
+}
+
+.sidebar:has(input[type="checkbox"]:checked){
+    width: fit-content;
+}
+
+.sidebar:has(input[type="checkbox"]:checked) .sidebar__form label{
+    display: none;
+}
+
+.sidebar:has(input[type="checkbox"]:checked) .sidebar__form .open-button{
+    display: block;
+}
+
+
+.sidebar:has(input[type="checkbox"]:checked) .sidebar__form{
+    top: 8rem;
+    width: fit-content;
+}
+
+.sidebar:has(input[type="checkbox"]:checked) .sidebar__picture img{
+    max-width: 4rem;
+    margin-right: 0;
+    padding-left: 0;
+}
+
+.sidebar:has(input[type="checkbox"]:checked) picture {
+    width: fit-content;
+    margin-left: .75;
+}
+
+.sidebar:has(input[type="checkbox"]:checked) :is(.sidebar__item a, .profile-option) {
+    display: none;
+}
+
+#cerrarSesion{
+    color: #f62;
+}
+
+
+main{
+    width: 70%;
+    min-height: 90vh;
+    margin: auto;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+}
+
+.tituloPrincipal{
+    font-size: 3rem;
+    color: white;
+    margin-left: 15px;
+    margin-bottom: 15px;
+    text-align: center;
+}
+
+.usuarios_regis{
+    width: 90%;
+    min-height: 45vh;
+    margin: auto;
+}
+
+.usuarios_regis h1{
+    color: white;
+    font-size: 3rem;
+}
+
+.usuarios_regis h2{
+    color: white;
+    font-size: 1.8rem;
+}
+
+#tableUser{
+    width: 100%;
+    border-collapse: collapse;
+    margin: 20px 0;
+}
+
+#tableUser th, td{
+    padding: 15px;
+    text-align: left;
+    border: 1px solid #ddd;
+}
+
+#tableUser th{
+    background-color: #009590;
+    font-weight: bold;
+    font-size: 1.2rem;
+}
+
+.tdEditar{
+    text-align: center;
+}
+
+.linkEditar{
+    width: 70px;
+    height: 30px;
+    background-color:#009590;
+    color: white;
+    border-radius: 7px;
+    border: none;
+}
+
+.linkEditar:hover{
+    background-color: #01bab4;
+}
+
+.delete{
+    background: transparent;
+    border: none;
+    color: white;
+    cursor: pointer;
+}
+
+.delete:hover{
+    color: red;
+}
+
+#tableUser tbody tr:nth-child(even) {
+    background-color: #555555;
+}
+
+#tableUser tbody tr:nth-child(odd) {
+    background-color: #454545;
+}
+
+
+
+table tr:nth-child(odd) {
+background-color: #555555; /* Color de fondo para las filas impares */
+}
+
+table tr:nth-child(even) {
+background-color: #454545; /* Color de fondo para las filas pares */
+}
+
+table th{
+    background-color: #009590;
+    padding: 12px;
+    font-size: 1.2rem;
+}
+  
+table th, table td {
+    padding: 10px;
+    border: 1px solid #ddd;
+    text-align: left;
+    color: white;
+}
+
+.ModalClose{
+    margin: 0;
+    position: absolute;
+    top: 0;
+    right: 0;
+    background:#a20000cb;
+    color: white;
+    border: none;
+    height: 40px;
+    width: 40px;
+    border-radius: 8px;
+    font-size: 1rem;
+}
+
+.formularios{
+    width: 95%;
+    height: 70vh;
+    margin: auto;
+    background: #323232;
+    color: white;
+}
+
+.formularios2{
+    width: 80%;
+    height: 90vh;
+    margin: auto;
+    padding: 20px;
+}
+
+#RegistroPublicos{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 100%;
+    min-height: 580px;
+    background-image: linear-gradient(18deg, #00987c, #00edefc7);
+    padding: 10px;
+    font-size: 1.2rem;
+    color: white;
+    border: 1px solid teal;
+    border-radius: 15px;
+    margin-bottom: 25px;
+    box-shadow: 0px 0px 10px teal;
+    margin: auto;
+    margin-top: 10px;
+}
+
+.tituloRegistroDialog{
+    text-align: center !important; 
+    margin:auto;
+    margin-bottom: 20px;
+    margin-top: 15px;
+}
+
+#RegistroPublicos form{
+    display: flex;
+    flex-direction: column;
+    font-size: 1.2rem;
+    margin-top: 30px;
+    width: 80%;
+}
+
+#RegistroPublicos input{
+    margin-bottom: 30px;
+    border: none;
+    border-bottom: 1px solid rgb(255, 255, 255);
+    background: transparent;
+    height: 20px;
+    margin-top: 3px;
+    border-radius: 3px;
+    color: white;
+}
+
+#RegistroPublicos label{
+    color: white;
+}
+
+#LinkRegistro{
+    margin-top: 45px;
+    font-size: 1.4rem;
+    color: rgb(168, 168, 168);
+}
+
+#LinkRegistro:hover{
+    color: teal;
+}
+
+/* span{
+    color: #ffffff;
+    font-weight: 700;
+} */
+
+#CargosOpciones{
+    background: #2a8d9d;
+    border: none;
+    border-bottom: 1px solid white;
+    margin-bottom: 22px;
+    color: white;
+    padding: 8px;
+}
+
+#botonRegistrarse{
+    width: 70%;
+    height: 45px;
+    padding: 8px;
+    color: white;
+    background-color: #3a3a3a;
+    margin: auto;
+    border: none;
+    border-radius: 10px;
+    font-size: 1.1rem;
+}
+
+#botonRegistrarse:hover{
+    background-color: #5f5f5f;
+}
+
+.mensajeFallido{
+    font-size: 24px;
+    color: #ff4b00;
+    position: absolute;
+    top: 22%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+}
+
+#notice {
+    font-size: 24px;
+    color: #00a31b;
+    position: absolute;
+    top: 22%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+}
+
+.formMed{
+    width: 80%;
+    height: 500px;
+    margin: auto;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    font-size: 1.2rem;
+}
+
+.formMed label{
+    color: white;
+}
+
+
+.formMed input{
+    margin-bottom: 15px;
+    border: none;
+    border-bottom: 1px solid rgb(0, 117, 138);
+    background: transparent;
+    width: 80%;
+    color: white;
+
+}
+
+.agregarUsuarios{
+    display: flex;
+    align-items: center;
+}
+
+#addUser{
+    width: 60px;
+    height: 40px;
+    border-radius: 20px;
+    margin-left: 8px;
+    background-color: #02d6d6;
+    border: 1px solid rgb(0, 192, 144);
+    color: white;
+    font-size: 1.4rem;
+}
+
+#addUser:hover{
+    background-color: #02bac4 ;
+
+}
+
+#DialogRegistro{
+    min-height: 700px;
+    width: 35%;
+    background-color: #292929;
+    color: white;
+    border: none;
+    border-radius: 8px;
+}
+
+dialog::backdrop{
+    background: #0a0a0a86;
+}
+
+.headerModel{
+    display: flex;
+    width: 100%;
+    justify-content: space-between
+
+}
+
+#RegistroUsuario{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 90%;
+    min-height: 580px;
+    background-image: linear-gradient(18deg, #00987c, #00edefc7);
+    padding: 10px;
+    font-size: 1.2rem;
+    color: white;
+    border: 1px solid teal;
+    border-radius: 15px;
+    margin-bottom: 25px;
+    box-shadow: 0px 0px 10px teal;
+    margin: auto;
+
+}
+
+#RegistroUsuario form{
+    display: flex;
+    flex-direction: column;
+    font-size: 1.2rem;
+    margin-top: 30px;
+    width: 80%;
+}
+
+#RegistroUsuario input{
+    margin-bottom: 30px;
+    border: none;
+    border-bottom: 1px solid rgb(255, 255, 255);
+    background: transparent;
+    height: 20px;
+    margin-top: 3px;
+    border-radius: 3px;
+    color: white;
+}
+
+#RegistroUsuario label{
+    color: white;
+}
+
+#opcionesRol{
+    padding: 8px;
+    background-color: transparent;
+    color: white;
+    font-size: 1.1rem;
+    border-radius: 7px;
+    margin-bottom: 15px;
+}
+
+#opcionesRol option{
+    padding: 5px;
+    background-color: #009590;
+}
+
+
+
+#LinkRegistro{
+    margin-top: 45px;
+    font-size: 1.4rem;
+    color: rgb(168, 168, 168);
+}
+
+#LinkRegistro:hover{
+    color: teal;
+}
+
+#DialogEdicion{
+    min-height: 700px;
+    width: 35%;
+    background-color: #323232;
+    border: none;
+    border-radius: 9px;
+    position: relative;
+    
+}
+
+.pendiente{
+    color:orange;
+}
+
+.aprobado{
+    color:#00a31b;
+}
+
+/* seccionRegistro y control de medicos  */
+
+#modalRegistro{
+    width: 900px;
+    background-color: rgb(39, 39, 39);
+    color: white;
+}
+
+.registroMed{
+    background-image: linear-gradient(18deg, #00987c, #00edefc7);;
+    width: 100%;
+    margin: auto;
+    min-height: 60px;
+    display: flex;
+    flex-direction: row;
+    padding: 15px;
+    border-radius: 8px;
+    box-shadow: 0px 0px 10px teal;
+}
+
+.registroMed h2{
+    color: white;
+}
+
+.formularioMed{
+    width: 100%;
+    min-height: 425px;
+    display: flex;
+    flex-direction: row;
+    font-size: 1.2rem;
+}
+
+.formularioMed label{
+    color: white;
+}
+
+
+.formularioMed input{
+    margin-bottom: 15px;
+    border: none;
+    border-bottom: 1px solid rgb(255, 255, 255);
+    background: transparent;
+    width: 80%;
+    color: white;
+
+}
+
+.infoBasica{
+    width: 50%;
+    display: flex;
+    flex-direction: column;
+    margin-left: 40px;
+}
+
+.infoPerfil{
+    width: 50%;
+    display: flex;
+    flex-direction: column;
+    margin-left: 15px ;
+}
+
+#botonRegistroMed{
+
+    border: 1px solid rgb(0, 144, 149);
+    width: 200px;
+    height: 50px;
+    border-radius: 15%;
+    background-color: #454545;
+    color: white;
+
+}
+
+.deleteMed{
+    border: none;
+    background-color: transparent;
+}
+
+#modalEdit{
+    width: 50%;
+  background: rgb(45, 45, 45);
+  height: 575px;
+  border:none;
+  border-radius:8px;
+  color: white;
+}
+
+
+/* SECCION DE HORARIOS DE LOS ESPECIALDITAS */
+
+
+#formHorarios{
+    display: flex;
+}
+
+#titulito{
+    width: 150px;
+}
+
+.medico{
+    background-color: #00aeb0;
+    margin-right: 8px;
+    width: fit-content;
+    height: 120px;
+}
+
+.btnRegistrar{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+}
+
+.formEditar{
+    width: 95%;
+    margin: auto;
+    background: #2e2e2e;
+    min-height: 455px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    color: white;
+    padding: 10px;
+}
+
+.formEditar label{
+    color: white;
+    font-size: 1.2rem;
+}
+
+.selectForm{
+    margin-bottom: 18px;
+    width: 250px;
+    padding: 2px;
+    color: rgb(20, 20, 20);
+    border: none;
+    font-size: 1.2rem;
+}
+
+
+
+/* SECCION INICIO: VISTA DE CADA AREA DE INTERES  */
+
+.Panel{
+    width: 100%;
+    height: 500px;
+    display: grid;
+  grid-template-columns: repeat(3, 1fr); /* 3 columnas de igual tamaño */
+  grid-template-rows: repeat(2, 1fr); /* 3 filas de igual tamaño */
+  gap: 10px; /* Espacio entre las celdas */
+}
+
+.Panel__item{
+    display: flex;
+    justify-content: center;
+}
+
+.tarjeta{
+    display: block;
+    width: 90%;
+    height: 200px;
+    background: radial-gradient(#60efbc, #58d5c9);
+    border-radius: 25px;
+    text-decoration: none;
+}
+
+.titlePanel{
+    width: 100%;
+    height: 50px;
+    background-color: #00aeb0;
+    color: white;
+    font-size: 1.5rem;
+    font-weight: 700;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.titlePanel p {
+    margin: 0;
+    padding: 2px;
+}
+
+.contenido{
+    display: flex;
+    flex-direction: row;
+}
+
+.Texto{
+    width: 50%;
+    min-height: 150px;
+    padding: 10px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    color: white;
+    font-size: 1.2rem;
+}
+
+.numerosBd{
+    width: 50%;
+    min-height: 150px;
+    padding: 10px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+#numPacientes{
+    font-size: 24px;
+    width: 100px;
+    height: 100px;
+    background-color: #2e2e2e;
+    border: 1px solid white;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: white;
+}
+
+#botonEdit{
+    width: 70%;
+    height: 40px;
+    padding: 8px;
+    color: white;
+    background-color: #006e77;
+    margin: auto;
+    border: none;
+    border-radius: 10px;
+
+}
+
+/* ---------------------------------------------------------------Seccion de Especialidades -------------------------------------------------------------------- */
+.especialidades{
+    margin: auto;
+    width: 100%;
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    justify-content: center;
+    align-items: center;
+    height: auto;
+}
+
+.contenedorBtnAgg{
+    width: 100%;
+    height: 80px;
+    position: relative;
+}
+
+.especialidades a{
+    text-decoration: none;
+    color: white;
+
+}
+
+.bigTarjeta{
+    height: 300px;
+    width:300px;
+    align-items: center;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    margin: 15px;
+    margin-right: 25px;
+    border-radius: 8px;
+    border: solid rgb(62 203 192 / 93%);
+    align-items: normal;
+    color: white;
+}
+
+.bigTarjeta img{
+    width: 80%; /* Hacer que la imagen ocupe todo el ancho */
+    height: 80%; /* Hacer que la imagen ocupe todo el alto */
+    object-fit: cover; /* La imagen se adapta sin perder la proporción */
+    margin: auto;
+}
+
+#aggEspecialidades{
+    height: 60px;
+    width: 300px;
+    position: absolute;
+    left: 12%;
+}
+
+
+
+.tarjetas{
+    height: 245px;
+}
+
+.tarjetas img {
+    width: 100%; /* Hacer que la imagen ocupe todo el ancho */
+    height: 100%; /* Hacer que la imagen ocupe todo el alto */
+    object-fit: cover; /* La imagen se adapta sin perder la proporción */
+}
+
+.tituloTarjeta{
+    width: 100%;
+    text-align: center;
+    height: 55px;
+    background-color: #1ba39b;
+    border-radius: 6px;
+    text-shadow: 2px 4px 5px black;
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+}
+
+.AccionesEdit{
+    display: flex;
+}
+
+.btnEdit{
+    height: 44px;
+}
+
+/* --------Dialog de registro------------- */
+
+.dialogEsp{
+    width: 35%;
+    min-height: 680px;
+    padding: 8px;
+    position: relative;
+    background-color: #323232;
+    color: white;
+    border: none;
+    border-radius: 8px;
+    position: relative;
+
+}
+
+.registroEsp{
+    width: 90%;
+    min-height: 500px;
+    background-image: linear-gradient(18deg, #00987c, #00edefc7);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    position: absolute;
+    top: 50%; 
+    left: 50%;
+    transform: translate(-50%, -50%);
+    font-size: 1.2rem;
+    border-radius: 15px;
+    box-shadow: 0px 0px 10px teal;
+}
+
+.formEsp{
+    display: flex;
+    flex-direction: column;
+}
+
+.formEsp input{
+    margin-bottom: 30px;
+    border: none;
+    border-bottom: 1px solid rgb(255, 255, 255);
+    background: transparent;
+    height: 20px;
+    margin-top: 3px;
+    border-radius: 3px;
+    color: rgb(0, 48, 44);
+
+}
+                      
+#botonRegistrar{
+    width: 70%;
+  height: 45px;
+  padding:8px;
+  color: white;
+  background-color: #3a3a3a;
+  margin:auto;
+  border:none;
+  border-radius:10px;
+  font-size: 1.1rem;
+
+}
+
+.btnEdit{
+    position: relative;
+    z-index: 20;
+    background-color: #00865a;
+}
+
+.btnDelete{
+    background-color: rgb(175, 0, 0);
+}
+
+/* ------------------------------------------SECCION DE CONFIGURACION--------------------------------------------------------------- */
+
+.simulacionBody{
+    width: 100%;
+    min-height: 90vh;
+    background-color: #5f5f5f;
+}
+
+.seccionPricipal{
+    width: 82%;
+    height: 75vh;
+    background-color: #00aeb0;
+    margin:auto;
+    display: flex;
+    justify-content: center;
+    position: relative;
+}
+
+.seccionPricipal img{
+    width: 100%; /* Hacer que la imagen ocupe todo el ancho */
+    height: 100%; /* Hacer que la imagen ocupe todo el alto */
+    object-fit: cover; /* La imagen se adapta sin perder la proporción */
+
+}
+
+
+
+#seccionInicio1{
+
+    display: flex;
+    flex-direction: column;
+    justify-content: space-evenly;
+    align-items: center;
+    flex-wrap: wrap;
+    margin: auto;
+    background:#002c7361;
+    color: white;
+    min-height: 300px;
+    width: 380px;
+    padding-left: 10px;
+    padding-right: 10px;
+    border: solid #2bb5b9;
+    border-radius: 15%;
+    position: absolute;
+    top: 33%;
+}
+
+#seccionInicio1:hover{
+    background-color: rgba(58, 173, 177, 0.555);
+}
+
+#seccionInicio1:hover::after {
+    content: "Editar Contenido";
+    position: absolute;
+    top: 85%;
+    left: 50%;
+    transform: translateX(-50%);
+    margin-top: 10px;
+    color: rgb(255, 255, 255);
+    font-size: 24px;
+  }
+
+.mensajeEditFoto{
+
+    position: absolute;
+    bottom: 0;
+    right: 0;
+    width: 110px;
+    height: 110px;
+    border-left: 20px solid #7a3b3b00;
+    border-right: 52px solid #00c4ff;
+    border-bottom: 50px solid #0097ff;
+    border-top: 20px solid transparent;
+
+}
+
+#mesajeEdit{
+    position: absolute;
+    top: 100%;
+    left: 50%;
+    color: rgb(255, 255, 255);
+    font-size: 20px;
+}
+
+#mesajeEdit:hover{
+
+    color: rgb(128, 255, 128);
+}
+
+
+#contenedorPrincipal{
+    height: auto;
+    width: 82%;
+    margin: auto;
+    
+}
+
+#citaOnline{
+    padding-left: 20px;
+    padding-top: 10px;
+    text-align: center;
+    margin-bottom: 25px;
+    margin-top: 25px;
+}
+
+
+#citaOnline h2{
+    font-size: 62px;
+    color: white;
+    text-shadow: 2px 3px 5px black;
+}
+
+#contenedorCita{
+    width: 100%;
+    display: flex;
+    flex-direction: row;
+
+}
+
+.cita{
+    width: 50%;
+    height: 400px;
+    color: white;
+}
+
+#listaDeCitas{
+    padding-top: 20px;
+    padding-left: 30px;
+    border-left: 4px solid chartreuse;
+    border-top: 4px solid aquamarine;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    justify-content: center;
+    position: relative;
+}
+
+#listaDeCitas:hover{
+    background-color: rgba(58, 173, 177, 0.555);
+}
+
+#listaDeCitas:hover::after {
+    content: "Editar Contenido";
+    position: absolute;
+    top: 85%;
+    left: 50%;
+    transform: translateX(-50%);
+    margin-top: 10px;
+    color: rgb(255, 255, 255);
+    font-size: 24px;
+}
+
+#imagenOnline{
+
+    position: relative;
+   
+}
+
+
+#imagenOnline img{
+    width: 100%; /* Hacer que la imagen ocupe todo el ancho */
+    height: 100%; /* Hacer que la imagen ocupe todo el alto */
+    object-fit: cover; /* La imagen se adapta sin perder la proporción */
+   
+}
+
+#imagenOnline::after{
+
+    content: "Cambiar Imagen";
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    color: white;
+    font-size: 20px;
+    opacity: 0; /* Inicialmente invisible */
+    transition: opacity 0.3s ease; /* Transición suave */
+    background-color: rgba(0, 0, 0, 0.5); /* Fondo semi-transparente */
+    padding: 10px;
+    border-radius: 5px;
+   
+}
+
+#imagenOnline:hover::after {
+    opacity: 1; /* Aparece cuando se pasa el cursor */
+}
+
+.imagenCita:hover{
+    transition: all 0.3s ease; /* Efecto suave */
+    filter: brightness(0.5); /* Oscurece la imagen */
+}
+
+.secttionMedicos{
+    background-color: #00776f;
+    height: auto;
+    width: 82%;
+    margin: auto;
+
+}
+
+#directorio{
+    padding-top: 20px;
+    padding-left: 30px;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    justify-content: center;
+    position: relative;
+}
+
+#directorio:hover{
+    background-color: rgba(58, 173, 177, 0.555);
+}
+
+#directorio:hover::after {
+    content: "Editar Contenido";
+    position: absolute;
+    top: 85%;
+    left: 50%;
+    transform: translateX(-50%);
+    margin-top: 10px;
+    color: rgb(255, 255, 255);
+    font-size: 24px;
+}
+
+#imagenMedicos{
+    position: relative;
+}
+
+
+#imagenMedicos img{
+    width: 100%; /* Hacer que la imagen ocupe todo el ancho */
+    height: 100%; /* Hacer que la imagen ocupe todo el alto */
+    object-fit: cover; /* La imagen se adapta sin perder la proporción */
+}
+
+#imagenMedicos::after{
+
+    content: "Cambiar Imagen";
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    color: white;
+    font-size: 20px;
+    opacity: 0; /* Inicialmente invisible */
+    transition: opacity 0.3s ease; /* Transición suave */
+    background-color: rgba(0, 0, 0, 0.5); /* Fondo semi-transparente */
+    padding: 10px;
+    border-radius: 5px;
+   
+}
+
+#imagenMedicos:hover::after {
+    opacity: 1; /* Aparece cuando se pasa el cursor */
+}
+
+
+
+#espacioDeServicios{
+    background-color: #007a83;
+    height: 50vh;
+    width: 82%;
+    margin: auto;
+}
+
+.contenedorServicios{
+    height: 50vh;
+    width: 100%;
+    margin: auto;
+    display: flex;
+    flex-direction: row-reverse;
+}
+
+.informacionServicios{
+    width: 50%;
+    min-height: 300px;
+    padding-top: 25px;
+    color: white;
+}
+
+.informacionServicios h2{
+    color: rgb(255, 255, 255);
+    font-size: 3rem;
+    margin-bottom: 25px;
+    margin-left: 25px;
+}
+
+.informacionServicios p{
+    color: rgb(255, 255, 255);
+    font-size: 1.8rem;
+    margin-bottom: 25px;
+    margin-left: 25px;
+}
+
+#inforImportante{
+    position: relative;
+}
+
+
+#inforImportante:hover{
+    background-color: rgba(58, 173, 177, 0.555);
+}
+
+#inforImportante:hover::after {
+    content: "Editar Contenido";
+    position: absolute;
+    top: 85%;
+    left: 50%;
+    transform: translateX(-50%);
+    margin-top: 10px;
+    color: rgb(255, 255, 255);
+    font-size: 24px;
+}
+
+
+.informacionServiciosImg{
+    width: 50%;
+    min-height: 300px;
+    background-color: rgb(123, 0, 172);
+}
+
+.informacionServiciosImg img{
+    width: 100%; /* Hacer que la imagen ocupe todo el ancho */
+    height: 100%; /* Hacer que la imagen ocupe todo el alto */
+    object-fit: cover; /* La imagen se adapta sin perder la proporción */
+}
+
+#fotoDeLosServicios{
+    position: relative;
+}
+
+#fotoDeLosServicios::after{
+
+    content: "Cambiar Imagen";
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    color: white;
+    font-size: 20px;
+    opacity: 0; /* Inicialmente invisible */
+    transition: opacity 0.3s ease; /* Transición suave */
+    background-color: rgba(0, 0, 0, 0.5); /* Fondo semi-transparente */
+    padding: 10px;
+    border-radius: 5px;
+   
+}
+
+#fotoDeLosServicios:hover::after {
+    opacity: 1; /* Aparece cuando se pasa el cursor */
+}
+
+
+.stilosDialog{
+    width: 33%;
+    min-height: 500px;
+    background-color: #007a83;
+    box-sizing: border-box;
+    padding: 5px;
+}
+
+
+.contenidoDialog{
+    width: 95%;
+    margin: auto;
+    min-height: 480px;
+    background-color: #005e98;
+    display: flex;
+    flex-direction: column;
+}
+
+#contenidoDialogImg{
+    width: 95%;
+    margin: auto;
+    min-height: 480px;
+    background-color: #005e98;
+    display: flex;
+    flex-direction: column;
+}
+
+.contenidoDialog textarea{
+    width: 85%;
+    padding: 8px;
+    margin-bottom: 5px;
+    margin-left: 30px;
+
+}
+
+.contenidoDialog input{
+    width: 85%;
+    padding: 8px;
+    margin-bottom: 5px;
+    margin-left: 30px;
+
+}
+
+.contenidoDialog label{
+    margin-bottom: 3px;
+    margin-left: 30px;
+    color: white;
+    font-size: 1.2rem;
+}
+
+.clasebtn{
+    margin-top: 18px;
+    background-color: #005a52;
+}
+

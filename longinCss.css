@@ -1,0 +1,164 @@
+body{
+    background-image: linear-gradient(45deg, #48aeaa, #3637b069);
+    margin: 0;
+    box-sizing: border-box;
+}
+
+.cuadrocompleto{
+    display: flex;
+    flex-direction: row;
+    width: 50%;
+    height: 750px;
+    border: 1px solid teal;
+    border-radius: 15px;
+    box-shadow: 0px 0px 10px teal;
+    background-image: linear-gradient(45deg, #58cec9, #001eff70);
+}
+
+.cuadroWithImg{
+    width: 50%;
+    padding: 10px;
+    height: 728px;
+    border-radius: 15px;
+    background-image: url(imagenes/edificio2.jpg);
+    background-size: cover;
+    border-bottom-left-radius: 115px;
+    border-top-left-radius: 115px
+}
+
+.botonesLogin{
+    width: 275px;
+    height: 50px;
+    margin: auto;
+    border-radius: 20px;
+    font-size: 20px;
+    color: white;
+    border: 1px solid #009688;
+    background-image: linear-gradient(167deg, #00ff5f, #00550ed6);
+
+}
+
+.botonesLogin:hover{
+    background: rgba(44, 177, 99, 0.747);
+}
+
+.textoError{
+ position: absolute;
+    right: 6%;
+    top: 350px;
+    width: 275px;
+}
+
+
+.formularios{
+    width: 100%;
+    height: 90vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+#iniciarSeccion{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    position: relative;
+    width: 50%;
+    min-height: 580px;
+    background-color:transparent;
+    padding: 10px;
+    font-size: 1.2rem;
+    color: white;
+    margin-right: 12px;
+    border-radius: 15px;
+    margin-bottom: 25px;
+    margin: auto;
+}
+
+#iniciarSeccion form{
+    display: flex;
+    flex-direction: column;
+    margin-top: 30px;
+    width: 80%;
+}
+
+#iniciarSeccion input{
+    margin-bottom: 20px;
+    border: none;
+    border-bottom: 1px solid rgb(255, 255, 255);
+    background: transparent;
+    height: 30px;
+    margin-top: 3px;
+    border-radius: 3px;
+    color: white;
+}
+
+#LinkRegistro{
+    text-decoration: none;
+    color: white;
+}
+
+
+/* perfiles de usuarios  */
+
+.informacionPersonal{
+    width: 80%;
+    min-height: 70vh;
+    background-color: #48aeaa;
+    color: aliceblue;
+    margin: auto;
+    padding: 20px;
+}
+
+.titlePerfil{
+    background-color: #90bb2c;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 0 15px;    
+}
+
+
+.fotoPerfil{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.foto{
+    width: 90px;
+    height: 90px;
+    border-radius: 50%;
+    background-color: #2cbbbb;
+    text-align: center;
+}
+
+.historialMedico{
+    width: 70%;
+    min-height: 90vh;
+    display: flex;
+    flex-wrap: wrap; /* Permite que las tarjetas se ajusten a la siguiente línea */
+    gap: 20px; /* Espacio entre las tarjetas */
+    margin: auto;
+}
+
+.reporteCita{
+    width: calc(33.33% - 20px); /* 3 tarjetas por fila, teniendo en cuenta el espacio */
+    background-color: #f4f4f4;
+    height: 615px;
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+.reporteInterno{
+    padding: 10px;
+    border: 1px solid #000;
+    background: linear-gradient(to bottom, #f0f0f0 50%, #e0e0e0 50%);
+    background-size: 100% 50px; /* Espaciado entre las líneas */
+    font-family: 'Arial', sans-serif;
+    line-height: 24px; /* Ajustar el espacio entre las líneas de texto */
+    color: #333;
+}
+
+

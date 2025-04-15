@@ -1,0 +1,863 @@
+*{
+    box-sizing: border-box;
+}
+
+body,div,ul,li,a,h1,h2.h3,h4{
+    margin: 0;
+    padding: 0;
+}
+
+body{
+    --bg-color: color-mix(in srgb, rgb(6, 117, 121) 70%, #fff);
+    --sidebar-color: #fff;
+    --dark-color: #f62;
+    --text-color: #313131;
+    background-color: var(--bg-color);
+    height: 100vh;
+    margin: 0;
+}
+
+.sidebar{
+    background-color: var(--sidebar-color);
+    position: fixed;
+    height: 100dvh;
+    width: clamp(220px, 20vw, 230px);
+    font-size: clamp(1rem, 2.2vw, 2rem);
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    padding: 30px 0 30x 6px;
+    z-index: 20
+}
+
+.sidebar__nav{
+    flex: 1;
+    display: flex;
+}
+
+.sidebar__nav ul{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    width: 100%;
+}
+
+.sidebar__item{
+    list-style: none;
+    display: flex;
+    align-items: center;
+    text-transform: uppercase;
+    font-size: .9rem;
+    padding-right: 6px;
+    color: var(--dark-color) !important ;
+    margin-bottom: 15px;
+    border-radius: 36px 0 0 36px;
+    position: relative;
+}
+
+.sedebar__iten span{
+    padding: 12px;
+    font-size: 2rem;
+}
+
+.sidebar__item:hover{
+    background-color: var(--bg-color);
+    color: var(--sidebar_color);
+}
+
+.sidebar__item a{
+    color: inherit;
+    text-decoration: none;
+}
+
+
+
+.sidebar__item:hover::before,
+.sidebar__item:hover::after{
+    content: "";
+    position: absolute;
+    right: 0;
+    width: 18px;
+    height: 18px;
+    background-color: transparent;
+} 
+
+.sidebar__item:hover::before{
+    top: -18px;
+    border-bottom-right-radius: 25px;
+    box-shadow: 4px 4px 0 4px var(--bg-color);
+}
+
+.sidebar__item:hover::after{
+    bottom: -18px;
+    border-top-right-radius: 25px;
+    box-shadow: 4px -4px 0 4px var(--bg-color);
+}
+
+.sidebar__picture{
+    margin-left: 1.5rem;
+    position: relative;
+    z-index: 10;
+}
+
+/* seccion de perfil */
+
+.sidebar__profile img{
+    border-radius: 50%;
+    width: 3rem;
+}
+
+.item__profile .profile-option{
+    font-size: .9rem ;
+    color: var(--text-color);
+    padding: 0 12px 0 9px;
+    color: inherit;
+}
+
+.item__profile{
+    margin: 12px;
+    width: fit-content;
+    color: var(--text-color);
+    padding: 3px;
+    
+}
+
+.item__profile:hover{
+    width: fit-content;
+    border-radius: 25px;
+    background-color: var(--bg-color);
+
+}
+
+.item__profile:hover img{
+    opacity: .7;    
+
+}
+
+.item__profile::before, .item--profile::after {
+    display: none;
+}
+
+
+input[type="checkbox"]{
+    display: none;
+}
+
+.sidebar__form{
+    position: absolute;
+    z-index: 20;
+    right: -1rem;
+    top: 30px;
+}
+
+.sidebar__form label{
+    position: relative;
+    background-color: var(--bg-color);
+    color: white;
+    font-size: 2rem;
+    border-radius: 50%;
+    padding: .4rem;
+
+}
+
+.sidebar__form .open-button{
+    display: none;
+    background-color: rgb(94, 69, 38);
+}
+
+/* ------------------------------------- */
+
+.sidebar label::before,
+.sidebar label::after{
+    content: "";
+    background-color: var(--bg-color);
+    position: absolute;
+    width: 13px;
+    height: 25px;
+    background-color: transparent;
+}
+
+.sidebar label::before{
+    top: -25px;
+    left: 19px;
+    border-bottom-right-radius: 25px;
+    box-shadow: 4px 4px 0 4px var(--bg-color);
+}
+
+
+.sidebar label::after{
+    bottom: -25px;
+    left: 19px;
+    border-top-right-radius: 25px;
+    box-shadow: 4px -4px 0 4px var(--bg-color);
+}
+
+input[type="checkbox"]:checked ~ label{
+    color: var(--text-color);
+    background-color: var(--bg-color);
+}
+
+input[type="checkbox"]:checked ~ label::after,
+input[type="checkbox"]:checked ~ label::before{
+    display: none;
+}
+
+.sidebar:has(input[type="checkbox"]:checked){
+    width: fit-content;
+}
+
+.sidebar:has(input[type="checkbox"]:checked) .sidebar__form label{
+    display: none;
+}
+
+.sidebar:has(input[type="checkbox"]:checked) .sidebar__form .open-button{
+    display: block;
+}
+
+
+.sidebar:has(input[type="checkbox"]:checked) .sidebar__form{
+    top: 8rem;
+    width: fit-content;
+}
+
+.sidebar:has(input[type="checkbox"]:checked) .sidebar__picture img{
+    max-width: 4rem;
+    margin-right: 0;
+    padding-left: 0;
+}
+
+.sidebar:has(input[type="checkbox"]:checked) picture {
+    width: fit-content;
+    margin-left: .75;
+}
+
+.sidebar:has(input[type="checkbox"]:checked) :is(.sidebar__item a, .profile-option) {
+    display: none;
+}
+
+#cerrarSesion{
+    color: #f62;
+}
+
+main{
+    width: 1200px;
+    min-height: 90vh;
+    padding: 20px;
+    margin: auto;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-evenly;
+}
+
+.cuadroGrande{
+    width: 100%;
+    height: 200px;
+    background-color: #009a71;
+    display: flex;
+}
+
+.cuadroConDiv{
+    display: flex;
+    flex-direction: column;
+}
+
+.cuadroEmergencias{
+    width: 100%;
+    min-height: 90vh;
+    padding: 20px;
+    border: 1px solid chartreuse;
+    background-color: #313131;
+}
+.cuadroRegistroTemoral{
+    width: 50%;
+    min-height: 190px;
+    padding: 20px;
+    border: 1px solid chartreuse;
+}
+
+.divDeBusqueda{
+    width: 50%;
+    height: 200px;
+    padding: 20px;
+    border: 1px solid chartreuse;
+    color: white;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+}
+
+.cuadroEmergencias{
+
+    display: flex;
+}
+
+.reportesEmergencias{
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    justify-content: flex-start;
+    align-items: flex-start;
+    gap: 10px;
+}
+
+.divDeBusqueda input{
+    width: 80%;
+    height: 25px;
+    margin-left: 8px;
+}
+
+.cajaDeBotones{
+    display: flex;
+    justify-content: center;
+}
+
+.btnEnlace{
+    background-color: #009a71;
+    color: white;
+    padding: 7px;
+    border-radius: 8px;
+    text-decoration: none;
+    margin: 5px;
+    text-align: center;
+    border: 2px solid yellowgreen;
+}
+
+.cabezeraNewEmergencia{
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.cabezeraNewEmergencia h2{
+    color: white;
+    font-size: 28px;
+}
+
+#btnEmergencia{
+    width: 300px;
+    height: 60px;
+    background-color: #009a71;
+    color: white;
+    border-radius: 20px;
+    font-size: 20px;
+}
+
+#btnEmergencia:hover{
+    background-color: #00d39b;
+    
+}
+
+
+/* --------------------------DIALOG----------------------------- */
+
+.DialogDeEmergencias{
+    min-height: 800px;
+    width: 50%;
+    /* display: flex;
+    flex-direction: column; */
+}
+
+.headerModel{
+    display: flex;
+    width: 100%;
+    justify-content: space-between
+
+}
+
+#RegistroUsuario{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 95%;
+    min-height: 680px;
+    background-color: #1ba9a996;
+    padding: 10px;
+    font-size: 1.2rem;
+    color: white;
+    border: 1px solid rgb(255, 3, 3);
+    border-radius: 15px;
+    margin-bottom: 25px;
+    box-shadow: 0px 0px 10px teal;
+    margin: auto;
+
+}
+
+#RegistroUsuario form{
+    display: flex;
+    flex-direction: column;
+    font-size: 1.2rem;
+    margin-top: 30px;
+    width: 80%;
+}
+
+#RegistroUsuario input{
+    margin-bottom: 30px;
+    border: none;
+    border-bottom: 1px solid rgb(255, 255, 255);
+    background: transparent;
+    height: 20px;
+    margin-top: 3px;
+    border-radius: 3px;
+    color: white;
+}
+
+#RegistroUsuario label{
+    color: white;
+}
+
+#LinkRegistro{
+    margin-top: 45px;
+    font-size: 1.4rem;
+    color: rgb(168, 168, 168);
+}
+
+#LinkRegistro:hover{
+    color: teal;
+}
+
+/*----------------------DIAlOG NEW RESGISTRO---------------------------------------- */
+
+.DialogNewRegistros{
+    min-height: 800px;
+    width: 50%;
+}
+
+.headerModel{
+    display: flex;
+    width: 100%;
+    justify-content: space-between
+
+}
+
+#RegistroUsuarioNew{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 95%;
+    min-height: 680px;
+    background-color: #1ba9a996;
+    padding: 10px;
+    font-size: 1.2rem;
+    color: white;
+    border: 1px solid rgb(255, 3, 3);
+    border-radius: 15px;
+    margin-bottom: 25px;
+    box-shadow: 0px 0px 10px teal;
+    margin: auto;
+
+}
+
+#RegistroUsuarioNew form{
+    display: flex;
+    flex-direction: column;
+    font-size: 1.2rem;
+    margin-top: 30px;
+    width: 80%;
+}
+
+#RegistroUsuarioNew input{
+    margin-bottom: 30px;
+    border: none;
+    border-bottom: 1px solid rgb(255, 255, 255);
+    background: transparent;
+    height: 20px;
+    margin-top: 3px;
+    border-radius: 3px;
+    color: white;
+}
+
+#RegistroUsuarioNew label{
+    color: white;
+}
+
+/* -------------------------------------------------------------------------------------------------- */
+/* 
+----------------------------------------DIALOG DETALLES DE EMERGENCIAS--------------------------------- */
+
+#dialogDetallesEmerg{
+    min-height: 800px;
+    width: 80%;
+    background-color: #001a38;
+    color: white;
+}
+
+.datosEmergencias{
+    display: flex;
+    flex-direction: row;
+}
+
+.seccionDatosEmerg{
+    width: 50%;
+    min-height: 780px;
+    background-color: rgb(39, 39, 39);
+}
+
+.seccionMedicamentosAdministrados{
+    width: 50%;
+    min-height: 780px;
+    background-color: dimgrey;
+}
+
+
+
+
+/* -------------------------------------------------------------------------------------------------------- */
+
+.reporteEmerg{
+    width: 300px;
+    height: 400px;
+    border: 1px solid rgb(81, 210, 30);
+    color: white;
+    margin: 15px;
+    padding: 8px;
+}
+
+/* -------------------------------------------------SECCIONFACTURACION---------------------------------------- */
+#logo{
+    position: absolute;
+    left: 85px;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+}
+
+.logotipo{
+    width: 105px;
+    margin-right: 10px;
+    margin-left: -75px;
+}
+
+#tituloPrincipal{
+    display: inline-block;
+    font-size: 1.5rem;
+    font-family: "Lobster", sans-serif;
+    text-shadow: 1px 2px 1px rgb(46, 45, 45);
+    color:rgb(255, 255, 255);
+    font-weight: 800;
+}
+
+#tituloReporte{
+    position: absolute;
+    left: 40%;
+    color: white;
+}
+
+#fechaF{
+    position: absolute;
+    right: 10%;
+    color: white;
+}
+
+.estadoFacYpdf{
+    display: flex;
+}
+
+.estadoFacYpdf button{
+   margin-left: 15px;
+}
+
+.ModalClose{
+    margin: 0;
+    position: absolute;
+    top: 0;
+    right: 0;
+    background:red;
+    color: white;
+    border: none;
+    height: 40px;
+    font-size: 1rem;
+    border-radius: 8px;
+}
+
+#contenedorCentral{
+    width: 80%;
+    min-height: 90vh;
+    padding: 0;
+    background-color: transparent;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.panelDeBusqueda{
+    width: 100%;
+    height: 100px;
+    background-color: azure;
+    text-align: center;
+    display: flex;
+    justify-content: inherit;
+}
+
+.divBuscar{
+    display: flex;
+    align-items: center;
+
+}
+
+
+.espacioDeFacturas{
+    width: 100%;
+    min-height: 700px;
+    margin-top: 100px;
+    background-color: rgb(33, 68, 68);
+    color: white;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+#dialogDetallesFacturas{
+    width: 60%;
+    min-height: 90vh;
+    background-color: #2929297c;
+    border: none;
+}
+
+.contenidoFactura{
+    width: 95%;
+    height: 90%;
+    background-color: #ffffff;
+    margin: auto;
+    color: white;
+    /* padding: 8px; */
+    box-sizing: border-box;
+}
+
+.seccionesFactura{
+    background: #ffffff;
+    color: black;
+    width: 100%;
+    height: 33%;
+}
+
+#datosGenerales{
+    display: flex;
+    flex-direction: column;
+    color: black;
+}
+
+#datosEmergencia_hosp{
+    padding: 12px;
+    min-height: 350px;
+}
+
+#datosDesglosadosEmergencia{
+    padding: 12px;
+}
+
+.cabezeraFactura{
+    position: relative;
+    width: 100%;
+    height: 100px;
+    background-color: rgb(0 131 123);
+    display: flex;
+    justify-content: space-around;
+}
+
+.datosPaciente{
+    width: 100%;
+    height: 100%;
+    display: flex;
+    background-color: whitesmoke;
+}
+
+.nobresResponsables{
+    width: 50%;
+    height: 100%;
+    /* border: 1px solid #202020; */
+    padding: 8px;
+    box-sizing: border-box;
+}
+
+.theadHosp{
+    display: none;
+}
+
+.segurosResponsables{
+    width: 50%;
+    height: 100%;
+    padding: 8px;
+    /* border: 1px solid #202020; */
+}
+
+#datosEmergencia_hosp table{
+    width: 80%; /* Ajusta el ancho según sea necesario */
+    border-collapse: collapse;
+    margin-bottom: 10px; /* Espaciado entre tablas */
+}
+
+/* #datosEmergencia_hosp th, td {
+    border: 1px solid black;
+    padding: 10px;
+    text-align: center;
+}
+
+th:nth-child(1), td:nth-child(1) { width: 20%; }
+th:nth-child(2), td:nth-child(2) { width: 40%; }
+th:nth-child(3), td:nth-child(3) { width: 20%; }
+th:nth-child(4), td:nth-child(4) { width: 20%; } */
+
+
+#desgloseMedicamentos{
+    width: 80%;
+    text-align: center;
+}
+
+#costo_total_med{
+    text-align: right;
+}
+
+#costo_total_dias{
+    text-align: right;
+}
+
+#costo_total_hosp{
+    text-align: right;
+}
+
+#sumaTotal{
+    text-align: right;
+}
+
+.costosSer{
+    text-align: right;
+}
+
+#sumaTotal{
+    border-top: 1px solid;
+}
+
+
+/* --------------------------------------------------REGISTROS DE MEDICAMENTOS Y SERVICIOS EN LA EMERGENCIA--------------------------------------------------- */
+
+#contenedorCentralRegistros{
+    width: 80%;
+    min-height: 90vh;
+    padding: 0;
+    background-color: #383838;
+    color: white;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.DatosGeneralesEmerg{
+    width: 100%;
+    height: 550px;
+    background-color: rgb(21, 151, 151);
+    padding: 12px;
+    font-size: 1.3rem;
+    position: relative;
+}
+
+#pFecha{
+    position: absolute;
+    right: 115px;
+    top: 75px;
+}
+
+#pGravedad{
+    position: absolute;
+    right: 181px;
+    top: 125px;
+}
+
+#pEstado{
+    position: absolute;
+    right: 55px;
+    top: 168px;
+}
+
+.espaciosDeRegistros{
+    width: 100%;
+    min-height:500px;
+    display: flex;
+    background-color: #313131;
+    color: white;
+}
+
+.areaDeMedicamentos{
+    width: 50%;
+    background-color: #808080;
+    display: flex;
+    flex-direction: column;
+    padding: 12px;
+}
+
+.areaDeServicios{
+    width: 50%;
+    background-color: #3d3d3d;
+    display: flex;
+    flex-direction: column;
+    padding: 12px;
+}
+
+.deleteMed{
+    background-color: transparent;
+    border: none;
+    color: white;
+    margin-left: 8px;
+    cursor: pointer;
+}
+
+/* #addMedicina{
+    background-color: #009a71;
+    display: inline;
+    width: 150px;
+    margin: auto;
+} */
+
+/* ------------------------------------DIALOG REGISTRO MEDICAMETOS----------------------------- */
+
+.dialogRegistrosNew{
+    min-height: 800px;
+    width: 40%;
+    background-color: #292929;
+    color: white;
+}
+
+#RegistroUsuarioNew{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 95%;
+    min-height: 680px;
+    padding: 10px;
+    font-size: 1.2rem;
+    color: white;
+    border: 1px solid rgb(29, 129, 42);
+    border-radius: 15px;
+    margin-bottom: 25px;
+    box-shadow: 0px 0px 10px teal;
+    margin: auto;
+
+}
+
+.btnNewRegistros{
+    background-color: #009a71;
+    color: white;
+    display: inline;
+    width: 150px;
+    margin: auto;
+}
+
+.mensajeError {
+    color: red;
+    font-weight: bold;
+    padding: 8px;
+    background-color: #f8d7da;
+    border: 1px solid #721c24;
+    border-radius: 5px;
+    margin: 8px 0;
+}
+
+.mensajeExito{
+    color: rgba(0, 184, 76, 0.664);
+    font-weight: bold;
+    padding: 8px;
+    background-color: #008670;
+    border: 1px solid #006168;
+    border-radius: 5px;
+    margin: 8px 0;
+}

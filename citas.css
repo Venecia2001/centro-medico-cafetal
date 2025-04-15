@@ -1,0 +1,116 @@
+.registro_citas{
+    width: 100%;
+    height: 90vh;
+    background-color: rgb(13, 102, 138);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.formularios{
+    width: 80%;
+    height: 90vh;
+    margin: auto;
+}
+
+.formularios2{
+    width: 80%;
+    height: 90vh;
+    margin: auto;
+    padding: 20px;
+}
+
+#RegistroPublicos{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    max-width: 500px;
+    min-height: 580px;
+    background-image: linear-gradient(18deg, #005e98, #00e4e6c7);
+    padding: 10px;
+    font-size: 1.2rem;
+    color: white;
+    border: 1px solid teal;
+    border-radius: 15px;
+    margin-bottom: 25px;
+    box-shadow: 0px 0px 10px teal;
+    margin: auto;
+    margin-top: 70px;
+}
+
+#RegistroPublicos form{
+    display: flex;
+    flex-direction: column;
+    font-size: 1.2rem;
+    margin-top: 30px;
+    width: 80%;
+}
+
+#RegistroPublicos input{
+    margin-bottom: 30px;
+    border: none;
+    border-bottom: 1px solid rgb(255, 255, 255);
+    background: transparent;
+    height: 20px;
+    margin-top: 3px;
+    border-radius: 3px;
+    color: white;
+}
+
+#RegistroPublicos label{
+    color: white;
+}
+
+#LinkRegistro{
+    margin-top: 45px;
+    font-size: 1.4rem;
+    color: rgb(168, 168, 168);
+}
+
+#LinkRegistro:hover{
+    color: teal;
+}
+
+span{
+    color: #ffffff;
+    font-weight: 700;
+}
+
+#CargosOpciones{
+    background: #2a8d9d;
+    border: none;
+    border-bottom: 1px solid white;
+    margin-bottom: 22px;
+    color: white;
+    padding: 8px;
+}
+
+#botonRegistrarse{
+    width: 70%;
+    height: 40px;
+    padding: 8px;
+    color: white;
+    background-color: #00aeb0;
+    margin: auto;
+    border: none;
+    border-radius: 10px;
+
+}
+
+.mensajeFallido{
+    font-size: 24px;
+    color: #ff4b00;
+    position: absolute;
+    top: 22%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+}
+
+#notice {
+    font-size: 24px;
+    color: #00a31b;
+    position: absolute;
+    top: 22%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+}

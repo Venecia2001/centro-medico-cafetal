@@ -1,0 +1,669 @@
+*{
+    box-sizing: border-box;
+}
+
+body,div,ul,li,a,h1,h2.h3,h4{
+    margin: 0;
+    padding: 0;
+}
+
+body{
+    --bg-color: color-mix(in srgb, rgb(0, 187, 140) 70%, #fff);
+    --sidebar-color: #fff;
+    --dark-color: #f62;
+    --text-color: #313131;
+    background-color: var(--bg-color);
+    height: 100vh;
+}
+
+.sidebar{
+    background-color: var(--sidebar-color);
+    position: fixed;
+    height: 100dvh;
+    width: clamp(220px, 20vw, 230px);
+    font-size: clamp(1rem, 2.2vw, 2rem);
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    padding: 30px 0 30x 6px;
+}
+
+.sidebar__nav{
+    flex: 1;
+    display: flex;
+}
+
+.sidebar__nav ul{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    width: 100%;
+}
+
+.sidebar__item{
+    list-style: none;
+    display: flex;
+    align-items: center;
+    text-transform: uppercase;
+    font-size: .9rem;
+    padding-right: 6px;
+    color: var(--dark-color) !important ;
+    margin-bottom: 15px;
+    border-radius: 36px 0 0 36px;
+    position: relative;
+}
+
+.sedebar__iten span{
+    padding: 12px;
+    font-size: 2rem;
+}
+
+.sidebar__item:hover{
+    background-color: var(--bg-color);
+    color: var(--sidebar_color);
+}
+
+.sidebar__item a{
+    color: inherit;
+    text-decoration: none;
+}
+
+
+
+.sidebar__item:hover::before,
+.sidebar__item:hover::after{
+    content: "";
+    position: absolute;
+    right: 0;
+    width: 18px;
+    height: 18px;
+    background-color: transparent;
+} 
+
+.sidebar__item:hover::before{
+    top: -18px;
+    border-bottom-right-radius: 25px;
+    box-shadow: 4px 4px 0 4px var(--bg-color);
+}
+
+.sidebar__item:hover::after{
+    bottom: -18px;
+    border-top-right-radius: 25px;
+    box-shadow: 4px -4px 0 4px var(--bg-color);
+}
+
+.sidebar__picture{
+    margin-left: 1.5rem;
+    position: relative;
+    z-index: 10;
+}
+
+/* seccion de perfil */
+
+.sidebar__profile img{
+    border-radius: 50%;
+    width: 3rem;
+}
+
+.item__profile .profile-option{
+    font-size: .9rem ;
+    color: var(--text-color);
+    padding: 0 12px 0 9px;
+    color: inherit;
+}
+
+.item__profile{
+    margin: 12px;
+    width: fit-content;
+    color: var(--text-color);
+    padding: 3px;
+    
+}
+
+.item__profile:hover{
+    width: fit-content;
+    border-radius: 25px;
+    background-color: var(--bg-color);
+
+}
+
+.item__profile:hover img{
+    opacity: .7;    
+
+}
+
+.item__profile::before, .item--profile::after {
+    display: none;
+}
+
+
+input[type="checkbox"]{
+    display: none;
+}
+
+.sidebar__form{
+    position: absolute;
+    z-index: 20;
+    right: -1rem;
+    top: 30px;
+}
+
+.sidebar__form label{
+    position: relative;
+    background-color: var(--bg-color);
+    color: white;
+    font-size: 2rem;
+    border-radius: 50%;
+    padding: .4rem;
+
+}
+
+.sidebar__form .open-button{
+    display: none;
+    background-color: rgb(94, 69, 38);
+}
+
+/* ------------------------------------- */
+
+.sidebar label::before,
+.sidebar label::after{
+    content: "";
+    background-color: var(--bg-color);
+    position: absolute;
+    width: 13px;
+    height: 25px;
+    background-color: transparent;
+}
+
+.sidebar label::before{
+    top: -25px;
+    left: 19px;
+    border-bottom-right-radius: 25px;
+    box-shadow: 4px 4px 0 4px var(--bg-color);
+}
+
+
+.sidebar label::after{
+    bottom: -25px;
+    left: 19px;
+    border-top-right-radius: 25px;
+    box-shadow: 4px -4px 0 4px var(--bg-color);
+}
+
+input[type="checkbox"]:checked ~ label{
+    color: var(--text-color);
+    background-color: var(--bg-color);
+}
+
+input[type="checkbox"]:checked ~ label::after,
+input[type="checkbox"]:checked ~ label::before{
+    display: none;
+}
+
+.sidebar:has(input[type="checkbox"]:checked){
+    width: fit-content;
+}
+
+.sidebar:has(input[type="checkbox"]:checked) .sidebar__form label{
+    display: none;
+}
+
+.sidebar:has(input[type="checkbox"]:checked) .sidebar__form .open-button{
+    display: block;
+}
+
+
+.sidebar:has(input[type="checkbox"]:checked) .sidebar__form{
+    top: 8rem;
+    width: fit-content;
+}
+
+.sidebar:has(input[type="checkbox"]:checked) .sidebar__picture img{
+    max-width: 4rem;
+    margin-right: 0;
+    padding-left: 0;
+}
+
+.sidebar:has(input[type="checkbox"]:checked) picture {
+    width: fit-content;
+    margin-left: .75;
+}
+
+.sidebar:has(input[type="checkbox"]:checked) :is(.sidebar__item a, .profile-option) {
+    display: none;
+}
+
+#cerrarSesion{
+    color: #f62;
+}
+
+main{
+    width: 70%;
+    min-height: 120vh;
+    margin: auto;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+}
+
+.contenidoCitasPendientes{
+    width: 100%;
+    height: 90vh;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+}
+
+.citasRealizadas{
+    min-height: 75vh;
+    display: flex;
+    flex-direction: column;
+}
+
+.cuadroDeHistorial{
+    display: flex;
+    flex-direction: row;  /* Los elementos estarán en una fila */
+    flex-wrap: wrap;       /* Los elementos se moverán a la siguiente línea si es necesario */
+    justify-content: flex-start; /* Alinea los elementos al inicio del contenedor */
+    align-items: flex-start; /* Alinea los elementos al inicio verticalmente */
+    gap: 10px; /* Si deseas un espacio entre los elementos */
+
+}
+
+.infoMedico{
+    display: flex;
+    width: 80%;
+    font-size: 26px;
+}
+
+.infoPrincipal{
+    width: 50%;
+}
+.infoAdicional{
+    width: 50%;
+}
+
+.campoDeInformacion{
+    margin-bottom: 12px;
+    color: #f62;
+}
+
+.infoPrincipal label{
+    margin-bottom: 12px;
+}
+
+.cajaTexto{
+    margin-bottom: 15px;
+}
+
+#cajaAgregarFoto{
+    display: flex;
+    align-items: center;
+}
+
+#cajaAgregarFoto img{
+    border-radius: 50%;
+}
+
+
+ #modalEdit{
+    width: 800px;
+}
+
+.registroMed{
+    background: #2e2e2e;
+    width: 100%;
+    margin: auto;
+    min-height: 500px;
+
+}
+
+.registroMed h2{
+    color: white;
+}
+
+.registroMed form{
+    width: 95%;
+    margin: auto;
+    display: flex;
+    justify-content: center;
+}
+
+.infoBasica{
+    width: 50%;
+    display: flex;
+    flex-direction: column;
+    margin-left: 40px;
+}
+
+.infoPerfil{
+    width: 50%;
+    display: flex;
+    flex-direction: column;
+    margin-left: 15px ;
+}
+
+.formMed label{
+    color: white;
+}
+
+
+.formMed input{
+    margin-bottom: 15px;
+    border: none;
+    border-bottom: 1px solid rgb(0, 117, 138);
+    background: transparent;
+    width: 80%;
+    color: white;
+
+}
+
+#botonRegistroMed{
+
+    border: 1px solid rgb(0, 127, 185);
+    width: fit-content;
+    height: 50px;
+    border-radius: 5%;
+
+}
+
+table tr:nth-child(odd) {
+    background-color: #0c507e; /* Color de fondo para las filas impares */
+}
+  
+table tr:nth-child(even) {
+    background-color: #3f3f3f; /* Color de fondo para las filas pares */
+}
+  
+  /* Estilo para las celdas */
+table th, table td {
+    padding: 10px;
+    border: 1px solid #ddd;
+    text-align: left;
+    color: white;
+}
+
+.pendiente{
+    color:orange;
+}
+
+.aprobado{
+    color:#00a31b;
+}
+
+.cancelado{
+    color: red;
+}
+
+.contadorCitas{
+    display: flex;
+    justify-content: space-between;
+}
+
+.caja{
+    border: 1px solid black;
+    padding: 5px;
+}
+
+
+
+
+/* resultados Citas */
+
+.datosPacientes{
+    display: flex;
+}
+
+.informacionDePaciente{
+    width: 50%;
+    min-height: 500px;
+    border: 1px solid white;
+}
+
+.historialMedicoPaciente{
+    width: 100%;
+    min-height: 500px;
+    border: 1px solid white;
+
+}
+
+.formResultadoCita{
+    width: 100%;
+    min-height: 500px;
+    border: 1px solid white;
+    display: flex;
+    flex-direction: column;
+}
+
+.reporteCita{
+    background-color: aliceblue;
+    margin: 15px;
+    width: 300px;
+    padding: 8px;
+    font-size: 12px;
+}
+
+.historialMedicoPaciente{
+    display: flex;
+    justify-content: center;
+    margin-bottom: 12px;
+}
+
+.cabezearaDiagnostico{
+    display: flex;
+    width: 100%;
+    background-color: cadetblue;
+    min-height: 70px;
+    padding: 7px;
+    margin-bottom: 10px;
+}
+
+.diagnosticoPaciente{
+    width: 50%;
+}
+
+.diagnosticoPaciente label{
+    color: #f62;
+}
+
+.diagnosticofechaCita{
+    width: 50%;
+    
+}
+/* 
+-------------------------------------------------Seccion Ventanas de historial Medico -------------------------------- */
+
+#modalDetallesHistorial{
+    width: 60%;
+    min-height: 800px;
+    background-color: darkcyan;
+    position: relative;
+}
+
+.btnClose{
+    height: 36px;
+    position: absolute;
+    right: 0;
+    top: 0;
+    color: red;
+    width: 50px;
+    font-size: 24px;
+    border-radius: 5px;
+}
+
+.infoIdentificacion{
+    display: flex;
+    background-color: darkgray;
+    min-height: 130px;
+    position: relative;
+}
+
+#cajaTextDoctor{
+    position: absolute;
+    bottom: 3%;
+    left: 1%;
+}
+
+#cajaTextEsp{
+    position: absolute;
+    bottom: 3%;
+    right: 15%;
+}
+
+#cajaTextFecha{
+    position: absolute;
+    top: 3%;
+    right:15% ;
+}
+
+
+.HistorialMedico{
+    background: #d6d6d6;
+    width: 100%;
+    margin: auto;
+    min-height: 780px;
+
+}
+
+.contentDatos{
+    display: flex;
+    margin-bottom: 8px;
+}
+
+.HistorialMedico label{
+    font-size: 28px;
+    margin-bottom: 12px;
+    
+}
+
+.datosDeDiagnostico {
+    display: flex;
+    flex-direction: column;
+    padding: 12px;
+}
+
+.datosDeDiagnostico label{
+    margin-bottom: 12px;
+}
+
+
+.datosHistorial{
+    font-size:28px;
+    margin-bottom: 10px;
+    margin-left: 10px;
+}
+
+
+/* -----------------------------------------------------fin de ventana de historial------------------------------------ */
+
+/* -------------------------------------------------------Historial de citas--------------------------------------------- */
+
+.citasRealizadas{
+    display: flex;
+    flex-direction: column;
+}
+
+.cuadroDeHistorial{
+    display: flex;
+
+}
+
+
+/* -----------------------------------------------------------SECCION HORARIOS----------------------------------------------------------------------- */
+
+#formHorarios{
+    display: flex;
+}
+
+#titulito{
+    width: 150px;
+}
+
+.medico{
+    background-color: #00aeb0;
+    margin-right: 8px;
+    width: 170px;
+    height: 120px;
+}
+
+.btnRegistrar{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+}
+
+.dialogEsp{
+    width: 50%;
+    min-height: 500px;
+    padding: 8px;
+    /* display: flex;
+    justify-content: center;
+    align-items: center; */
+    position: relative;
+    background-color: #005a52;
+    color: white;
+
+}
+
+.ModalClose{
+    position: absolute;
+    right: 0;
+    top: 0;
+}
+
+.formEditar{
+    width: 95%;
+    min-height: 450px;
+    background: rgb(32, 64, 92);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin: auto;
+}
+
+.selectForm{
+    margin-bottom: 18px;
+    width: 250px;
+    padding: 2px;
+    color: rgb(20, 20, 20);
+    border: none;
+    font-size: 1.2rem;
+
+}
+
+#dialogSeguimiento{
+    width: 45%;
+    min-height: 400px;
+    background-color: #005a52;
+    /* display: flex;
+    flex-direction: column;
+    align-items: center;
+    border: none; */
+}
+
+#dialogSeguimiento h2{
+   color: blanchedalmond;
+}
+
+
+
+#dialogSeguimiento form{
+    display: flex;
+    flex-direction: column;
+    width: 95%;
+}
+
+#dialogSeguimiento label{
+    color: white;
+    font-size: 20px;
+}
+
+#dialogSeguimiento input{
+    margin-bottom: 15px;
+    padding: 5px;
+}
+
+#btnSeguimito{
+    margin-top: 20px;
+}

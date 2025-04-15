@@ -1,0 +1,984 @@
+header{
+    background-color: teal;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    padding: 10px;
+}
+
+.menuPrincipal ul{
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    padding: 0
+}
+
+.menuPrincipal li{
+    list-style: none;
+    margin: 4px;
+}
+
+.botones{
+    color: white;
+    display: inline-block;
+    padding: 6px 9px;
+    font-size: 1.2rem;
+    margin-right: 10px;
+    text-decoration: none;
+    text-align: center;
+}
+
+a:hover{
+    color: #b9fffc;
+}
+
+#logo{
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+}
+
+#tituloPrincipal{
+    display: inline-block;
+    font-size: 2.7rem;
+    font-family: "Lobster", sans-serif;
+    text-shadow: 1px 2px 1px rgb(46, 45, 45);
+    color:#ffffff;
+    text-decoration: none;
+}
+
+
+.logotipo{
+    width: 105px;
+    margin-right: 10px;
+    margin-left: 10px;
+}
+
+nav{
+    display: flex;
+    align-items: center;
+    margin-right: 8px;
+}
+
+.MenuHambur{
+    display: none;
+}
+
+.MenuHambur ul{
+    display: none;
+}
+
+input:checked  ~ ul{
+    display:block;
+}
+
+.MenuHambur input {
+    display: none;
+}
+
+.MenuHambur label{
+    box-sizing: border-box;
+    display: inline-block;
+    border: 1px solid black;
+    border-radius: 5px;
+    width: 30px;
+    height: 30px;
+    line-height: 30px;
+    font-weight: bold;
+    text-align: center;
+    user-select: none;
+}
+
+.MenuHambur li {
+    display: block;
+  background: lightgrey;
+  margin: 0;
+  padding: 10px;
+  list-style: none;
+  border-bottom: 1px solid grey;
+}
+
+button{
+    font-size: 1.5em;
+    font-weight: bold;
+    padding: 10px 20px;
+    border-radius: 10px;
+    border: 1px solid black;
+    box-shadow: 2px 2px 10px black;
+    color: white;
+    background-color:teal;
+    margin-top: 20px;
+}
+
+button:hover{
+    background-color: #00aaa2;
+}
+
+#informacion{
+    min-height: 90vh;
+    display: flex;
+    flex-direction: row;
+}
+
+.contenedor1{
+    width: 50%;
+    background-image: linear-gradient(53deg, #3e6783, #00c7bc);
+}
+
+.contenedor1 h2{
+    color: rgb(255, 255, 255);
+    text-shadow: 2px 3px 5px black;
+    font-size: 2.7rem;
+    margin-bottom: 0px;
+}
+
+#infoSeccion{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    color: white;
+    font-size: 24px;
+    padding: 30px;
+}
+
+.textoPricipal{
+    margin-top: 30px;
+    margin-bottom: 22px;
+    font-size: 1.8rem;
+}
+
+#infoSeccion a{
+    text-decoration: none;
+    color: white;
+}
+
+#fotoPrincipal{
+    background-image: url(../imagenes/salaCardiologia.png);
+    background-repeat: no-repeat;
+    background-size: cover;
+}
+
+#botonSolicitud{
+    width: 350px;
+    margin-top: 50px;
+}
+
+dialog{
+    margin: auto;
+     border: none;
+     padding: 0;
+     background-color: #0711148f;
+     width: 600px;
+     padding-bottom: 10px;
+}
+
+ #dialogOnline{
+    width: 1200px;
+
+ }
+ 
+ dialog::backdrop{
+     background: #0a0a0a86;
+ }
+ 
+ .contenidoDialog{
+     padding: 0%;
+     display: flex;
+     flex-direction: column;
+     width: 100%;
+     min-height: auto;
+     margin: auto;
+     background-color: #363636;
+ }
+ 
+ .contenedorBoton{
+ display: flex;
+ flex-direction: row;
+ justify-content: right;
+ }
+ 
+ #botonDialog{
+     width: 180px;
+     font-size: 1.3rem;
+     background-color: teal;
+     margin-top:15px ;
+     margin-right: 10px;
+     margin-bottom: 10px;
+ }
+ 
+ #botonDialog:hover{
+     background-color: #00776f;
+ }
+ 
+ .ModalClose{
+     margin: 0;
+     position: absolute;
+     top: 0;
+     right: 0;
+     background:transparent;
+     color: white;
+     border: none;
+     height: 40px;
+     font-size: 1rem;
+ }
+ 
+ .headerModel{
+     padding: 5px;
+     width: 100%;
+     min-height: 80px;
+     background-color: teal;
+     color: white;
+     font-size: 1.4rem;
+     text-align: center;
+     display: flex;
+     flex-direction: row;
+     justify-content: center;
+     align-items: center;
+ }
+
+ .headerModel h2{
+    letter-spacing: 4px;
+ }
+
+
+ .contenedorDialog{
+    margin-top: 25px;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-evenly
+}
+
+.cuadritoBotones{
+   display: flex;
+   flex-direction: row;
+   width: 100%;
+   height: 60px;
+   justify-content: center;
+   align-items: center;   
+}
+
+.cuadritoBotones button{
+   width: 180px;
+}
+
+.tituloDeSegmento{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+    background-color: teal;
+    color: white;
+    height: 75px;
+    border-radius: 8px;
+    font-size: 1.8rem;
+
+}
+
+.segmento{
+    display: flex;
+    flex-direction: column;
+    background-color: rgb(189, 185, 185);
+    min-height: 500px;
+    width: 330px;
+    border: 1px solid black;
+    border-radius: 8px;
+}
+
+
+.segmento a{
+    text-decoration: none;
+    margin-bottom: 8px;
+    font-size: 1.4rem;
+    border-bottom: 1px solid teal;
+    color: white;
+    text-shadow: 2px 4px 7px #636363;
+}
+
+#fechas{
+   min-width: 355px;
+}
+
+.segmento a:hover{
+    background-color:rgb(0, 155, 155);
+    color: white;
+}
+
+.segmento button{
+   color: white;
+   background-color: transparent;
+   width: 300px;
+   border: none;
+   box-shadow: none;
+   border-radius: 2px;
+}
+
+#listaEspecialidades a{
+    margin-top: 0px;
+    margin-bottom: 0px;
+    padding: 15px 10px;
+}
+
+
+.dotoresCadio{
+    height: 75px;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+}
+
+.dotoresCadio img{
+    width: 80px;
+    height: 70px;
+    border-radius: 50%;
+    margin-right: 8px;
+    border: 2px solid teal;
+}
+
+.dotorCardiologo{
+    height: 80px;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+ }
+
+ .dotorCardiologo p{
+    margin-left: 20px;
+ }
+
+ .fotoDoctor{
+    width: 90px;
+    height: 80px;
+    margin-left: 5px;
+    border-radius: 50%;
+    border: 2px solid teal;
+
+ }
+
+#cardio{
+    font-size: 1.5rem;
+    display: block;
+}
+
+#calendarioCita{
+    height: 50%;
+    width: auto;
+}
+
+.cuadroDePrueba{
+   margin-top: 5px;
+   min-height: 250px;
+   width: 350px;
+   display: grid;
+   grid-template-columns: repeat(7, 1fr);
+   grid-template-rows: auto auto auto auto auto;
+   gap: 5px;
+   background-color: rgb(59, 59, 59);
+   
+}
+
+#PrimerDay{
+   grid-column-start: 6;
+}
+.DiaDispinible{
+   background-color: teal;
+}
+
+.grid-iten{
+   color: white;
+   font-size: 8px;
+   display: flex;
+   justify-content: center;
+   align-items: center;
+}
+
+#tituloHoras{
+    color: white;
+    font-size: 1.8rem;
+    margin-left: 8px;
+    margin-top: 10px;
+    text-shadow: 2px 3px 5px black;
+    
+}
+
+.cuadroHoras{
+   padding: 8px;
+   margin-top: 20px;
+   display: grid;
+   width: 100%;
+   min-height: 200px;
+   grid-template-columns: repeat(3, 1fr);
+   grid-template-rows: auto auto;
+   gap: 10px;
+}
+
+.grid-horas{
+   display: flex;
+   justify-content: center;
+   align-items: center;
+   height: 40px;
+   border-radius: 15px;
+   background-color: teal;
+   font-size: 1rem;
+   
+}
+
+.grid-iten:hover{
+   background-color: rgb(2, 156, 156);
+}
+
+.grid-horas:hover{
+   background-color: rgb(2, 156, 156);
+}
+.diasSemana{
+   background-color: cadetblue;
+   padding: 2px;
+}
+
+#calendarioCita{
+   display: flex;
+   flex-direction: column;
+   display: none;
+}
+
+
+.Servicios{
+    width: 100%;
+    min-height: 45vh;
+    display: flex;
+    flex-direction: row-reverse;
+    justify-content: flex-end
+}
+
+#infoServicio{
+    display: flex;
+    flex-direction: column;
+    justify-content: space-evenly;
+    align-items: flex-start;
+    padding: 0 20px 0;
+    color: white;
+    width: 50%;
+    background-image: linear-gradient(0deg, #0f3b53, #00c7bc);
+}
+
+#infoServicio h2{
+    text-shadow: 2px 3px 5px black;
+    font-size: 2rem;
+}
+
+#infoServicio p{
+    font-size: 20px;
+}
+
+.fotoServicio{
+    width: 50%;
+    background-image: url(../imagenes/unidadUltrasonido.jpg);
+    background-size: cover;
+    background-repeat: no-repeat;
+}
+
+.Doctores{
+    min-height: 100px;
+    background: linear-gradient(356deg, #3cd3d5, #00776f);
+    font-size: 20px;
+    padding-top: 8px;
+    font-weight: 800;
+    padding-left: 18px;
+    color: white;
+    text-shadow: 2px 3px 5px black;
+    font-size: 24px;
+    display: flex;
+    flex-direction: column;
+    box-shadow: 2px 5px 10px darkcyan;
+
+}
+
+#inputBusquedaDeDoctor{
+    border: 1px solid white;
+    background-color: rgb(245, 245, 245);
+    width: 80%;
+}
+
+#formularioBusqueda{
+    display: flex;
+    flex-direction: row;
+    width: 90%;
+    align-items: center;
+}
+
+#btnBuscar{
+    border: 1px solid rgb(0, 122, 96);
+    color: white;
+    background-color: #1b1b1b;
+    width: 80px;
+    margin-left: 15px;
+}
+
+.especialidades_list{
+    display: flex;
+    list-style-type: none;
+    padding: 0; /* Esto elimina el espacio por defecto de la lista */
+    margin: 0; 
+}
+
+.especialidad-link{
+    text-decoration: none;
+    font-size: 1.4rem;
+    color: white;
+    font-family: serif;
+    margin-right: 15px;
+}
+
+.directorio{
+    min-height: 75vh;
+    background-image: linear-gradient(53deg, #3e6783, #00c7bc);
+    margin-top: 8px;
+    padding-bottom: 25px;
+}
+
+.contenedorDirectorio{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding-left: 15px;
+}
+
+.contenedorDirectorio a{
+    text-decoration: none;
+}
+
+.contenedorDirectorio a:hover{
+    background: #313131a1;
+    outline: 1px solid white;
+}
+
+
+.grupoDoctores{
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    flex-wrap: wrap;
+    width: 80%;
+    margin: auto;
+}
+
+.tarjetasNombres{
+
+    display: flex;
+    flex-direction: row;
+    justify-content: flex-start;
+    width: 400px;
+    height: 200px;
+    background: #262626e3;
+    color: #ffffff;
+    margin-top: 40px;
+    margin-right: 50px;
+    border-radius: 5px;
+    padding: 8px;
+    box-shadow: 2px 2px 10px #1b1b1b;
+    min-width: 200px;
+}
+
+
+.tarjetasNombres img{
+    border-radius: 70%;
+}
+
+
+.tarjetasNombres b{
+    margin-top: 25px;
+}
+
+.informacionDoctor{
+    display: flex;
+    flex-direction: column;
+    padding: 5px;
+}
+
+
+.DatosDctor{
+    display: flex;
+    flex-direction: column;
+    width: 700px;
+    height: 500px;
+    background: rgb(60, 186, 202);
+}
+
+dialog{
+    margin: auto;
+    border: none;
+    padding: 0;
+}
+
+#AddServico{
+    margin: auto;
+    border: none;
+    padding: 0;
+    width: 1000px;
+    min-height: 600px;
+    background-color: #404142;
+}
+
+dialog::backdrop{
+    background: #0a0a0a86;
+}
+
+.encabezado{
+    position: relative;
+    display: flex;
+    align-items: center;
+    padding-left: 35px;
+    color: white;
+    font-size: 20px;
+    width: 100%;
+    height: 65px;
+    background: teal;
+}
+
+.ModalClose{
+    margin: 0;
+    position: absolute;
+    top: 0;
+    right: 0;
+    background:transparent;
+    color: white;
+    border: none;
+    height: 65px;
+}
+
+.cuadroInterno{
+    padding: 8px;
+    width: 100%;
+    height: 100%;
+    display: flex;
+    flex-direction: row;
+}
+
+.informacionPersonal{
+    display: flex;
+    flex-direction: row;
+    width: 100%;
+    height: 100%;
+    color: white;
+}
+
+#imagenNombre{
+    width: 50%;
+    height: 545px;
+    background-image: url(../imagenes/unidadUltrasonido.jpg);
+    background-size: cover;
+    background-position: center;
+}
+
+
+#MetodoPago{
+    display: flex;
+    flex-direction: column;
+    justify-content: space-around;
+    align-items: center;
+    width: 50%;
+}
+
+.InfoPersonal{
+    margin-left: 35px;
+}
+
+.infoDoctor{
+    margin-left: 35px;
+}
+
+.texto{
+    color: white;
+    border-left: 1px solid black;
+    padding-left: 12px;
+}
+
+
+
+.cuadroFron{
+    width: 500px;
+    padding: 14px;
+    border-radius: 12px;
+    color: darkblue;
+    border: solid skyblue;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.cuadroFron label{
+    font-size: 18px;
+    margin-bottom: 5px;
+    font-weight: 700;
+}
+
+input{
+    border: none;
+    border-bottom: 1px solid rgb(255, 255, 255);
+    background: transparent;
+    width: 300px;
+    height: 30px;
+    margin-bottom: 10px;
+    margin-top: 3px;
+    border-radius: 3px;
+}
+
+select{
+    border: none;
+    border-bottom: 1px solid rgb(255, 255, 255);
+    background: transparent;
+}
+
+option{
+    background: #004059;
+}
+#formulario{
+    background-color: #24c6cb85;
+    display: none;
+    height: 90vh;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    display: none;
+}
+
+form{
+    display: flex;
+    flex-direction: column;
+}
+/* 
+------------------------------------------------------------------paginaDescripcionDeDoctores------------------------------------------------------------- */
+
+#espacioInfoMedico{
+    width: 80%;
+    min-height: 75vh;
+    display: flex;
+    margin: auto;
+
+}
+
+
+footer{
+    background-color: hsl(0deg 0% 20.62%);
+    color: white;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    margin: 5px 0px 0px 0px;
+}
+
+.footerSuperior{
+    display: flex;
+    flex-direction: row;
+    width: 100%;
+    margin-top: 15px;
+}
+
+footer .contactos{
+    background-color:#76ABAE;
+    width: 50%;
+    height: 400px;
+    margin-right: 15px;
+    padding-left: 20px;
+    padding-top: 15px;
+}
+
+#redesSociales{
+    margin-bottom: 15px;
+}
+
+
+.bi{
+
+    font-size: 32px;
+    margin-right: 20px;
+    color: black;
+}
+
+.bi:hover{
+    color: #404142;
+}
+
+.bi-facebook{
+    color: blue;
+}
+
+.bi-twitter-x{
+    color: black
+}
+
+.bi-instagram{
+    color: rgb(255, 38, 31);
+}
+
+.bi-whatsapp{
+    color: rgb(1, 99, 1);
+}
+
+footer .ubicacion{
+    display: flex;
+    flex-direction: row;
+    background-color:#76ABAE;
+    width: 50%;
+    height: 400px;
+    padding-left: 15px;
+    padding-top: 15px;
+    padding-bottom: 15px;
+    padding-right: 12px;
+    margin-left: 15px;
+}
+
+.conteinerUbi{
+    display: flex;
+    flex-direction: column;
+    margin-right:15px;
+}
+
+footer .piePagina{
+    align-items: center;
+    background-color:hsl(0deg 0% 20.62%);
+    height: 100px;
+    width: 100%;
+    display: flex;
+    justify-content: center;
+}
+
+@media screen and (max-width: 1000px) {
+    .menuPrincipal{
+        display: none;
+    }
+    .MenuHambur{
+        display: flex;
+    }
+}
+
+@media screen and (max-width: 800px) {
+    #informacion{
+        display: flex;
+        flex-direction: column-reverse;
+    }
+    .contenedor1{
+        width: 100%;
+    }
+    #informacion #fotoPrincipal{
+        min-height: 450px;
+        background-size: cover;
+    }
+    #infoSeccion{
+        font-size: 1.2rem;
+    }
+    #botonSolicitud{
+        width: 300px;
+    }
+    .Servicios{
+        display: flex;
+        flex-direction: column-reverse;
+        background-position:top;
+    }
+
+    #infoServicio{
+        width: 100%;
+        padding: 15px 0;
+        
+    }
+
+    #infoServio p{
+        font-size: 1.2rem;
+        
+    }
+    .fotoServicio{
+        width: 100%;
+        min-height: 300px;
+        
+    }
+}
+
+@media screen and (max-width: 800px)  {
+
+    .footerSuperior{
+      display: flex;
+      flex-direction: column;
+    } 
+    footer .contactos{
+        width: 100%;
+        margin-bottom: 15px;
+    }
+
+    footer .conteinerUbi{
+        width: 100%;
+        padding: 10px 0;
+    }
+
+    footer .ubicacion{
+        padding: 0;
+        display: flex;
+        flex-direction: column;
+        width: 100%;
+        height: auto;
+        margin-left: 1px;
+    }
+
+    footer .mapa{
+        display: flex;
+        justify-content: center;
+    }
+}
+
+/* ----------------------------------------Partes  dinamicas con mysql-------------------------------------- */
+
+
+#fotoPrincipal img {
+    width: 100%; /* Hacer que la imagen ocupe todo el ancho */
+    height: 100%; /* Hacer que la imagen ocupe todo el alto */
+    object-fit: cover; /* La imagen se adapta sin perder la proporción */
+}
+
+
+.fotoServicio img{
+    width: 100%; /* Hacer que la imagen ocupe todo el ancho */
+    height: 100%; /* Hacer que la imagen ocupe todo el alto */
+    object-fit: cover; /* La imagen se adapta sin perder la proporción */
+}
+
+/* 
+----------------------------------------------------Parte relacionada a los doctores y su descripcion------------------------------------------------- */
+
+
+
+
+
+
+
+
+
+
+
+/* -----------------------------------------------------seccion de Servicios--------------------------------------------------------------------------- */
+
+.tarjetasServicios{
+
+        display: flex;
+        flex-direction: column;
+        justify-content: flex-start;
+        width: 350px;
+        height: 400px;
+        background: #262626e3;
+        color: #ffffff;
+        margin-top: 40px;
+        margin-right: 50px;
+        border-radius: 5px;
+        padding: 8px;
+        box-shadow: 2px 2px 10px #1b1b1b;
+        min-width: 200px;
+}
+
+.contentImg{
+    height: 50%;
+}
+
+.contentImg img{
+    width: 100%; /* Hacer que la imagen ocupe todo el ancho */
+    height: 100%; /* Hacer que la imagen ocupe todo el alto */
+    object-fit: cover; /* La imagen se adapta sin perder la proporción */
+}
