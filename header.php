@@ -42,9 +42,9 @@ if(!empty($_SESSION['usuario'])){
         
         <nav class="menuPrincipal">
         <ul>
-            <li> <a class="botones" href="">Inicio</a></li>
+            <li> <a class="botones" href="index.php">Inicio</a></li>
             <li><a class="botones" href="#cardiologia">Especialidades</a> </li>
-            <li> <a class="botones"  href="#horarios">Horarios</a> </li>
+            <!-- <li> <a class="botones"  href="#horarios">Horarios</a> </li> -->
             <li> <a class="botones" href="#contactos">Contactos</a> </li>
             <?php if (!isset($_SESSION['usuario'])): ?>
                 <li> <a class="botones" href="login.php">inicio de Sesion</a> </li>
@@ -58,9 +58,9 @@ if(!empty($_SESSION['usuario'])){
             <input type="checkbox" id="menuServicios">
             <label  for="menuServicios">Servicios <samp id="flecha">▼</samp></label>
             <ul id="itenServicios">
-                <li> <a href="seccionesPagina/seccionCardio.html"> Ultrasonido</a></li>
-                <li> <a href="seccionTraumatoogia/Traumatología.html">Rayos X</a></li>
-                <li> <a href="seccionOdontologia/Odontologia.html">Endodoncia</a></li>
+                <li> <a href="paginaServicios.php"> Ultrasonido</a></li>
+                <li> <a href="paginaServicios.php">Rayos X</a></li>
+                <li> <a href="paginaServicios.php">Endodoncia</a></li>
             </ul>
         </nav>
         </nav>

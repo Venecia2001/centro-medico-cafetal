@@ -45,8 +45,8 @@
   <div class="formularioDeNombres">
     <form action="Crud_Admin/barraBusquedaMedicos.php" method="GET" id="formularioBusqueda">
 
-      <input id="inputBusquedaDeDoctor" type="text"  placeholder="busca el medico..." > 
-      <input type="submit" name="busquedaDoctores" value="buscar" id="btnBuscar">
+      <input id="inputBusquedaDeDoctor" type="text"  placeholder="Busca el medico..." > 
+      <input type="submit" name="busquedaDoctores" value="Buscar" id="btnBuscar">
 
     </form>
 
@@ -58,20 +58,6 @@
 
         <select name="especialidad" id="specialty_id">
             <option value="">Seleccione una especialidad</option>
-                    
-              <?php
-                //include "conex_bd.php";
-                            
-                 // $sql = $conexion->query("SELECT id_especialidad, nombre_esp FROM `especialidades`");
-
-                     // while($datos=$sql->fetch_object()){ ?>
-
-                          <option value="<?php echo $datos->id_especialidad ?>"><?php echo $datos->nombre_esp?></option>
-
-                      <?php
-                          //$selectEspecialidad = $datos->nombre_esp;
-                      //} 
-                      ?>
         </select>
 
     </form> -->
@@ -112,7 +98,12 @@
 
       include "conex_bd.php";
 
-      $consultaDatos = "SELECT cl.*, m.id_medico, m.id_especialidad, m.direccion, m.foto_perfil, m.fecha_nacimiento, e.nombre_esp AS nombre_especialidad FROM usuarios cl JOIN medicos m ON cl.id = m.id_medico JOIN especialidades e ON m.id_especialidad = e.id_especialidad WHERE cl.rol <> 5;";
+      function capitalizeFirstLetter($name) {
+        // Convertir la primera letra a mayúscula y el resto a minúscula
+        return ucfirst(strtolower($name));
+    }
+
+      $consultaDatos = "SELECT cl.*, m.id_medico, m.id_especialidad, m.direccion, m.foto_perfil, e.nombre_esp AS nombre_especialidad FROM usuarios cl JOIN medicos m ON cl.id = m.id_medico JOIN especialidades e ON m.id_especialidad = e.id_especialidad WHERE cl.rol <> 5;";
       $resultadosConsulta = mysqli_query($conexion, $consultaDatos);
 
       while($data = $resultadosConsulta->fetch_array()){
@@ -128,13 +119,16 @@
           $fotoPerfil = $data['foto_perfil'];
           $fechaNac = $data['fecha_nacimiento'];
 
+          $nombreConMayuscula = capitalizeFirstLetter($nombreMed);
+          $apellidoConMayuscula = capitalizeFirstLetter($apellidoMed);
+
       ?>
           <a href="descripcionDeMedicos.php?id=<?php echo $idMed; ?>"  class="tarjetasNombres" id="enlaceDatos">
         <div> 
-            <img src="uploads/.<?php echo $fotoPerfil ?>" alt="doctor" width="120px" height="120px">
+            <img src="uploads/.<?php echo $fotoPerfil ?>" alt="doctor" width="135px" height="160px">
         </div>
         <div class="informacionDoctor"> 
-            <h2><?php echo $nombreMed." ".$apellidoMed ?></h2>
+            <h2><?php echo $nombreConMayuscula." ".$apellidoConMayuscula ?></h2>
             <b><?php echo $nombre_esp ?></b>
         </div>
     </a>
@@ -219,23 +213,17 @@
                           data.data.forEach(medico => {
                               // Crear una fila de la tabla
 
-                              let codigoHtml = document.createElement('div');
-                              
-                              codigoHtml.innerHTML = `
-                              <a href="descripcionDeMedicos.php?id=${medico.id_Medico}"  class="tarjetasNombres" id="enlaceDatos">
-                                <div> 
-                                  <img src="uploads/.${medico.fotoPerfil}" alt="doctor" width="120px" height="120px">
-                                </div>
-                                <div class="informacionDoctor"> 
-                                  <h2>${medico.nombre} ${medico.apellido}</h2>
-                                  <b>${medico.nombre_esp}</b>
-                                </div>
-                              </a>
-                              
-                              `
-    
-                              // // Agregar la fila al cuerpo de la tabla
-                              contenedorTarjetas.appendChild(codigoHtml);
+                              contenedorTarjetas.innerHTML += `
+                                <a href="descripcionDeMedicos.php?id=${medico.id_Medico}" class="tarjetasNombres" id="enlaceDatos">
+                                    <div> 
+                                        <img src="uploads/.${medico.fotoPerfil}" alt="doctor" width="135px" height="160px">
+                                    </div>
+                                    <div class="informacionDoctor"> 
+                                        <h2>${medico.nombre} ${medico.apellido}</h2>
+                                        <b>${medico.nombre_esp}</b>
+                                    </div>
+                                </a>
+                                `;
                           });
                     
                       } else {
@@ -289,24 +277,19 @@
                //Iterar sobre los resultados y agregar filas a la tabla
                  data.data.forEach(medico => {
                      // Crear una fila de la tabla
-
-                    let codigoHtml = document.createElement('div');
                               
-                      codigoHtml.innerHTML = `
-                              <a href="descripcionDeMedicos.php?id=${medico.id_Medico}"  class="tarjetasNombres" id="enlaceDatos">
-                                 <div> 
-                                  <img src="uploads/.${medico.fotoPerfil}" alt="doctor" width="120px" height="120px">
-                                </div>
-                                 <div class="informacionDoctor"> 
-                                   <h2>${medico.nombre} ${medico.apellido}</h2>
-                                   <b>${medico.nombre_esp}</b>
-                                 </div>
-                               </a>
-                              
-                       `
-    
-                     // Agregar la fila al cuerpo de la tabla
-                         contenedorTarjetas.appendChild(codigoHtml);
+                     contenedorTarjetas.innerHTML += `
+                                <a href="descripcionDeMedicos.php?id=${medico.id_Medico}" class="tarjetasNombres" id="enlaceDatos">
+                                    <div> 
+                                        <img src="uploads/.${medico.fotoPerfil}" alt="doctor" width="135px" height="160px">
+                                    </div>
+                                    <div class="informacionDoctor"> 
+                                        <h2>${medico.nombre} ${medico.apellido}</h2>
+                                        <b>${medico.nombre_esp}</b>
+                                    </div>
+                                </a>
+                                `;
+                         
                  });
 
             } else {

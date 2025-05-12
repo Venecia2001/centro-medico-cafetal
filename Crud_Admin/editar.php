@@ -104,4 +104,49 @@ if(isset($_POST['editar'])){
     }
 }
 
+if(isset($_POST['editarDatosPersonales'])){
+
+    $id_paciente = $_POST["id_user"];
+    $nombre = $_POST['newNombre'];
+    $apellido = $_POST['newApellido'];
+    $telefono = $_POST['newTelefono'];
+    $correo = $_POST['newEmail'];
+
+    $fechaNac = $_POST['fecha_nacEdit'];
+    $sexoPaciente = $_POST['generoEdit'];
+    $direccion = $_POST['direccionEdit'];
+    $alergias = $_POST['alergiasEdit'];
+    $ocupacion = $_POST['ocupacionEdit'];
+    $eduacionNivel = $_POST['educacionEdt'];
+
+    try {
+        // Iniciar una transacción
+        $conexion->begin_transaction();
+    
+        // 1. Actualizar los datos del cliente en la tabla 'usuarios'
+        $stmt_usuario = $conexion->prepare("UPDATE usuarios SET nombre = ?, apellido = ?, telefono = ?, correo = ? WHERE id = ?");
+        $stmt_usuario->bind_param("ssssi", $nombre, $apellido, $telefono, $correo, $id_paciente);
+        $stmt_usuario->execute();
+    
+        // 2. Actualizar los datos específicos del médico en la tabla 'medicos'
+        $stmt_perfil = $conexion->prepare("UPDATE perfil_usuario SET direccion = ?, genero = ?, alergias = ?, ocupacion = ?, nivel_educacion = ?  WHERE id_usuario = ?");
+        $stmt_perfil->bind_param("sssssi", $direccion, $sexoPaciente, $alergias, $ocupacion, $eduacionNivel, $id_paciente);
+        $stmt_perfil->execute();
+    
+        // Si todo salió bien, confirmar la transacción
+        $conexion->commit();
+        
+        header("location:../perfil_usuario.php");
+        
+    } catch (Exception $e) {
+        // Si ocurre un error, deshacer la transacción
+        $conexion->rollback();
+        echo "Error: " . $e->getMessage();
+    }
+
+
+}
+
+
+
 ?>

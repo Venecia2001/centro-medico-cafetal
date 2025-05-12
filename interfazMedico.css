@@ -8,12 +8,12 @@ body,div,ul,li,a,h1,h2.h3,h4{
 }
 
 body{
-    --bg-color: color-mix(in srgb, rgb(0, 187, 140) 70%, #fff);
-    --sidebar-color: #fff;
-    --dark-color: #f62;
+    --bg-gradient: linear-gradient(45deg, #13fff5, #2540d09e);
+    --sidebar-color: #2e2e2e;
+    --dark-color: #00ffcf;
     --text-color: #313131;
-    background-color: var(--bg-color);
-    height: 100vh;
+    background: var(--bg-gradient);
+    min-height: 100vh;
 }
 
 .sidebar{
@@ -26,6 +26,7 @@ body{
     flex-direction: column;
     justify-content: space-between;
     padding: 30px 0 30x 6px;
+    box-shadow: 0px 7px 8px 2px black;
 }
 
 .sidebar__nav{
@@ -94,6 +95,7 @@ body{
 
 .sidebar__picture{
     margin-left: 1.5rem;
+    margin-top: 15px;
     position: relative;
     z-index: 10;
 }
@@ -150,9 +152,9 @@ input[type="checkbox"]{
 
 .sidebar__form label{
     position: relative;
-    background-color: var(--bg-color);
+    background:  var(--bg-gradient);
     color: white;
-    font-size: 2rem;
+    font-size: 1.8rem;
     border-radius: 50%;
     padding: .4rem;
 
@@ -234,24 +236,29 @@ input[type="checkbox"]:checked ~ label::before{
 }
 
 #cerrarSesion{
-    color: #f62;
+    color: #00ffcf;
 }
 
 main{
     width: 70%;
-    min-height: 120vh;
+    min-height: 90vh;
     margin: auto;
     display: flex;
     flex-direction: column;
     justify-content: center;
 }
 
+.nota{
+    font-weight: bold;
+  color: rgb(191, 0, 0);
+}
+
 .contenidoCitasPendientes{
     width: 100%;
-    height: 90vh;
+    min-height: 90vh;
     display: flex;
     flex-direction: column;
-    justify-content: center;
+
 }
 
 .citasRealizadas{
@@ -272,20 +279,70 @@ main{
 
 .infoMedico{
     display: flex;
-    width: 80%;
+    flex-direction: column;
+    width: 90%;
     font-size: 26px;
+    margin: auto;
+}
+
+.datosPersonalesHead{
+    width: 100%;
+    display: flex;
+    align-items: center;
+    height: 50px;
+    padding: 8px;
+    border-radius:15px; 
+    color: white;
+    font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
+    font-size: 1.5rem;
+    margin-bottom: 20px;
+    background-image: linear-gradient(180deg, #01c0f5 0%, #00e8be 100%);
+}
+
+.datosPersonalesHead h2{
+    text-shadow: 1px 2px 1px rgb(46, 45, 45);
+}
+
+.contendorDeDatos{
+    width: 100%;
+    display: flex;
+    gap: 10px;
 }
 
 .infoPrincipal{
     width: 50%;
+    padding: 10px;
+    border-radius: 15px;
+    background-image: linear-gradient(180deg, #0097e2 0%, #00e4b9 100%);
+    position: relative;
 }
 .infoAdicional{
     width: 50%;
+    display: flex;
+    flex-direction: column;
+    border-radius: 15px;
+}
+
+.datosDeMedico{
+    width: 100%;
+    padding: 10px;
+    margin-bottom: 30px;
+    border-radius: 15px;
+    background-image: linear-gradient(180deg, #0097e2 0%, #00e4b9 100%);
+}
+
+#cajaAgregarFoto{
+    width: 100%;
+    padding: 10px;
+    border-radius: 15px;
+    background-image: linear-gradient(180deg, #252525 0%, #737373 100%);
+    margin-bottom: 0;
+
 }
 
 .campoDeInformacion{
     margin-bottom: 12px;
-    color: #f62;
+    color: white;
 }
 
 .infoPrincipal label{
@@ -293,28 +350,92 @@ main{
 }
 
 .cajaTexto{
+    color:white;
     margin-bottom: 15px;
+}
+
+.cajaTexto label{
+    color:white;
+    font-weight: 600;
+}
+
+.cajaTextoDeFoto{
+    display: flex;
+    align-items: center;
+}
+
+.cajaTextoDeFoto label{
+    margin-right: 8px;
 }
 
 #cajaAgregarFoto{
     display: flex;
     align-items: center;
+    flex-direction: column;
 }
 
 #cajaAgregarFoto img{
     border-radius: 50%;
 }
 
+#btnEditar{
+    background-color: #434343;
+    width: 160px;
+    color: white;
+    font-size: 1.1rem;
+    height: 50px;
+    border-radius:5%;
+    border-radius:15px;
+    border: none;
+    position: absolute;
+    bottom: 8px;
+    right: 15px;
+    
+}
+
+#btnEditar:hover{
+    background-color: #4e4e4e;
+}
+
+.claseBtn{
+    background-image: linear-gradient(18deg, #00987c, #00edefc7);
+    width: 160px;
+    color: white;
+    font-size: 1.1rem;
+    height: 50px;
+    border-radius:5%;
+    margin:auto;
+    border-radius:15px;
+    border: none;
+    margin-top: 5px;
+}
+
+.claseBtn:hover{
+    background-color: #4e4e4e;
+}
+
+
 
  #modalEdit{
-    width: 800px;
+    width: 35%;
+    border: none;
+    border-radius: 15px;
+    background-color: #333333;
+}
+
+.tituloDialog{
+    color: white;
+    text-align: center;
+    margin-bottom: 15px;
 }
 
 .registroMed{
-    background: #2e2e2e;
+    background-image: linear-gradient(18deg, #00987c, #00edefc7);
     width: 100%;
     margin: auto;
-    min-height: 500px;
+    min-height: 380px;
+    padding: 10px 0;
+    border-radius: 15px;
 
 }
 
@@ -345,6 +466,7 @@ main{
 
 .formMed label{
     color: white;
+    font-weight: bold;
 }
 
 
@@ -355,33 +477,159 @@ main{
     background: transparent;
     width: 80%;
     color: white;
+}
 
+.formMed select{
+    width: 80%;
+    background-color: #3c3c3ce1;
+    color: white;
+    margin-bottom: 10px;
+    border: none;
+    border-radius: 5px;
+    padding: 5px;
 }
 
 #botonRegistroMed{
-
-    border: 1px solid rgb(0, 127, 185);
-    width: fit-content;
+    background-color: #313131;
+    width: 160px;
     height: 50px;
-    border-radius: 5%;
+    border-radius:5%;
+    margin:auto;
+    border-radius:15px;
 
 }
 
-table tr:nth-child(odd) {
-    background-color: #0c507e; /* Color de fondo para las filas impares */
-}
-  
-table tr:nth-child(even) {
-    background-color: #3f3f3f; /* Color de fondo para las filas pares */
-}
-  
-  /* Estilo para las celdas */
-table th, table td {
+.dialogCorto{
+    width: 35%;
+    background-color: rgb(55, 55, 55);
     padding: 10px;
-    border: 1px solid #ddd;
-    text-align: left;
+    min-height: 250px;
+    border: none;
+    border-radius: 15px;
+}
+
+.aggFoto{
+    padding: 10px;
+    width: 95%;
+    min-height: 225px;
+    margin: auto;
+    background-image: linear-gradient(18deg, #00987c, #00edefc7);
+    display: flex;
+    flex-direction: column;
+    border-radius: 15px;
+}
+
+.aggFoto label{
     color: white;
 }
+
+.aggFoto textarea{
+    border-radius: 5px;
+    margin: 10px 0;
+}
+
+.btnAgregarFoto{
+    background-color: #313131;
+    width: 160px;
+    height: 50px;
+    color: white;
+    border-radius:5%;
+    margin:auto;
+    border: none;
+    border-radius:15px;
+}
+
+.tituloSeccion{
+    font-size: 2.5rem;
+    color: white;
+    margin-left: 15px;
+    margin-bottom: 15px;
+    text-align: center;
+    text-shadow: 1px 2px 1px rgb(46, 45, 45);
+}
+
+.btnAgregarFoto:hover{
+    background-color: #4c4c4c;
+}
+
+.cuadroCitas{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    position: relative;
+}
+
+#tablequotes{
+    border-collapse: collapse;
+    border-radius: 5px;
+    margin: auto;
+    margin-bottom: 25px;
+    
+}
+
+.filtroCitas{
+    position: relative;
+    width: 50%;
+    height: 55px;
+    display: flex;
+    align-items: center;
+}
+
+#formulario_filtro{
+    position: relative;
+    left: 21%;
+}
+
+#seleccionarFechasCitas{
+    width: 100%;
+  padding:5px;
+  background-color: #454545;
+  border-radius:10px;
+  color: white;
+  font-size: 1rem;
+  border:none;
+}
+
+#seleccionarFechasCitas option{
+    color: white;
+    background-color: #343434;
+    border: none;
+}
+
+.disabled {
+    background-color: #646464 !important; /* Cambia el color de fondo */
+    color: rgb(138, 138, 138) !important;
+}
+
+
+
+
+table tr:nth-child(odd) {
+    background-color: #555555; /* Color de fondo para las filas impares */
+    }
+    
+    table tr:nth-child(even) {
+    background-color: #454545; /* Color de fondo para las filas pares */
+    }
+    
+    table th{
+        background-color: #009590;
+        padding: 12px;
+        font-size: 1.2rem;
+       
+    }
+    
+    table td{
+        font-size: 1rem;
+    }
+      
+    table th, table td {
+        padding: 8px;
+        border: 1px solid #ddd;
+        text-align: left;
+        color: white;
+        font-size: 1rem;
+    }
 
 .pendiente{
     color:orange;
@@ -395,14 +643,71 @@ table th, table td {
     color: red;
 }
 
+.btnTable{
+    width: 100px;
+    height: 35px;
+    background-color: rgb(9, 130, 128);
+    color:white;
+    border: none;
+    border-radius: 7px;
+    cursor: pointer;
+}
+
+.btnTable:hover{
+    background-color: #009590;
+}
+
+.cancelar:hover{
+    background-color: rgba(255, 0, 0, 0.477);
+    
+}
+
+.resultCita:hover{
+    background-color: rgb(0, 169, 166);
+}
+
 .contadorCitas{
     display: flex;
     justify-content: space-between;
+    width: 80%;
+    margin: auto;
+    margin-top: 15px;
+    margin-bottom: 15px;
+}
+
+.cifraCita{
+    width: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 5px;
+    margin: auto;
+}
+
+.cifraCita span{
+    width: 60px;
+    height: 60px;
+    border-radius: 50%;
+    background-color: #2e2e2e;
+    display: flex;
+    justify-content:center;
+    align-items: center;
+    color: #01f6c8;
+    font-size: 1.3rem;
+    font-weight: bold;
 }
 
 .caja{
-    border: 1px solid black;
+    height: 140px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    color: white;
+    border: 1px solid rgb(0, 156, 148);
     padding: 5px;
+    border-radius: 15px;
+    font-size: 1rem;
+    background-color: #6495ed7a;
 }
 
 
@@ -410,37 +715,117 @@ table th, table td {
 
 /* resultados Citas */
 
+.iten_citas{
+    width: 100%;
+    height: 100px;
+    border: 1px solid rgb(0, 157, 128);
+    margin: auto;
+    display: flex;
+    margin-top: 15px;
+    margin-bottom: 10px;
+    border-radius: 15px;
+    background-image: linear-gradient(190deg, #00c29d, #006a9e96);
+}
+
+.seccion{
+    width: 20%;
+    display: flex;
+    flex-direction: column;
+    text-align: center;
+    border-radius: 15px;
+}
+
+#especialidadElse{
+    width: 100%;
+}
+
+#headEspecialidadElse{
+    
+    border-top-left-radius: 15px;
+    border-top-right-radius: 15px;
+}
+
+.headCitas{
+    width: 100%;
+    background-color: #008074;
+    color: white;
+    height: 40px;
+    font-size: 1rem;
+    padding: 5px;
+    text-align: center;
+    display: flex;
+  align-items: center;
+}
+
+#headEspecialidad{
+    border-top-left-radius: 15px;
+}
+
+#headEstado{
+    border-top-right-radius: 15px;
+}
+
+.seccion span{
+    margin: 8px;
+}
+
 .datosPacientes{
     display: flex;
+    gap: 10px;
+}
+
+.detallesCita{
+    background-color: #313131;
+    width: 80%;
+    height: 40px;
+    color: white;
+    border-radius:5%;
+    margin:auto;
+    border: none;
+    border-radius:15px;
+    margin-top: 8px;
+}
+
+.detallesCita:hover{
+    background-color:#4f4f4f ;
 }
 
 .informacionDePaciente{
-    width: 50%;
+    width: 40%;
     min-height: 500px;
-    border: 1px solid white;
+    border: 1px solid rgb(0, 189, 171);
+    color: white;
+    border-radius: 15px;
+    padding: 8px;
+    margin-bottom: 25px;
+    background-color: #6495ed7a;
 }
 
-.historialMedicoPaciente{
-    width: 100%;
-    min-height: 500px;
-    border: 1px solid white;
+.tituloPropiedad{
+    font-weight: 800;
+}
+
+#ultimasCitas{
+    width: 60%;
+}
+
+.tituloInterno{
+    color: white;
+    font-size: 1.8rem;
+    margin-bottom: 15px;
+    text-shadow: 1px 2px 1px rgb(46, 45, 45);
 
 }
 
 .formResultadoCita{
     width: 100%;
-    min-height: 500px;
-    border: 1px solid white;
+    min-height: 450px;
+    border: 1px solid rgb(0, 165, 177);
     display: flex;
     flex-direction: column;
-}
-
-.reporteCita{
-    background-color: aliceblue;
-    margin: 15px;
-    width: 300px;
-    padding: 8px;
-    font-size: 12px;
+    border-radius: 15px;
+    background-color: #53aeedc4;
+    margin-bottom: 30px;
 }
 
 .historialMedicoPaciente{
@@ -452,32 +837,97 @@ table th, table td {
 .cabezearaDiagnostico{
     display: flex;
     width: 100%;
-    background-color: cadetblue;
+    background-color: #008074;
     min-height: 70px;
     padding: 7px;
     margin-bottom: 10px;
+    border-top-left-radius: 15px;
+    border-top-right-radius: 15px;
 }
 
 .diagnosticoPaciente{
     width: 50%;
+    padding-left: 20px;
 }
 
 .diagnosticoPaciente label{
-    color: #f62;
+    color: rgb(255, 255, 255);
+    font-size: 1.2rem;
+}
+
+.diagnosticofechaCita label{
+    color: rgb(255, 255, 255);
+    font-size: 1.2rem;
 }
 
 .diagnosticofechaCita{
     width: 50%;
+    padding-left: 20px;
     
 }
+
+#formDianostico{
+    display: flex;
+    padding: 12px;
+}
+
+.compartimentoForm{
+    display: flex;
+    flex-direction: column;
+    width: 50%;
+    padding: 10px;
+    padding-left: 15px;
+}
+
+.boxTextResult{
+    display: flex;
+    flex-direction: column;
+}
+
+.boxTextResult label{
+    font-size: 1.3rem;
+    color: white;
+}
+
+.boxTextResult textarea{
+    width: 80%;
+  height: 100px;
+  margin-bottom: 20px;
+}
+
+.boxTextResult input[type="text"]{
+    width: 80%;
+    padding: 7px;
+    margin-bottom: 20px;
+}
+
+
+
+
 /* 
 -------------------------------------------------Seccion Ventanas de historial Medico -------------------------------- */
 
 #modalDetallesHistorial{
-    width: 60%;
-    min-height: 800px;
-    background-color: darkcyan;
+    width: 50%;
+    min-height: 660px;
+    background-color: rgba(48, 48, 48, 0.658);
     position: relative;
+    color: white;
+    border-radius: 15px;
+    border: none;
+}
+
+.cabezeraFactura{
+    position: relative;
+    width: 100%;
+    height: 60px;
+    background-color: rgb(0 131 123);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border-top-left-radius: 15px;
+    border-top-right-radius: 15px;
+    margin-top: 15px;
 }
 
 .btnClose{
@@ -488,13 +938,16 @@ table th, table td {
     color: red;
     width: 50px;
     font-size: 24px;
-    border-radius: 5px;
+    border-radius: 12px;
 }
 
 .infoIdentificacion{
     display: flex;
-    background-color: darkgray;
+    background-color: #dedede;
     min-height: 130px;
+    padding: 10px;
+    color: black;
+    font-size: 1rem;
     position: relative;
 }
 
@@ -518,11 +971,20 @@ table th, table td {
 
 
 .HistorialMedico{
-    background: #d6d6d6;
+    background: #e9e9e9;
     width: 100%;
     margin: auto;
-    min-height: 780px;
+    min-height: 550px;
 
+}
+
+.resultadoCts{
+    width: 80%;
+    padding-left: 20px;
+}
+
+.resultadoCts li{
+    margin-bottom: 30px;
 }
 
 .contentDatos{
@@ -531,7 +993,8 @@ table th, table td {
 }
 
 .HistorialMedico label{
-    font-size: 28px;
+    font-size: 1.1rem;
+    font-weight: 700;
     margin-bottom: 12px;
     
 }
@@ -540,6 +1003,8 @@ table th, table td {
     display: flex;
     flex-direction: column;
     padding: 12px;
+    color: black;
+    border-radius: 15px;
 }
 
 .datosDeDiagnostico label{
@@ -548,7 +1013,7 @@ table th, table td {
 
 
 .datosHistorial{
-    font-size:28px;
+    font-size:1.1rem;
     margin-bottom: 10px;
     margin-left: 10px;
 }
@@ -571,6 +1036,15 @@ table th, table td {
 
 /* -----------------------------------------------------------SECCION HORARIOS----------------------------------------------------------------------- */
 
+.agregarHorarios {
+    margin: auto;
+}
+
+
+.agregarHorarios table{
+    margin: auto;
+}
+
 #formHorarios{
     display: flex;
 }
@@ -579,18 +1053,95 @@ table th, table td {
     width: 150px;
 }
 
-.medico{
-    background-color: #00aeb0;
-    margin-right: 8px;
-    width: 170px;
-    height: 120px;
+.cabezera{
+    width: 100%;
+    margin-bottom: 30px;
+    border-radius: 15px;
 }
 
-.btnRegistrar{
+.medico{
+    background-color: #00aeb0;
+    width: 16.6%;
+    min-height: 100px;
+    color: white;
+    padding: 5px;
+    position: relative;
+}
+
+#formHorarios select{
+    width: 100%;
+    padding: 8px;
+    background-color: #454545;
+    color: white;
+    border:none;
+  border-radius:6px;
+}
+
+#formHorarios{
+    display: flex;
+}
+
+#formHorarios h2{
+
+    font-size: 1.2rem;
+    text-align: center;
+
+}
+
+.button_horario{
+    width: 115px;
+  height: 32px;
+  position: absolute;
+  left: 22px;
+  bottom: 10px;
+  background-color: #454545;
+  color: white;
+  border: none;
+  border-radius: 8px;
+}
+
+.button_horario:hover{
+  background-color: #5a5a5a;
+}
+
+.disabled-button {
+    background-color: #ddd; /* Color de fondo cuando está deshabilitado */
+    color: #888; /* Color de texto más claro */
+    
+}
+
+#button_horarios:disabled:hover {
+    background-color: #ddd; /* El fondo sigue igual al hover */
+    color: #888; /* El color sigue igual */
+}
+
+#mensajeAlert{
+text-align: center;
+}
+
+.medico{
+    background-color: #00aeb0;
+    margin-right: 1px;
+    width: 170px;
+    height: 100px;
+}
+
+.aggNombre{
+    border-top-left-radius: 15px;
+    border-bottom-left-radius: 15px;
+}
+
+.aggNombre h3{
+    color: #ffffff;
+    text-align: center;
+}
+
+#btnRegistrar{
     display: flex;
     flex-direction: column;
-    align-items: center;
-    justify-content: center;
+    position: relative;
+    border-top-right-radius: 15px;
+    border-bottom-right-radius: 15px;
 }
 
 .dialogEsp{
@@ -607,29 +1158,72 @@ table th, table td {
 }
 
 .ModalClose{
+    margin: 0;
     position: absolute;
-    right: 0;
     top: 0;
+    right: 0;
+    background:#a20000cb;
+    color: white;
+    border: none;
+    height: 40px;
+    width: 40px;
+    border-radius: 8px;
+    font-size: 1rem;
+}
+
+.delete{
+    background: transparent;
+    border: none;
+    color: white;
+    cursor: pointer;
+}
+
+.delete:hover{
+    color: red;
 }
 
 .formEditar{
     width: 95%;
-    min-height: 450px;
-    background: rgb(32, 64, 92);
+    min-height: 400px;
+    border-radius: 15px;
+    background-image: linear-gradient(18deg, #00987c, #00edefc7);
     display: flex;
     flex-direction: column;
     align-items: center;
     margin: auto;
 }
 
+.formEditar form{
+    width: 100%;
+    padding: 12px;
+    padding-left: 30px;
+}
+
 .selectForm{
     margin-bottom: 18px;
-    width: 250px;
-    padding: 2px;
-    color: rgb(20, 20, 20);
+    width: 90%;
+    padding: 5px;
+    border-radius: 7px;
+    color: rgb(255, 255, 255);
+    background-color: #42424273;
     border: none;
     font-size: 1.2rem;
 
+}
+
+#botonEdit{
+    width: 50%;
+    height: 40px;
+    margin: auto;
+    background-color: #454545;
+    color: white;
+    border: none;
+    border-radius: 8px;
+    margin-left: 100px;
+}
+
+#botonEdit:hover{
+    background-color: #636363;
 }
 
 #dialogSeguimiento{
@@ -666,4 +1260,87 @@ table th, table td {
 
 #btnSeguimito{
     margin-top: 20px;
+}
+
+/* --------------------------------------------seccion de Historias Medicos ------------------------------------------------- */
+
+.cuadroDeBusqueda{
+    width: 100%;
+    height: 65px;
+    background-color: #008074;
+    border-radius: 15px;
+    padding:7px;
+    color: white;
+    display: flex;
+    align-items: center;
+}
+
+dialog::backdrop{
+    background: #0a0a0a86;
+}
+
+.especioReportes{
+    width: 80%;
+    margin: auto;
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+}
+
+.cuadroDeBusqueda form{
+    width: 100%;
+    display: flex;
+}
+
+#searchInput{
+
+    width: 85%;
+    padding: 7px;
+    border-radius: 7px;
+    margin: 0 12px;
+}
+
+#btnBuscador{
+    width: 11%;
+    margin-left: 8px;
+    background-color: #2e2e2e;
+    color: white;
+    border: none;
+    border-radius: 7px;
+}
+
+#btnBuscador:hover{
+
+    background-color: #505050;
+    
+
+}
+
+.reporteCita{
+    background-color: aliceblue;
+    margin: 15px;
+    width: calc(28.33% - 20px);
+    font-size: .8rem;
+    border-radius: 15px;
+}
+
+.repoteHead{
+    width: 100%;
+    height: 40px;
+    display: flex;
+    align-items: center;
+    padding: 5px;
+    background-color: #373737;
+    color: #06e1b7;
+    border-top-right-radius: 15px;
+    border-top-left-radius: 15px;
+}
+
+.bodyReporte{
+    padding: 8px;
+}
+
+.divBtnDetalles{
+    width: 100%;
+    padding-left: 30px;
 }

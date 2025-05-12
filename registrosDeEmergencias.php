@@ -141,20 +141,10 @@ WHERE em.id_emergencia = ?";
             <nav class= "sidebar__nav" >
             
             <ul>
-
-            <li class="sidebar__item">
-                <span class="material-symbols-outlined">notifications</span>
-                <a href="inicioAdmin.php">Inicio</a>
-            </li>
             
             <li class="sidebar__item">
                 <span class="material-symbols-outlined">notifications</span>
                 <a href="seccionRecepcion.php">Emergencias Medicas</a>
-            </li>
-
-            <li class="sidebar__item">
-                <span class="material-symbols-outlined">notifications</span>
-                <a href="registrosHospitalizacion.php">Hospitalizacion</a>
             </li>
 
             <li class="sidebar__item">
@@ -164,10 +154,24 @@ WHERE em.id_emergencia = ?";
 
             <li class="sidebar__item">
                 <span class="material-symbols-outlined">notifications</span>
+                <a href="registrosHospitalizacion.php">Hospitalizacion</a>
+            </li>
+
+            <li class="sidebar__item">
+                <span class="material-symbols-outlined">notifications</span>
+                <a href="gestionMedicamentos.php">Gestion Medicamentos</a>
+            </li>
+
+            <li class="sidebar__item">
+                <span class="material-symbols-outlined">notifications</span>
                 <a href="#">Facturacion</a>
             </li>
 
-        
+            <li class="sidebar__item">
+                <span class="material-symbols-outlined">notifications</span>
+                <a href="seccionFacturasCitas.php">Facturacion Citas</a>
+            </li>
+
             </ul>
 
             </nav>
@@ -175,7 +179,7 @@ WHERE em.id_emergencia = ?";
             <div class="sidebar__profile">
                 <ul>
                     <li class ="item__profile">
-                        <img src="imagenes/Modelo.jpg" alt="doctor" width="120px">
+                        <img src="imagenes/barsita.jpg" alt="doctor" width="120px">
                         <span class= "profile-option">mi perfil</span>
                     </li>
                     <li  class="sidebar__item">
@@ -482,6 +486,8 @@ WHERE em.id_emergencia = ?";
 
                     <input id ="idEmergencia" type="hidden" name="idEmergencia" value="<?php echo $idEmergencia  ?>">
 
+                    <input id ="esenarioAplicacion" type="hidden" name="AdministradoDurante" value="Emergencia">
+
 
                     <label for="nombre">Servicio Prestado</label>
                     <select name="idServicio" id="selectServ">
@@ -563,15 +569,15 @@ WHERE em.id_emergencia = ?";
         <div id="RegistroUsuarioNew">
 
             <h2>Hospitalizacion Asociada</h2>
-            <form action="manejo_emergencia/registrosDatos.php"  method="post">
+            <form action="manejo_emergencia/registrosDatos.php"  method="post" id='formHosp'>
 
-                <input id ="idEmergencia" type="hidden" name="idEmergencia" value="<?php echo $idEmergencia  ?>">
+                <input id ="idEmergencia" type="hidden" name="idEmergencia" value="<?php echo $idEmergencia?>">
 
                 <label for="FechaDeIngreso">Fecha De Ingreso</label>
                 <input type="date" id="fechaHosp" name ="fechaInicioHosp">
 
                 <label for="tipoDeHabitacion">Tipo de Habitacion</label>
-                <select name="tipoDeHacitacion" id="selectHacitacion">
+                <select name="tipoDeHacitacion" id="selectHabitacion">
                     <option value="General">General</option>
                     <option value="Privada">Privada</option>
                     <option value="UCI">UCI</option>
@@ -582,6 +588,8 @@ WHERE em.id_emergencia = ?";
 
                 <label for="obsevaciones">Obsevaciones</label>
                 <input type="text" id="obsevaciones" name ="observacionesDeHosp">
+
+                <div id="message" style="display: none;"></div>
 
                 <button type="submit" class="botonRegistro" id="btnNewHosp" name="registrarHospitalizacion">Registrar Hospitalizacion</button>
             </form>
@@ -722,6 +730,40 @@ WHERE em.id_emergencia = ?";
                     console.error('Error:', error);
                 });
             }
+
+
+            const form = document.getElementById('formHosp');
+            const selectHacitacion = document.getElementById('selectHacitacion');
+            const messageDiv = document.getElementById('message');
+
+            form.addEventListener('submit', function(event) {
+                event.preventDefault(); // Prevenir el envío del formulario hasta validar
+
+                const formData = new FormData(form);
+                
+                fetch('manejo_emergencia/registrosDatos.php', {
+                    method: 'POST',
+                    body: formData,
+                })
+                .then(response => response.json())
+                .then(data => {
+                    if (data.status === 'success') {
+                        messageDiv.style.display = 'block';
+                        messageDiv.style.color = 'green';
+                        messageDiv.textContent = data.message;
+
+                        // Redirigir a la página de éxito (si es necesario)
+                        window.location.href = "registrosHospitalizacion.php?id=" + data.idHosp;
+                    } else {
+                        messageDiv.style.display = 'block';
+                        messageDiv.style.color = 'red';
+                        messageDiv.textContent = data.message;
+                    }
+                })
+                .catch(error => {
+                    console.error('Error al registrar:', error);
+                });
+            });
 
 
 

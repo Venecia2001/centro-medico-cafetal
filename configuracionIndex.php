@@ -53,7 +53,7 @@ if(isset($_POST['editarFoto'])){
 
     <main> 
 
-        <h2>Pagina Principal </h2>
+        <h2 class='tituloSeccion'>Pagina Principal </h2>
 
         <div class="simulacionBody">
 

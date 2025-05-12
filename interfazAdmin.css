@@ -9,8 +9,8 @@ body,div,ul,li,a,h1,h2.h3,h4{
 
 body{
     --bg-gradient: linear-gradient(45deg, #13fff5, #2540d09e);
-    --sidebar-color: #fff;
-    --dark-color: #f62;
+    --sidebar-color: #2e2e2e;
+    --dark-color: #00ffcf;
     --text-color: #313131;
     background: var(--bg-gradient);
     min-height: 100vh;
@@ -26,6 +26,7 @@ body{
     flex-direction: column;
     justify-content: space-between;
     padding: 30px 0 30x 6px;
+    box-shadow: 0px 7px 8px 2px black;
 }
 
 .sidebar__nav{
@@ -94,6 +95,7 @@ body{
 
 .sidebar__picture{
     margin-left: 1.5rem;
+    margin-top: 15px;
     position: relative;
     z-index: 10;
 }
@@ -151,8 +153,8 @@ input[type="checkbox"]{
 .sidebar__form label{
     position: relative;
     background:  var(--bg-gradient);
-    color: rgba(0, 31, 204, 0.993);
-    font-size: 2rem;
+    color: rgba(255, 255, 255, 0.993);
+    font-size:1.8rem;
     border-radius: 50%;
     padding: .4rem;
 
@@ -234,10 +236,164 @@ input[type="checkbox"]:checked ~ label::before{
 }
 
 #cerrarSesion{
-    color: #f62;
+    color: #00ffcf;
+}
+
+/* ------------------------------seccionDeCitasMedicas--------------------------------------------- */
+
+#contedorMacroCitas{
+    width: 85%;
+    min-height: 90vh;
+    margin: auto;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+}
+
+.tituloSeccion{
+    font-size: 2.5rem;
+    color: white;
+    margin-left: 15px;
+    margin-bottom: 15px;
+    text-align: center;
+    text-shadow: 1px 2px 1px rgb(46, 45, 45);
 }
 
 
+.table__citas{
+    width: 100%;
+    min-height: 75vh;
+}
+
+.filtroCitas{
+    width: 85%;
+  padding:7px;
+  margin:auto;
+  border-radius: 5px;
+  display: flex;
+  flex-direction: row;
+}
+.btmNewCita{
+    width: 50%;
+}
+
+.btmNewCita button{
+    width: 50%;
+  padding:7px;
+  color: white;
+  background-color: rgb(0, 149, 144);
+  border-radius:7px;
+  font-size: 1rem;
+  border: none;
+
+}
+
+.btmNewCita button:hover{
+  background-color: rgb(0, 173, 168);
+}
+
+
+#formulario_filtro{
+    width: 50%;
+    display: flex;
+  justify-content: end;
+}
+
+
+#seleccionarFechasCitas{
+    width: 50%;
+  padding:5px;
+  background-color: #454545;
+  border-radius:10px;
+  color: white;
+  font-size: 1rem;
+  border:none;
+}
+
+#seleccionarFechasCitas option{
+    color: white;
+    background-color: #343434;
+    border: none;
+}
+
+
+
+.table__citas table{
+    width: 85%;
+    margin: auto;
+}
+
+#dialogNewCitaAdmin{
+    width: 35%;
+    min-height:540px;
+    background-color: rgb(58, 58, 58);
+    color: white;
+    padding: 3px;
+    border: none;
+    border-radius: 15px;
+}
+
+#dialogNewCitaAdmin h2{
+    text-align: center;
+}
+
+#formCitas{
+    width: 95%;
+    background-image: linear-gradient(18deg, #00987c, #00edefc7);
+    padding: 3px;
+    min-height: 440px;
+    margin: auto;
+    margin-top: 15px;
+    display: flex;
+    flex-direction: column;
+    border-radius: 15px;
+}
+
+#formCitas select{
+    width: 80%;
+    background-color: #3c3c3c78;
+    color: white;
+    margin-bottom: 10px;
+    border: none;
+    border-radius: 5px;
+    padding: 5px;
+    margin-left: 50px;
+}
+
+#formCitas label{
+    margin-left: 50px;
+    margin-bottom: 5px;
+    font-size: 1rem;
+    font-weight: 700;
+}
+
+#formCitas input{
+    
+    width: 80%;
+    padding: 5px;
+    margin-left: 50px;
+}
+
+#submit_button{
+    width: 160px !important;
+    height: 40px;
+    background-color: #3c3c3c ;
+    color: white;
+    margin: auto !important;
+    font-size: 1.1rem;
+    border-radius: 15px;
+    border: none;
+}
+
+#submit_button:hover{
+    background-color: #525252 ;
+}
+
+.espacioCalendario{
+    min-height: 300px;
+}
+
+/* ----------------------------------------------------------------------------------------------------- */
 main{
     width: 70%;
     min-height: 90vh;
@@ -263,12 +419,13 @@ main{
 
 .usuarios_regis h1{
     color: white;
-    font-size: 3rem;
+    font-size: 2.5rem;
 }
 
 .usuarios_regis h2{
     color: white;
     font-size: 1.8rem;
+    text-shadow: 1px 2px 1px rgb(46, 45, 45);
 }
 
 #tableUser{
@@ -340,12 +497,23 @@ table th{
     padding: 12px;
     font-size: 1.2rem;
 }
+
+table{
+    border-collapse: collapse;
+    border-radius: 5px;
+    margin-bottom: 25px;
+}
+
+table td{
+    font-size: 1rem;
+}
   
 table th, table td {
-    padding: 10px;
+    padding: 6px;
     border: 1px solid #ddd;
     text-align: left;
     color: white;
+    font-size: 1rem;
 }
 
 .ModalClose{
@@ -637,9 +805,10 @@ dialog::backdrop{
 /* seccionRegistro y control de medicos  */
 
 #modalRegistro{
-    width: 900px;
+    width: 40%;
     background-color: rgb(39, 39, 39);
     color: white;
+    border: none;
 }
 
 .registroMed{
@@ -668,6 +837,7 @@ dialog::backdrop{
 
 .formularioMed label{
     color: white;
+    font-weight: 700;
 }
 
 
@@ -679,6 +849,16 @@ dialog::backdrop{
     width: 80%;
     color: white;
 
+}
+
+.formularioMed select{
+    width: 80%;
+    background-color: #3c3c3ce1;
+    color: white;
+    margin-bottom: 10px;
+    border: none;
+    border-radius: 5px;
+    padding: 5px;
 }
 
 .infoBasica{
@@ -700,8 +880,8 @@ dialog::backdrop{
     border: 1px solid rgb(0, 144, 149);
     width: 200px;
     height: 50px;
-    border-radius: 15%;
-    background-color: #454545;
+    border-radius: 15px;
+    background-color: rgb(68, 68, 68);
     color: white;
 
 }
@@ -720,23 +900,126 @@ dialog::backdrop{
   color: white;
 }
 
+.tituloAgregar{
+    display: flex;
+    align-items: center;
+    width: 50%;
+    height: 90px;
+    color: white;
+}
+
+.tituloAgregar h2{
+   font-size: 1.8rem;
+   text-shadow: 1px 2px 1px rgb(46, 45, 45);
+}
+
+#openFormulario{
+    width: 100px;
+    height: 40px;
+    color: white;
+    font-size: 1.5rem;
+    border-radius: 15px;
+    border: 1px solid white;
+    background-color: #02bac4;
+    margin-left: 10px;
+}
+
+#openFormulario:hover{
+    background-color: #00ccd7;;
+
+}
+
 
 /* SECCION DE HORARIOS DE LOS ESPECIALDITAS */
 
+#tablaHorarios{
+    width: 100%;
+}
 
 #formHorarios{
     display: flex;
 }
 
+#formHorarios h2{
+
+    font-size: 1.2rem;
+    text-align: center;
+
+}
+
+.cabezera{
+    width: 100%;
+    margin-bottom: 30px;
+}
+
+#formHorarios select{
+    width: 100%;
+    padding: 8px;
+    background-color: #454545;
+    color: white;
+    border:none;
+  border-radius:6px;
+}
+
+#button_horario{
+    width: 115px;
+  height: 32px;
+  position: absolute;
+  left: 22px;
+  bottom: 10px;
+  background-color: #454545;
+  color: white;
+  border: none;
+  border-radius: 8px;
+}
+
+#button_horario:hover{
+  background-color: #5a5a5a;
+}
+
 #titulito{
-    width: 150px;
+    width: 100%;
+  min-height: 45px;
+  background: #008182;
+  display: flex;
+  align-items: center;
+  padding:10px;
+  color: white;
+  border-top-left-radius: 15px;
+  border-top-right-radius: 15px;
+
+}
+
+#searchForm{
+    width: 100%;
+    display: flex;
+}
+
+.btnBuscarHorarios{ 
+    width: 115px;
+    height: 32px;
+    background-color: #454545;
+    color: white;
+    border: none;
+    border-radius: 8px;
+
+}
+
+#search{
+    width: 84%;
+    padding: 5px;
+    border-radius: 8px;
+    border: none;
+    margin: 0 10px;
 }
 
 .medico{
     background-color: #00aeb0;
-    margin-right: 8px;
-    width: fit-content;
-    height: 120px;
+    width: 16.6%;
+    min-height: 100px;
+    color: white;
+    padding: 5px;
+    position: relative;
 }
 
 .btnRegistrar{
@@ -744,6 +1027,12 @@ dialog::backdrop{
     flex-direction: column;
     align-items: center;
     justify-content: center;
+    border-bottom-right-radius: 15px;
+  
+}
+
+.aggEsp{
+    border-bottom-left-radius: 15px;
 }
 
 .formEditar{
@@ -770,6 +1059,13 @@ dialog::backdrop{
     color: rgb(20, 20, 20);
     border: none;
     font-size: 1.2rem;
+}
+
+#mensajeAlert{
+    position: absolute;
+    top: 1px;
+    left: 20px;
+    color: white;
 }
 
 
@@ -916,7 +1212,7 @@ dialog::backdrop{
     height: 60px;
     width: 300px;
     position: absolute;
-    left: 12%;
+    left: 2%;
 }
 
 

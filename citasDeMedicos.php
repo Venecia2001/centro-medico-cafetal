@@ -52,6 +52,10 @@
             <a href="resultadosCitas.php">Diagnostico de Citas</a>
         </li>
         <li class="sidebar__item">
+            <span class="material-symbols-outlined">notifications</span>
+            <a href="historialCitas_medicos.php">Historial de Citas</a>
+        </li>
+        <li class="sidebar__item">
             <span class="material-symbols-outlined">Schedule</span>
             <a href="controlHorarios_medicos.php">Horarios</a>
         </li>
@@ -94,16 +98,17 @@
 
     <main>
 
+            <h2 class='tituloSeccion'>Gestion de Citas</h2>
+
             <div class="contenidoCitasPendientes">
 
                 <div class="contadorCitas">
 
                     <div class="citasPendientes caja">
                         <h2>Citas Pendientes</h2>
-                        
                         <?php
                         
-                        $numeroCitasPendientes = "SELECT  COUNT(Id_medico) AS cantidad, estado FROM citas WHERE id_medico = 20 && estado = 'pendiente'";
+                        $numeroCitasPendientes = "SELECT  COUNT(Id_medico) AS cantidad, estado FROM citas WHERE id_medico = $idMedicoSession && estado = 'aprobado'";
                         $resultCantidad = mysqli_query($conexion,$numeroCitasPendientes);
 
                         $fila= mysqli_fetch_assoc($resultCantidad);
@@ -111,41 +116,52 @@
                         $cantidadPendiente = $fila['cantidad']
 
                         ?>
-
-                        <h3><?php echo $cantidadPendiente ?></h3>
+                        <div class='cifraCita'>
+                            <span class='numeroCita'><?php echo $cantidadPendiente ?></span>
+                        </div>
                     </div>
 
                     
-                    <div class="citasConfirmadas caja">
-                        <h2>Citas confirmadas</h2>
 
-                        <h3>3</h3>
+                    
+                    <div class="citasConfirmadas caja">
+                        <h2>Citas Realizdas</h2>
+
+                        <?php
+                        
+                        $numeroCitasResueltas = "SELECT  COUNT(Id_medico) AS cantidad, estado FROM citas WHERE id_medico = $idMedicoSession && estado = 'realizado'";
+                        $resultCantidadConcretas = mysqli_query($conexion,$numeroCitasResueltas);
+
+                        $fila= mysqli_fetch_assoc($resultCantidadConcretas);
+
+                        $cantidadConfirm = $fila['cantidad']
+
+                        ?>
+                        <div class='cifraCita'>
+                            <span class='numeroCita'><?php echo $cantidadConfirm ?></span>
+                        </div>
                     </div>
 
                 </div>
-
-
-
-
-                <h1>sus citas pendientes son___son___son</h1>
+                        <div class="filtroCitas">
+                            <?php
+                                $current_date = date('Y-m-d');
+                            ?>
+                            <form action="" method ="POST" id="formulario_filtro">
+                                <select name="filtro" id="seleccionarFechasCitas">
+                                    <option value="">Seleccione Fecha</option>
+                                    <option value="<?php echo $current_date ?>">Citas del dia</option>
+                                    <option value="fitrarSenama">Citas de la semana</option>
+                                    <option value="citasTotales">Todas las Citas</option>
+                                </select>
+                            </form>
+                        
+                        </div>
 
                 <div class="cuadroCitas">
 
-                <div class="filtroCitas">
-                    <?php
-                        $current_date = date('Y-m-d');
-                    ?>
-                    <form action="" method ="POST" id="formulario_filtro">
-                        <select name="filtro" id="seleccionarFechasCitas">
-                            <option value="">Seleccione Fecha</option>
-                            <option value="<?php echo $current_date ?>">Citas del dia</option>
-                            <option value="fitrarSenama">Citas de la semana</option>
-                        </select>
-                    </form>
-                   
-                </div>
-
-                    <table>
+                   <table id='tablequotes'>
+                         
                         <thead>
                             <th>Id_cita</th>
                             <th>Paciente</th>
@@ -154,16 +170,15 @@
                             <th>Fecha</th>
                             <th>Hora</th>
                             <th>Estatus</th>
-                            <th>confirmar</th>
                             <th>cancelar</th>
-                            <th>generar Resultado</th>
+                            <th>Resultado</th>
                         </thead>
                         <tbody id="bodyTable">
                         <?php 
                             
                             include "conex_bd.php";
 
-                            $citasSql = "SELECT c.id_medico, c.id_cita, c1.nombre AS nombre_paciente, c2.nombre AS nombre_medico, e.nombre_esp, c.fecha, c.hora, c.estado, c.fecha_creacion FROM citas c JOIN usuarios c1 ON c.id_cliente = c1.id JOIN usuarios c2 ON c.id_medico = c2.id JOIN especialidades e ON c.especialidad = e.id_especialidad WHERE c.id_medico = $idMedicoSession AND c.fecha BETWEEN CURDATE() AND CURDATE() + INTERVAL 7 DAY;";
+                            $citasSql = "SELECT c.id_medico, c.id_cita, c1.nombre AS nombre_paciente, c1.apellido AS apellidoPaciente, c2.nombre AS nombre_medico, e.nombre_esp, c.fecha, c.hora, c.estado, c.fecha_creacion FROM citas c JOIN usuarios c1 ON c.id_cliente = c1.id JOIN usuarios c2 ON c.id_medico = c2.id JOIN especialidades e ON c.especialidad = e.id_especialidad WHERE c.id_medico = $idMedicoSession AND c.fecha BETWEEN CURDATE() AND CURDATE() + INTERVAL 7 DAY;";
                             $result = mysqli_query($conexion, $citasSql);
 
                             while($datos=$result->fetch_object()){ 
@@ -171,36 +186,29 @@
                                 $id_cita = $datos->id_cita; 
                                 ?>
 
-                                <tr>
+                                <tr class='filaCita'>
                                     <td><?php echo $datos->id_cita ?> </td>
-                                    <td><?php echo $datos->nombre_paciente ?> </td>
+                                    <td><?php echo $datos->nombre_paciente.' '.$datos->apellidoPaciente ?> </td>
                                     <td> Dr.<?php echo $datos->nombre_medico ?> </td>
                                     <td><?php echo $datos->nombre_esp ?> </td>
                                     <td><?php echo $datos->fecha ?> </td>
                                     <td ><?php echo $datos->hora ?> </td>
-                                    <td class='<?php echo $datos->estado ?>'> <?php echo $datos->estado ?> </td>
-                                    <?php echo "<td>
-                                                    
-                                                    <form  id='formAceptar' action='Crud_Admin/datosMedicos.php' method ='POST'>
-                                                        <input type='hidden' name='id_cita' value='".$datos->id_cita."'>
-                                                        <input type='hidden' name='statusCita' value='aprobado'>
-                                                        <button type='submit' name='estadoAprovado' class='aprobar'>Confirmar Cita</button>
-                                                    </form>
-                                                </td>";?>
+                                    <td class='estadoCita <?php echo $datos->estado ?>'> <?php echo $datos->estado ?> </td>
+                                    <input type="hidden" value='<?php echo $idMedicoSession?>' id='idDeDoctor'>
 
                                     <?php echo "<td> 
                                                     
                                                     <form  id='formCancelar' action='Crud_Admin/datosMedicos.php' method ='POST'>
                                                         <input type='hidden' name='id_cita' value='".$datos->id_cita."'>
                                                         <input type='hidden' name='statusCita' value='cancelado'>
-                                                        <button type='submit' name='estadoCancelado' class='cancelar'>cancelar Cita</button>
+                                                        <button type='submit' name='estadoCancelado' class='cancelar btnTable'>cancelar Cita</button>
                                                     </form>
                                                 </td>";?>
                                     <?php echo "<td> 
                                                     
                                                     <form  id='formResultado' action='resultadosCitas.php' method ='POST'>
                                                         <input type='hidden' name='id_cita' value='".$datos->id_cita."'>
-                                                        <button type='submit' name='getCita' class='resultCita'>generar Resultado</button>
+                                                        <button type='submit' name='getCita' class='resultCita btnTable'>generar Resultado</button>
                                                     </form>
                                                 </td>";?>
                                 </tr>
@@ -211,318 +219,39 @@
                             ?>
 
                         </tbody>
-                    </table><br><br>
+                    </table><br>
                 </div>
 
             </div>
 
-            <div class="citasRealizadas" id="citasRealizadasId">
-                        <h2>Histodial Citas Realizadas</h2><br><br>
-
-                        <div class="cuadroDeBusqueda">
-
-                            <form id="searchForm">
-                                <label for="">Busqueda por id De cita y nombre del paciente</label><br>
-                                <label for="">Buscar</label>
-                                <input type="hidden" name="idDeMedico" id="idDeDoctor" value="<?php echo $idMedicoSession ?>">
-                                <input type="text" name="search" id="searchInput" placeholder="Buscar paciente o ID de cita">
-                                <input type="submit" name="buscador" id="btnBuscador" value="Buscar">
-
-                            </form>
-                            
-                        </div>
-
-
-                    <div class="cuadroDeHistorial" id="seccionHistorial">
-
-                        <?php
-
-                        include "conex_bd.php";
-
-
-
-                        $consultaHistorial = "SELECT hm.*, c.id_cita, c.id_medico, c.id_cliente, c.fecha, c.especialidad, cl_paciente.nombre AS nombre_paciente, cl_medico.nombre AS nombre_medico, e.nombre_esp FROM historial_medico hm JOIN citas c ON hm.id_cita = c.id_cita JOIN usuarios cl_paciente ON c.id_cliente = cl_paciente.id JOIN usuarios cl_medico ON c.id_medico = cl_medico.id JOIN especialidades e ON e.id_especialidad = c.especialidad WHERE c.id_medico = $idMedicoSession;";
-                        $resultHistorial = mysqli_query($conexion,$consultaHistorial);
-    
-    
-                        while($datos=$resultHistorial->fetch_array()){ 
-                            // $id = $datos["id"];
-                            // $nombre = $datos["nombre"];
-                            // $apellido = $datos["apellido"];
-                            // $telefono = $datos["telefono"];
-                            $id_citaHistorial = $datos['id_cita'];
-                            $fecha = $datos["fecha"];
-                            $diagnos = $datos["diagnostico"];
-                            $tratamiento = $datos["tratamiento"];
-                            $prescripcion = $datos["prescripcion"];      
-                            $examenes = $datos['examenes_realizados'];    
-                            $doctorRes = $datos ['nombre_medico'];
-                            $nombrePaciente = $datos['nombre_paciente'];
-                            $nombre_esp = $datos['nombre_esp'];
-                        ?>
-                        
-
-                        <div class="reporteCita">
-
-                            <h3>id_Cita: <?php echo $id_citaHistorial ?> </h3><br>
-                            <h3>Especialidad: <?php echo $nombre_esp ?> </h3><br>
-                            <h3>fecha: <?php echo $fecha ?> </h3><br>
-                            <h3>doctor: <?php echo $doctorRes ?> </h3><br>
-                            <h3>paciente: <?php echo $nombrePaciente ?> </h3><br>
-                            <h3>diagnostico: <?php echo $diagnos?></h3><br>
-
-                            <form  action='Crud_Admin/resultadoFinalCitas.php' id="form_editar_<?php echo $id_citaHistorial; ?>" method="POST" style="display:inline;">
-                                    <input type="hidden" name="idHistorialCita" value="<?php echo $id_citaHistorial; ?>">
-                                    <button type="button" class="detallesCita" onclick="enviarFormulario(<?php echo $id_citaHistorial; ?>)">ver detalles</button>
-                            </form>
-
-                        </div>
-                            <?php
-                        }  
-                        ?>
-                    </div>
-    
-
-            </div>
-        </main>
-
-        <dialog id="modalDetallesHistorial">
-            <h2>Datos Paciente</h2>
-            <div class="HistorialMedico">
-                <form method="dialog">
-                    <button class="btnClose"> X</button>
-                </form>
-
-                    <div class="infoIdentificacion">
-
-                            <div class="contentDatos"  id="cajaTextPaciente">
-                                <label for="">Nombre Paciente: </label>
-                                <span id="nombrePac" class="datosHistorial"></span>
-                            </div>   
-                            <div class="contentDatos" id="cajaTextDoctor">
-                                <label for="">Medico Responsable: Dr  </label>
-                                <span id="nombreDoctor" class="datosHistorial" ></span>
-                            </div>
-                            <div class="contentDatos" id="cajaTextEsp">   
-                                <label for="">Especialidad: </label>
-                                <span id="especialidadHistorial" class="datosHistorial" ></span>
-                            </div>
-                            <div class="contentDatos"  id="cajaTextFecha">   
-                                <label for="">Fecha: </label>
-                                <span id="fechaCita" class="datosHistorial"></span>
-                            </div> 
-                            
-                    </div>
-
-                    <div class="datosDeDiagnostico">
-                        
-                            <div class="contentDatos"  id="cajaTextId"> 
-                                <label for="">N Cita: </label>
-                                <span id="idDeCita" class="datosHistorial"></span> 
-                            </div>
-
-                            <div class="contentDatos"  id="cajaTextId"> 
-                                <label for="">Diagnostico: </label>
-                                <span id="DiagnosticoCita" class="datosHistorial"></span> 
-                            </div>
-
-                            <div class="contentDatos"  id="cajaTextId"> 
-                                <label for="">Tratamiento: </label>
-                                <span id="tratamientoCita" class="datosHistorial"></span> 
-                            </div>
-                            <div class="contentDatos"  id="cajaTextId"> 
-                                <label for="">Prescripciones: </label>
-                                <span id="prescripcionesCita" class="datosHistorial"></span> 
-                            </div>
-                            <div class="contentDatos"  id="cajaTextId"> 
-                                <label for="">Examenes Realizados: </label>
-                                <span id="examenesCita" class="datosHistorial"></span> 
-                            </div>
-                    </div>
-                
-            </div>
-
-        </dialog>
-
-
-
-        <script>
-
             
-    function enviarFormulario(id) {
-                    
-                    let inputId = document.querySelector(`#form_editar_${id} input[name='idHistorialCita']`).value;
+    </main>
 
-                    console.log(inputId)
-
-                    // Realizamos la solicitud con fetch
-                    fetch('Crud_Admin/resultadoFinalCitas.php', {
-                    method: 'POST',  // Método de la solicitud
-                    headers: {
-                        'Content-Type': 'application/x-www-form-urlencoded'  // Tipo de contenido
-                    },
-                    body: `idCita=${encodeURIComponent(inputId)}`  // El cuerpo de la solicitud con el idEditar
-                    })
-                    .then(response => {
-                        // Verificamos si la respuesta es exitosa
-                        if (!response.ok) {
-                            throw new Error('Error en la solicitud AJAX');
-                        }
-                        // Convertimos la respuesta en JSON
-                        return response.json();
-                    })
-                    .then(data => {
-                        // Si hay un error en los datos devueltos
-                        if (data.error) {
-                            alert(data.error);  // Si hay error, mostrarlo
-                        }else {
-                            // Si la respuesta es exitosa, hacer algo con los datos
-                            console.log(data);  // Muestra los datos en la consola
-                            // Actualizar los campos en la interfaz, por ejemplo:
-
-                            document.getElementById('nombrePac').innerHTML = data.nombre;
-                            document.getElementById('nombreDoctor').innerHTML = data.nombreMedico;
-                            document.getElementById('fechaCita').innerHTML = data.fecha;
-                            document.getElementById('especialidadHistorial').innerHTML = data.especialidad;
-                            document.getElementById('idDeCita').innerHTML = data.id;
-                            document.getElementById('DiagnosticoCita').innerHTML = data.diagnostco;
-                            document.getElementById('tratamientoCita').innerHTML = data.tratamiento;
-                            document.getElementById('prescripcionesCita').innerHTML = data.presecciones;
-                            document.getElementById('examenesCita').innerHTML = data.examenes;
-
-                            const dialog = document.getElementById("modalDetallesHistorial");
-                            dialog.showModal()
-                            
-                        }
-                    })
-                    .catch(error => {
-                        // Si ocurre un error en cualquier parte del proceso
-                        console.error('Error:', error);
-                    });
     
-    
-    
-            }
+    <script>
 
-            document.getElementById('searchForm').addEventListener('submit', function(event) {
-                event.preventDefault(); 
+        document.addEventListener('DOMContentLoaded', function() {
+            // Seleccionamos todas las filas de la tabla dentro de tbody
+            const filasCitas = document.querySelectorAll('#bodyTable .filaCita');
 
-                let searchTerm = document.getElementById('searchInput').value;
-                let idDoctor = document.getElementById('idDeDoctor').value;
+            filasCitas.forEach(fila => {
+                // Obtener el estado de la cita (ubicado en la clase "estadoCita")
+                const estado = fila.querySelector('.estadoCita').textContent.trim();
 
-                console.log(idDoctor);
-                console.log(searchTerm);
+                // Si el estado es "realizado", deshabilitamos el botón en esa fila
+                if (estado === 'realizado') {
+                    // Encontrar el botón "Generar Resultado" en esa fila
+                    const botonGenerarResultado = fila.querySelector('.resultCita');
 
-                // Hacer la solicitud fetch al servidor
-                fetch('Crud_Admin/busquedaHistorial.php?search=' + searchTerm + '&idDoctor=' + idDoctor)
-                .then(response => {
-                    // Verificar si la respuesta es exitosa (código de estado 200)
-                    if (!response.ok) {
-                        throw new Error('Error en la respuesta del servidor');
-                    }
-                    return response.json(); // Parsear la respuesta como JSON
-                })
-                .then(data => {
-                    // Aquí es donde procesamos el JSON recibido
+                    // Deshabilitar el botón
+                    botonGenerarResultado.disabled = true;
 
-                    
+                    // Opcional: agregar una clase para cambiar el estilo del botón deshabilitado
+                    botonGenerarResultado.classList.add('disabled');
 
-                    const cuadroCitas = document.getElementById('seccionHistorial');
-                    cuadroCitas.innerHTML = '';
-
-                    if (data.success) {
-                        console.log(data.data)
-
-                        data.data.forEach(historial => {
-                            
-                            let codigoHtml = `
-
-                                <div class="reporteCita">
-
-                                    <h3>id_Cita: ${historial.id_cita} </h3><br>
-                                    <h3>Especialidad: ${historial.nombreEsp} </h3><br>
-                                    <h3>fecha: ${historial.fecha}</h3><br>
-                                    <h3>doctor: ${historial.nombreMedico} </h3><br>
-                                    <h3>paciente: ${historial.nombrePaciente} </h3><br>
-                                    <h3>diagnostico: ${historial.diagnostico}</h3><br>
-
-                                    <form  action='Crud_Admin/resultadoFinalCitas.php' id="form_editar_${historial.id_cita}" method="POST" style="display:inline;">
-                                            <input type="hidden" name="idHistorialCita" value="${historial.id_cita}">
-                                            <button type="button" class="detallesCita" onclick="enviarFormulario(${historial.id_cita})">ver detalles</button>
-                                    </form>
-
-                                </div>
-
-                            `
-
-                            cuadroCitas.innerHTML += codigoHtml;
-                            // Crear celdas para cada propiedad
-                            // fila.innerHTML = `
-                            //     <td>${medico.id_disponibilidad}</td>
-                            //     <td>${medico.nombre}</td>
-                            //     <td>${medico.apellido}</td>
-                            //     <td>${medico.dia_semana}</td>
-                            //     <td>${medico.hora_inicio}</td>
-                            //     <td>${medico.hora_fin}</td>
-                            //     <td>${medico.disponibilidad}</td>
-                            // `;
-                            
-                            // // Agregar la fila al cuerpo de la tabla
-                            // cuerpoTabla.appendChild(fila);
-                        });
-
-                        // Aquí puedes manejar los datos como lo desees
-                    } else {
-                        console.log(data.message); // Mensaje de error si no se encontraron datos
-                    }
-                })
-                .catch(error => {
-                    console.error('Error al hacer la solicitud:', error);
-                });
-                                
-
-                // fetch(`Crud_Admin/busquedaHistorial.php?search=${searchTerm}`)
-                //     .then(response => response.json())  // Convierte la respuesta en JSON
-                //     .then(data => {
-
-                //     const tableBody = document.getElementById('citasRealizadas')
-                //     tableBody.innerHTML = '';
-
-                //     if (data.success) {
-                //             // Crear un primer option para "Seleccionar un médico"
-                //             console.log(data);
-
-                        
-                //             // Iterar sobre los resultados y agregar filas a la tabla
-                //             // data.data.forEach(medico => {
-                //             //     // Crear una fila de la tabla
-                //             //     // const fila = document.createElement('tr');
-                                
-                //             //     // Crear celdas para cada propiedad
-                //             //     // fila.innerHTML = `
-                //             //     //     <td>${medico.id_disponibilidad}</td>
-                //             //     //     <td>${medico.nombre}</td>
-                //             //     //     <td>${medico.apellido}</td>
-                //             //     //     <td>${medico.dia_semana}</td>
-                //             //     //     <td>${medico.hora_inicio}</td>
-                //             //     //     <td>${medico.hora_fin}</td>
-                //             //     //     <td>${medico.disponibilidad}</td>
-                //             //     // `;
-                                
-                //             //     // // Agregar la fila al cuerpo de la tabla
-                //             //     // cuerpoTabla.appendChild(fila);
-                //             // });
-                //     } else {
-
-                //         console.log(data.message);
-                //         // Si no hay resultados, mostrar un mensaje
-                //         // let row = tableBody.insertRow();
-                //         // row.innerHTML = '<td colspan="5">No se encontraron resultados</td>';
-                //     }
-                // })
-                // .catch(error => {
-                //     console.error('Error:', error);
-        //         // });
+                    console.log(`El botón de la cita ${fila.querySelector('td').textContent} ha sido deshabilitado porque el estado es "realizado".`);
+                }
+            });
         });
 
         document.getElementById('seleccionarFechasCitas').addEventListener('change', function() {
@@ -571,30 +300,23 @@
                             // Crear celdas para cada propiedad
                             fila.innerHTML = `
                                 <td >${cita.id_cita}</td>
-                                <td>${cita.nombrePaciente}</td>
+                                <td>${cita.nombrePaciente} ${cita.apellidoPaciente} </td>
                                 <td>${cita.nombreMedico}</td>
                                 <td>${cita.nombreEsp}</td>
                                 <td>${cita.fecha}</td>
                                 <td>${cita.hora}</td>
-                                <td class="${cita.estado}">${cita.estado}</td>
-                                <td> 
-                                    <form  id='formAceptar' action='Crud_Admin/datosMedicos.php' method ='POST'>
-                                        <input type='hidden' name='id_cita' value='${cita.id_cita}'>
-                                        <input type='hidden' name='statusCita' value='aprobado'>
-                                        <button type='submit' name='estadoAprovado' class='aprobar'>Confirmar Cita</button>
-                                    </form>
-                                </td>
+                                <td class="estadoCita ${cita.estado}">${cita.estado}</td>
                                 <td> 
                                     <form  id='formCancelar' action='Crud_Admin/datosMedicos.php' method ='POST'>
                                             <input type='hidden' name='id_cita' value='${cita.id_cita}'>
                                             <input type='hidden' name='statusCita' value='cancelado'>
-                                            <button type='submit' name='estadoCancelado' class='cancelar'>cancelar Cita</button>
+                                            <button type='submit' name='estadoCancelado' class='cancelar btnTable'>cancelar Cita</button>
                                     </form>
                                 </td>
                                 <td> 
                                     <form  id='formResultado' action='resultadosCitas.php' method ='POST'>
                                             <input type='hidden' name='id_cita' value='${cita.id_cita}'>
-                                            <button type='submit' name='getCita' class='resultCita'>generar Resultado</button>
+                                            <button type='submit' name='getCita' class='resultCita btnTable'>generar Resultado</button>
                                     </form>
                                 </td>
                                 
@@ -602,8 +324,17 @@
                             
                             // Agregar la fila al cuerpo de la tabla
                             contenedorCitas.appendChild(fila);
+
+                            if (cita.estado === "realizado") {
+                                const botonGenerarResultado = fila.querySelector('.resultCita');
+                                botonGenerarResultado.disabled = true;  // Deshabilitamos solo el botón de esta fila
+                                botonGenerarResultado.classList.add('disabled');  // Opcional: agregar una clase para cambiar el estilo
+                            }
+
+
                         });
 
+                        
                         // Aquí puedes manejar los datos como lo desees
                     } else {
                         contenedorCitas.innerHTML = "<tr><td colspan='10'>No se encontraron datos relacionados.</td></tr>";
@@ -621,6 +352,6 @@
 
 
 
-        </script>
+    </script>
 </body>
 </html>

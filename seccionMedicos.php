@@ -135,7 +135,7 @@ if(isset($_POST['fotoEnviada'])){
 
         <li class="sidebar__item">
             <span class="material-symbols-outlined">Person</span>
-            <a href="inicioAdmin.php">Perfil</a>
+            <a href="#">Perfil</a>
         </li>
         <!-- <li class="sidebar__item">
             <span class="material-symbols-outlined">notifications</span>
@@ -149,6 +149,11 @@ if(isset($_POST['fotoEnviada'])){
         <li class="sidebar__item">
             <span class="material-symbols-outlined">notifications</span>
             <a href="resultadosCitas.php">Diagnostico de Citas</a>
+        </li>
+
+        <li class="sidebar__item">
+            <span class="material-symbols-outlined">notifications</span>
+            <a href="historialCitas_medicos.php">Historial de Citas</a>
         </li>
 
 
@@ -196,89 +201,119 @@ if(isset($_POST['fotoEnviada'])){
     </aside>
 
     <main>
-        <h1>hola doctor</h1>
 
         <div class ="infoMedico">
 
-            <?php 
-            
-            include "conex_bd.php";
+            <div class='datosPersonalesHead'>
 
-            $consultaDatos = "SELECT us.*, m.id_medico, m.id_especialidad, m.direccion, m.foto_perfil, m.fecha_nacimiento, e.nombre_esp AS nombre_especialidad FROM usuarios us JOIN medicos m ON us.id = m.id_medico JOIN especialidades e ON m.id_especialidad = e.id_especialidad WHERE us.id = $idMedicoSession;";
-            $resultadosConsulta = mysqli_query($conexion, $consultaDatos);
+                <h2>Datos Personales</h2>
 
-            while($data = $resultadosConsulta->fetch_array()){
-
-                $idMed = $data["id"];
-                $nombreMed = $data['nombre'];
-                $apellidoMed = $data['apellido'];
-                $telefono = $data["telefono"];
-                $correo = $data["correo"];
-                $clave = $data["contraseña"];
-                $nombre_esp = $data['nombre_especialidad'];
-                $direccion = $data['direccion'];
-                $fotoPerfil = $data['foto_perfil'];
-                $fechaNac = $data['fecha_nacimiento'];
-                
-            }
-            ?>
-        
-
-            <div class="infoPrincipal">
-
-                <div class="cajaTexto">
-                    <label>Nombre: </label>
-                    <span class="campoDeInformacion"> <?php echo $nombreMed ?></span><br>
-                </div>
-                <div class="cajaTexto">
-                    <label>apellido: </label>
-                    <span class="campoDeInformacion"> <?php echo $apellidoMed ?> </span><br>
-                </div>
-                <div class="cajaTexto">
-                    <label>Telefono: </label>
-                    <span class="campoDeInformacion"> <?php echo $telefono ?></span><br>
-                </div>
-                <div class="cajaTexto">
-                    <label>Correo: </label>
-                    <span class="campoDeInformacion"> <?php echo $correo ?></span><br>
-                </div>
-                <div class="cajaTexto">
-                    <label>Contraseña: </label>
-                    <span class="campoDeInformacion"> <?php echo $clave ?></span><br>
-                </div>
-
-                <button id="btnEditar">EDITAR DATOS</button>
- 
             </div>
-            <div class="infoAdicional">
-                <div class="cajaTexto">
-                    <label>Especialidad: </label>
-                    <span class="campoDeInformacion"> <?php echo $nombre_esp ?></span><br>
+            <div class='contendorDeDatos'>
+
+            
+
+                <?php 
+                
+                include "conex_bd.php";
+
+                $consultaDatos = "SELECT us.*, m.id_medico, m.id_especialidad, m.direccion, m.foto_perfil, m.titulación_academica, m.perfil_experiencia, e.nombre_esp AS nombre_especialidad FROM usuarios us JOIN medicos m ON us.id = m.id_medico JOIN especialidades e ON m.id_especialidad = e.id_especialidad WHERE us.id = $idMedicoSession;";
+                $resultadosConsulta = mysqli_query($conexion, $consultaDatos);
+
+                while($data = $resultadosConsulta->fetch_array()){
+
+                    $idMed = $data["id"];
+                    $nombreMed = $data['nombre'];
+                    $apellidoMed = $data['apellido'];
+                    $telefono = $data["telefono"];
+                    $correo = $data["correo"];
+                    $clave = $data["contraseña"];
+                    $nombre_esp = $data['nombre_especialidad'];
+                    $direccion = $data['direccion'];
+                    $fotoPerfil = $data['foto_perfil'];
+                    $fechaNac = $data['fecha_nacimiento'];
+                    $universidad = $data['titulación_academica'];
+                    $perfilDoctor = $data['perfil_experiencia'];
+                    
+                }
+                ?>
+            
+
+                <div class="infoPrincipal">
+
+                    <div class="cajaTexto">
+                        <label>Nombre: </label>
+                        <span class="campoDeInformacion"> <?php echo $nombreMed ?></span><br>
+                    </div>
+                    <div class="cajaTexto">
+                        <label>apellido: </label>
+                        <span class="campoDeInformacion"> <?php echo $apellidoMed ?> </span><br>
+                    </div>
+                    <div class="cajaTexto">
+                        <label>Telefono: </label>
+                        <span class="campoDeInformacion"> <?php echo $telefono ?></span><br>
+                    </div>
+                    <div class="cajaTexto">
+                        <label>Correo: </label>
+                        <span class="campoDeInformacion"> <?php echo $correo ?></span><br>
+                    </div>
+                    <div class="cajaTexto">
+                        <label>Especialidad: </label>
+                        <span class="campoDeInformacion"> <?php echo $nombre_esp ?></span><br>
+                    </div>
+
+                    <div class="cajaTexto">
+                        <label>Dirección: </label>
+                        <span class="campoDeInformacion"> <?php echo $direccion ?></span><br>
+                    </div>
+
+                    <div class="cajaTexto">
+                        <label>Contraseña: </label>
+                        <span class="campoDeInformacion"> <?php echo $clave ?></span><br>
+                    </div>
+
+                    <button id="btnEditar">Editar Datos</button>
+    
                 </div>
-                <div class="cajaTexto">
-                    <label>Dirección: </label>
-                    <span class="campoDeInformacion"> <?php echo $direccion ?></span><br>
-                </div>
-                <div class="cajaTexto">  
-                    <label>Fecha nacimiento: </label>
-                    <span class="campoDeInformacion"> <?php echo $fechaNac ?></span><br>
-                </div>
-                <div class="cajaTexto" id="cajaAgregarFoto">  
+                <div class="infoAdicional">
 
-                    <form method="POST" action="seccionMedicos.php" enctype="multipart/form-data" class="aggFoto">
+                    <div class='datosDeMedico'> 
+                    
+                        <div class="cajaTexto">  
+                            <label>Fecha nacimiento: </label>
+                            <span class="campoDeInformacion"> <?php echo $fechaNac ?></span><br>
+                        </div>
 
-                        <label>foto Perfil:</label>
-                        <span class="campoDeInformacion"> <?php echo $fotoPerfil ?></span><br>
-                        <input type="file" name="archivo" id="">
-                        <input type="hidden" name="id_doc" value=" <?php echo $idMed?>">
-                        <input type="submit" name="fotoEnviada" value="agregar Foto">
-                    </form>
+                        <div class="cajaTexto">  
+                            <label>Fecha universidad: </label>
+                            <span class="campoDeInformacion"> <?php echo $universidad ?></span><br>
+                        </div>
 
-                    <div class="imgPerfil">
+                        <div class="cajaTexto">  
+                            <label>Experiencia: </label>
+                            <span class="campoDeInformacion"> <?php echo $perfilDoctor?: '<span class="nota">Nota,</span> Es importante que registre su experiencia para ofrecer mas informacion a nuestros usuarios'; ?></span><br>
 
-                        <img width="100" src="uploads/.<?php echo $fotoPerfil ?>" alt="fotoPerfil">
+                            <?php if (empty($perfilDoctor)) : ?>
+                                <button id="botonSoloUnavez">Completar Experiencia</button>
+                            <?php endif; ?>
+
+                        </div>
 
                     </div>
+
+                    <div class="cajaTexto" id="cajaAgregarFoto">  
+
+                            <div class="cajaTextoDeFoto">  
+                                <label>Foto Perfil: </label>
+                                <div class="imgPerfil">
+                                    <img width="100" src="uploads/.<?php echo $fotoPerfil ?>" alt="fotoPerfil">
+                                </div>
+                            
+                            </div>
+
+                        <button class='claseBtn' id='botonFoto'>Agregar Foto</button>
+                    </div>
+
                 </div>
             </div>
             
@@ -286,9 +321,11 @@ if(isset($_POST['fotoEnviada'])){
 
 
 
-        <dialog id="modalEdit">
+        <dialog id="modalEdit" >
+
+                    <h2 class='tituloDialog'>Modificar Datos</h2>
             <div class="registroMed">
-                <h2>Datos Doctor</h2>
+                
                 <form method="dialog">
                     <button class="ModalClose"> X</button>
                 </form>
@@ -302,16 +339,21 @@ if(isset($_POST['fotoEnviada'])){
                             <input type="text" name="nombreM" id="nombreMed" value = "<?php echo $nombreMed ?>" required><br>
 
                             <label for="nombre">Apellido:</label>
-                            <input type="text" name="apellidoM" id="apellidoMed" value=" <?php echo $apellidoMed ?>" required><br>
+                            <input type="text" name="apellidoM" id="apellidoMed" value="<?php echo $apellidoMed ?>" required><br>
 
                             <label for="telefono">Telefono:</label>
-                            <input type="text" name="telefonoM" id="telefonoMed"  value=" <?php echo $telefono ?>" required><br>
+                            <input type="text" name="telefonoM" id="telefonoMed"  value="<?php echo $telefono ?>" required><br>
 
                             <label for="correo">Correo:</label>
-                            <input type="email" name="correoMed" id="correoMed"  value=" <?php echo $correo ?>" required><br>
+                            <input type="email" name="correoMed" id="correoMed"  value="<?php echo $correo ?>" required><br>
+
+                            
+                            <label for="direccion">Dirección:</label>
+                            <input type="text" name="direccionMed" id="direccionM"  value="<?php echo $direccion ?>" required><br>
+
 
                             <label for="clave">Contraseña:</label>
-                            <input type="text" name="ClaveMed" id="claveMed"  value=" <?php echo $clave ?>" required><br><br>
+                            <input type="text" name="ClaveMed" id="claveMed"  value="<?php echo $clave ?>" required><br><br>
 
                             <input type="hidden" name="rolMedico" value=2>
                     </div>
@@ -335,14 +377,14 @@ if(isset($_POST['fotoEnviada'])){
                             ?>
                         </select><br>
 
-                            <label for="direccion">Dirección:</label>
-                            <input type="text" name="direccionMed" id="direccionM"  value=" <?php echo $direccion ?>" required><br>
-
-                            <label for="cedula">Cedula:</label>
-                            <input type="text" name="cedula" id="cedulaMed"  value=" <?php echo $cedula ?>" required><br>
+                            <label for="cedula">Estudios Universitarios:</label>
+                            <input type="text" name="estudios" id="universidad"  value="<?php echo $universidad ?>" required><br>
 
                             <label for="fecha_nac">Fecha nacimiento:</label>
                             <input type="date" name="fecha_nac" id="fechaNac"  value="<?php echo $fechaNac ?>" required><br>
+
+                            <label for="experiencia">Experiencia:</label>
+                            <textarea id="experiencias" name="experienciaMed" rows="4" cols="50" value="<?php echo $perfilDoctor ?>"><?php echo $perfilDoctor ?></textarea>
 
                             <input type="submit" name="EdicionCompleta" value="Editar Médico" id ="botonRegistroMed">
                     </div>
@@ -350,6 +392,47 @@ if(isset($_POST['fotoEnviada'])){
 
 
             </div>
+
+        </dialog>
+         
+        <dialog id='ventadaNewFoto' class='dialogCorto'>
+
+                <h2 class='tituloDialog'>Agrega Foto de Perfil</h2>
+
+                <form method="dialog">
+                    <button class="ModalClose"> X</button>
+                </form>
+
+
+            <form method="POST" action="seccionMedicos.php" enctype="multipart/form-data" class="aggFoto">
+
+                <label>foto Perfil:</label>
+                <span class="campoDeInformacion"> <?php echo $fotoPerfil ?></span><br>
+                <input type="file" name="archivo" id="">
+                <input type="hidden" name="id_doc" value=" <?php echo $idMed?>">
+
+                <input type="submit" name="fotoEnviada" value="agregar Foto" class='btnAgregarFoto'>
+            </form>
+
+        </dialog>
+
+        <dialog id='ventadaCompletarExp' class='dialogCorto'>
+
+                <h2 class='tituloDialog'>Descripcion de Experiencia</h2>
+
+                <form method="dialog">
+                    <button class="ModalClose"> X</button>
+                </form>
+
+
+            <form method="POST" action="Crud_Admin/datosMedicos.php" class="aggFoto">
+
+                <label>Descripcion:</label>
+                <input type="hidden" name="id_doc" value=" <?php echo $idMed?>">
+                <textarea name="descripcionXp" id="cajaDeDescrip" rows="5" cols="50"></textarea>
+
+                <input type="submit" name="descripcionEnviada" value="Agregar Descripcion" class='btnAgregarFoto'>
+            </form>
 
         </dialog>
 
@@ -367,6 +450,24 @@ if(isset($_POST['fotoEnviada'])){
 
     function mostrarForm(){
         const dialog = document.getElementById("modalEdit");
+        dialog.showModal();
+
+    }
+
+    const dialogFoto = document.getElementById("botonFoto");
+    dialogFoto.addEventListener("click", mostrarDialog)
+
+    function mostrarDialog(){
+        const dialog = document.getElementById("ventadaNewFoto");
+        dialog.showModal();
+
+    }
+
+    const dialogDescripcion = document.getElementById("botonSoloUnavez");
+    dialogDescripcion.addEventListener("click", mostrarDialogDes)
+
+    function mostrarDialogDes(){
+        const dialog = document.getElementById("ventadaCompletarExp");
         dialog.showModal();
 
     }

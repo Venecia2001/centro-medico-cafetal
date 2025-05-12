@@ -22,7 +22,7 @@ include("conex_bd.php");
 
     <div class="cuadrocompleto">
       
-            <div id="iniciarSeccion">
+            <div id="iniciarSeccionTrue">
 
               <h2>Iniciar Sesion</h2>
               <form action="controladorSession.php" method="post">

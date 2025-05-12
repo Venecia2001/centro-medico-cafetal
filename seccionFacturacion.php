@@ -1,3 +1,41 @@
+
+<?php
+
+include("conex_bd.php");
+
+// Procesamiento del formulario
+if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+
+    $idFactura =  $_POST["idFactura"];
+    $metodoDePago = mysqli_real_escape_string($conexion, $_POST['selectPago']);
+
+    if (isset($_FILES['comprobante_pago']) && $_FILES['comprobante_pago']['error'] === UPLOAD_ERR_OK) {
+
+        $directorio_destino = 'uploads/';
+        $nombre_archivo = $_FILES['comprobante_pago']['name'];
+        $ruta_temporal = $_FILES['comprobante_pago']['tmp_name'];
+        $nombre_unico = uniqid() . '-' . $nombre_archivo;
+        $ruta_destino = $directorio_destino . $nombre_unico;
+
+        if (move_uploaded_file($ruta_temporal, $ruta_destino)) {
+            // Guardar la ruta en la base de datos
+            
+            $consultaSql = "UPDATE facturas SET metodo_pago = '$metodoDePago', comprobante ='$ruta_destino', estado  = 'Pagado' WHERE factura_id = $idFactura";
+            $result = mysqli_query($conexion,$consultaSql);
+
+            header("Location: " . $_SERVER['REQUEST_URI']);
+            exit;
+
+        } else {
+            echo "Hubo un error al subir el archivo.";
+        }
+    } else {
+        echo "No se seleccionó archivo o hubo un error.";
+    }
+}
+?>
+
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -23,11 +61,6 @@
             <nav class= "sidebar__nav" >
             
             <ul>
-
-            <li class="sidebar__item">
-                <span class="material-symbols-outlined">notifications</span>
-                <a href="inicioAdmin.php">Inicio</a>
-            </li>
             
             <li class="sidebar__item">
                 <span class="material-symbols-outlined">notifications</span>
@@ -37,6 +70,16 @@
             <li class="sidebar__item">
                 <span class="material-symbols-outlined">notifications</span>
                 <a href="registrosDeEmergencias.php">Registros de Emergencias</a>
+            </li>
+
+            <li class="sidebar__item">
+                <span class="material-symbols-outlined">notifications</span>
+                <a href="registrosHospitalizacion.php">Hospitalizacion</a>
+            </li>
+
+            <li class="sidebar__item">
+                <span class="material-symbols-outlined">notifications</span>
+                <a href="gestionMedicamentos.php">Gestion Medicamentos</a>
             </li>
 
             <li class="sidebar__item">
@@ -313,7 +356,7 @@
             
         </div>
 
-    </dialog>
+    <!-- </dialog>
 
     <dialog id="DialogMetodoPago" class="dialogRegistrosNew">
 
@@ -344,6 +387,42 @@
 
                     <button type="submit" class="botonRegistro" id="botonRegistrarMed" name="actualizarMetodoPago">Registrar Metodo Pago</button>
                 </form>
+        </div> -->
+
+    </dialog>
+
+            <dialog id="DialogMetodoPago" class="dialogRegistrosNew">
+
+        <div class="headerModel"> 
+            <h2>Registro Metodo de Pago</h2>
+            <form method="dialog">
+            <button class="ModalClose"> X</button>
+            </form>
+        </div>
+
+        <div id="RegistroUsuarioNew">
+
+        <h2>Metodo de pago</h2>
+            <form action=""  method="post" enctype="multipart/form-data">
+
+                <input id ="idFactura" type="hidden" name="idFactura" value="">
+
+
+                <label for="nombre">Servicio Prestado</label>
+                <select name="selectPago" id="selectPago">
+                    <option value="">Seleccione Metodo de Pago</option>
+                    <option value='Efectivo'>Efectivo</option>
+                    <option value='Tarjeta'>Tarjeta</option>
+                    <option value='Transferencia'>Transferencia</option>
+                    <option value='Otro'>Otro</option>
+                
+                </select><br>
+
+                <label for="comprobante_pago">Subir comprobante de pago:</label>
+                <input type="file" name="comprobante_pago" id="comprobante_pago" accept="image/*" required />
+
+                <button type="submit" class="botonRegistro" id="botonRegistrarMed" name="actualizarMetodoPagoCita">Registrar Metodo Pago</button>
+            </form>
         </div>
 
     </dialog>

@@ -13,7 +13,7 @@
 
         <div class="usuarios_regis">
 
-            <h1>Usuarios Registrados</h1>
+            <h1 class='tituloSeccion' >Usuarios Registrados</h1>
 
             <div class="agregarUsuarios">
 

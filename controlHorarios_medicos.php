@@ -55,6 +55,10 @@
             <a href="resultadosCitas.php">Diagnostico de Citas</a>
         </li>
         <li class="sidebar__item">
+            <span class="material-symbols-outlined">notifications</span>
+            <a href="historialCitas_medicos.php">Historial de Citas</a>
+        </li>
+        <li class="sidebar__item">
             <span class="material-symbols-outlined">Schedule</span>
             <a href="#">Horarios</a>
         </li>
@@ -102,20 +106,24 @@
 
                 <div class="cabezera">
 
-                    <h2>Añadir nuevo horarios</h2>
+                    <h2 class='tituloSeccion'>Gestion de Horarios</h2>
                           
                     <form action="Crud_Admin/resultadoFinalCitas.php" method="post" id="formHorarios">
-
-                        <div class="medico aggEsp" id ="titulito">
-
-                            <h2>Buscar Registro</h2>
-                            
-                        </div>
 
                         <div class="medico aggNombre">
                                 <h2>Nombre Medico</h2>
                                 <h3><?php echo " ".$_SESSION["nombre"]." ".$_SESSION["apellido"]; ?></h3>
-                                <input type="hidden" id="doctor_id" name="medico" value="<?php echo $idMedicoSession ?>">
+
+                                <?php $consultaPerfilMed = "SELECT * FROM medicos WHERE id_medico = $idMedicoSession";
+                                $result = mysqli_query($conexion,$consultaPerfilMed);
+
+                                while($fila = $result->fetch_array()){
+
+                                    $idPerfilMedico = $fila['id_perfil'];
+                                }
+                                ?>
+
+                                <input type="hidden" id="doctor_id" name="medico" value="<?php echo $idPerfilMedico ?>">
                                 
                         </div>
                         <div class="medico aggDiaSemana">
@@ -165,9 +173,11 @@
                                 </select>
                         </div>
 
-                        <div class="medico btnRegistrar">
+                        <div class="medico" id='btnRegistrar'>
+
+                            
                         
-                            <input type="submit" name="registroHoras" id="submit_button">
+                            <input type="submit" name="registroHoras" id="button_horarios" class='button_horario' value='Registrar'>
                             <p id="mensajeAlert"></p>
                         
                         </div>
@@ -179,19 +189,18 @@
                 <table>
                     <thead>
                         <th>id Horario</th>
-                        <th>Nombres Especialista</th>
-                        <th>Apellido</th>
+                        <th>Nombre Medico</th>
                         <th>Dia Disponible</th>
                         <th>Inicio De turno</th>
                         <th>Fin de turno</th>
-                        <th>estado_disponibilidad</th>
+                        <th>Estado</th>
                         <th>Editar</th>
                         <th>Eliminar</th>
                     </thead>
                     <tbody id="cuerpoTabla">
                         <?php 
                         
-                        $getDatos = "SELECT dh.*, cl.nombre, cl.apellido FROM disponibilidad_horarios dh JOIN usuarios cl ON dh.medico_relac = cl.id WHERE dh.medico_relac = $idMedicoSession ";
+                        $getDatos = "SELECT dh.*, cl.nombre, cl.apellido, m.id_perfil FROM disponibilidad_horarios dh LEFT JOIN medicos m ON dh.medico_relac = m.id_perfil LEFT JOIN usuarios cl ON m.id_medico = cl.id WHERE cl.id = $idMedicoSession";
                         $resultDatos = mysqli_query($conexion,$getDatos);
                         
                         while($fila = $resultDatos->fetch_array()){
@@ -208,8 +217,7 @@
 
                             <tr>
                                 <td> <?php echo $idHorario; ?></td>
-                                <td><?php echo $nombreMed; ?></td>
-                                <td><?php echo $apellidoMed; ?></td>
+                                <td><?php echo $nombreMed." ".$apellidoMed; ?></td>
 
                                 <td><?php switch ($diaSemana) {
                                             case 1:
@@ -247,7 +255,7 @@
                                     <!-- Formulario con botón para editar -->
                                     <form id="form_editar_<?php echo $idHorario; ?>" action="Crud_Admin/accionesHorarios.php" method="POST" style="display:inline;">
                                         <input type="hidden" name="idEditar" value="<?php echo $idHorario; ?>">
-                                        <button type="button" class="linkEditar" onclick="enviarFormulario(<?php echo $idHorario; ?>)">editar</button>
+                                        <button type="button" class="linkEditar btnTable" onclick="enviarFormulario(<?php echo $idHorario; ?>)">Editar</button>
                                     </form>
                                 </td>
 
@@ -255,7 +263,7 @@
                                             
                                             <form  id='formEliminar' action='Crud_Admin/accionesHorarios.php' method ='POST'>
                                                 <input type='hidden' name='id' value='".$idHorario."'>
-                                                <button type='submit' name='eliminarHorario_medico' class='deleteMed'><span class='material-symbols-outlined'> delete </span></button>
+                                                <button type='submit' name='eliminarHorario_medico' class='deleteMed delete'><span class='material-symbols-outlined'> delete </span></button>
                                             </form>
                                     </td>";?>
                                 
@@ -274,7 +282,7 @@
 
         <dialog id="modalEdit" class = "dialogEsp" >
 
-            <h3>Formulario para Modificar</h3>
+            <h3 class='tituloDialog'>Modificar Horario</h3>
 
             <div class="formEditar">
 
@@ -370,10 +378,12 @@
             .then(data => {
                 console.log(data);
                 if (data.validacion) {
-                    document.getElementById("submit_button").disabled = false;
+                    document.getElementById("button_horarios").disabled = false;
+                    document.getElementById("button_horarios").classList.remove("disabled-button");
                     document.getElementById("mensajeAlert").innerHTML = " ";
                 } else {
-                    document.getElementById("submit_button").disabled = true;
+                    document.getElementById("button_horarios").disabled = true;
+                    document.getElementById("button_horarios").classList.add("disabled-button");
                     document.getElementById("mensajeAlert").innerHTML = data.mensaje;
                     console.log(data.mensaje);
                 }
@@ -390,8 +400,10 @@
         
         var inputId = document.querySelector(`#form_editar_${id} input[name='idEditar']`).value;
 
+        console.log(inputId)
+
         // Realizamos la solicitud con fetch
-        fetch('Crud_Admin/accionesHorarios.php', {
+        fetch('Crud_Admin/editHorarios.php', {
         method: 'POST',  // Método de la solicitud
         headers: {
             'Content-Type': 'application/x-www-form-urlencoded'  // Tipo de contenido

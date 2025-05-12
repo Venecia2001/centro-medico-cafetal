@@ -13,9 +13,9 @@
 <?php include "sideba_admin.php" ?>
 
     <main>
-        <h1>Medicos</h1>
+        <h2 class='tituloSeccion'>  Medicos Registrados</h2>
         <div class="tituloAgregar">
-            <h2>agregar new especialista</h2>
+            <h2>Agregar Medico</h2>
             <button id="openFormulario" >+</button>
         </div>
 
@@ -80,6 +80,10 @@
                             <label for="direccion">Dirección:</label>
                             <input type="text" name="direccionMed" id="direccionReg" required><br>
 
+                            
+                            <label for="direccion">Estudios Universitarios:</label>
+                            <input type="text" name="estudiosUni" id="estudiosU" required><br>
+
                             <label for="fecha_nac">Fecha nacimiento:</label>
                             <input type="date" name="fecha_nac" id="fechaNacReg" required><br>
 
@@ -96,17 +100,17 @@
                                 
         <table>
            <thead>
-            <th>cedula</th>
+            <th>Cedula</th>
             <th>Nombre</th>
             <th>Apellido</th>
             <th>Telefono</th>
             <th>Correo</th>
             <th>Contraseña</th>
-            <th>especialidad</th>
+            <th>Especialidad</th>
             <th>Direccion</th>
-            <th>foto_perfil</th>
-            <th>fecha_naciento</th>
-            <th>acciones</th>
+            <th>Foto_perfil</th>
+            <th>Fecha_naciento</th>
+            <th>Editar</th>
             <th> Borrar </th>
            </thead>
            <tbody>
@@ -114,7 +118,7 @@
 
                 include "conex_bd.php";               
 
-                $consultaDatos = "SELECT cl.*, m.id_medico, m.id_especialidad, m.direccion,m.foto_perfil, m.fecha_nacimiento, e.nombre_esp AS nombre_especialidad FROM usuarios cl JOIN medicos m ON cl.id = m.id_medico JOIN especialidades e ON m.id_especialidad = e.id_especialidad;";
+                $consultaDatos = "SELECT cl.*, m.id_medico, m.id_especialidad, m.direccion,m.foto_perfil, e.nombre_esp AS nombre_especialidad FROM usuarios cl JOIN medicos m ON cl.id = m.id_medico JOIN especialidades e ON m.id_especialidad = e.id_especialidad;";
                 $resultadosConsulta = mysqli_query($conexion, $consultaDatos);
                 
                 while($data = $resultadosConsulta->fetch_array()){
@@ -154,7 +158,7 @@
                                     
                                     <form  id='formEliminar' action='Crud_Admin/pruebaEdit.php' method ='POST'>
                                         <input type='hidden' name='id' value='".$idMed."'>
-                                         <button type='submit' name='eliminar' class='deleteMed'><span class='material-symbols-outlined'> delete </span></button>
+                                         <button type='submit' name='eliminar' class='delete'><span class='material-symbols-outlined'> delete </span></button>
                                     </form>
                             </td>";?>
 
@@ -243,12 +247,6 @@
         </dialog>
     
         </div>
-
-        
-
-
-
-
     </main>
 
 

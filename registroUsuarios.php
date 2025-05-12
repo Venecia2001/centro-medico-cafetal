@@ -35,6 +35,9 @@ session_start();
                     <label for="Email">Email</label>
                     <input id="Email" type="email" placeholder="Email" name="email" >
 
+                    <label for="fecha_nac">Fecha de Nacimiento</label>
+                    <input id="fecha_nac" type="date" placeholder="fecha de Nacimiento" name="fecha_nac">
+
                     <label for="clave">Contraseña</label>
                     <input id="clave" type="password" placeholder="Contraseña" name="contraseña">
 
@@ -133,6 +136,30 @@ session_start();
             error[0] = true;
             error[1] = "su contraseña no coinsede"
             return error
+            }
+
+            // Validación de edad (Fecha de nacimiento)
+            const fechaNacimiento = document.getElementById('fecha_nac').value;
+            if (!fechaNacimiento) {
+                error[0] = true;
+                error[1] = "Por favor, ingresa tu fecha de nacimiento.";
+                return error;
+            }
+
+            const fechaHoy = new Date();
+            const fechaNac = new Date(fechaNacimiento);
+            
+            let edad = fechaHoy.getFullYear() - fechaNac.getFullYear();
+            const mes = fechaHoy.getMonth() - fechaNac.getMonth();
+            
+            if (mes < 0 || (mes === 0 && fechaHoy.getDate() < fechaNac.getDate())) {
+                edad--;
+            }
+            
+            if (edad < 18) {
+                error[0] = true;
+                error[1] = "Debes tener al menos 18 años para registrarte.";
+                return error;
             }
 
             error[0] = false

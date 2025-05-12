@@ -15,24 +15,25 @@
 
     <div class="agregarHorarios">
 
+        <h2 class='tituloSeccion'>Horarios Registrados</h2>
+
+        <div class="cuadroBusqueda" id ="titulito">
+
+            <form action="Crud_Admin/barraBusqueda.php" method="POST" id="searchForm">
+                <input type="text" name="search" placeholder="Escribe aquí, busca por nombre apellido o cedula" id="search" required>
+                <input type="submit" name="buscar" class='btnBuscarHorarios' value="Buscar">
+            </form>
+
+        </div>
+
+
+
         <div class="cabezera">
 
-            <h2>Añadir nuevo horarios</h2>
-                    <form action="Crud_Admin/barraBusqueda.php" method="POST" id="searchForm">
-                        <label for="search">Buscar:</label>
-                        <input type="text" name="search" id="search" required>
-                        <input type="submit" name="buscar" value="Buscar">
-                    </form>
             <form action="Crud_Admin/registroHorarios_admin.php" method="post" id="formHorarios">
 
-                <div class="medico aggEsp" id ="titulito">
-
-                    <h2>Buscar Registro</h2>
-                    
-                </div>
-
                 <div class="medico aggEsp">
-                    <h2>Especialidad Medico</h2>
+                    <h2>Especialidad</h2>
                     <select name="especialidad" id="specialty_id">
                                     <option value="">Seleccione la especialidad</option>
                                     <?php
@@ -106,8 +107,10 @@
                 </div>
 
                 <div class="medico btnRegistrar">
+
+                    
                 
-                    <input type="submit" name="registroHoras" id="submit_button">
+                    <input type="submit" name="registroHoras" id="button_horario" value='Registrar'>
                     <p id="mensajeAlert"></p>
                 
                 </div>
@@ -116,7 +119,7 @@
 
         </div>
 
-        <table>
+        <table id='tablaHorarios'>
             <thead>
                 <th>id Horario</th>
                 <th>Nombres Especialista</th>
@@ -345,7 +348,7 @@
                             var option = document.createElement('option');
                             option.value = medico.perfilMed;  // El valor será el id del médico
                             option.textContent = medico.nombre+" "+medico.apellido;  // El texto visible será el nombre del médico
-                            option.id = medico.nombre
+                            option.id = medico.id_medico
                             doctorSelect.appendChild(option);
                         });
                     } else {
@@ -470,10 +473,10 @@
             .then(data => {
                 console.log(data);
                 if (data.validacion) {
-                    document.getElementById("submit_button").disabled = false;
+                    document.getElementById("button_horario").disabled = false;
                     document.getElementById("mensajeAlert").innerHTML = " ";
                 } else {
-                    document.getElementById("submit_button").disabled = true;
+                    document.getElementById("button_horario").disabled = true;
                     document.getElementById("mensajeAlert").innerHTML = data.mensaje;
                     console.log(data.mensaje);
                 }

@@ -161,7 +161,7 @@ if (isset($_POST['ModificarEsp'])) {
 <body>
 <?php include "sideba_admin.php" ?>
     <main> 
-        <h1 class='tituloPrincipal'>Especialidades Medicas</h1>
+        <h1 class='tituloSeccion'>Especialidades Medicas</h1>
 
 
         <div class="especialidades">

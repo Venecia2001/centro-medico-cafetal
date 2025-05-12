@@ -14,6 +14,7 @@ if(isset($_POST['registroCompleto'])){
 
     $especialidadMed = $_POST['especialidad'];
     $direccionMed = $_POST['direccionMed'];
+    $Universidad = $_POST['estudiosUni'];
     $fechaNac = $_POST['fecha_nac'];
 
 
@@ -22,16 +23,16 @@ if(isset($_POST['registroCompleto'])){
         $conexion->begin_transaction();
     
         // 1. Insertar el nuevo médico en la tabla 'usuarios'
-        $stmt_usuario = $conexion->prepare("INSERT INTO usuarios (id, nombre, apellido, telefono, correo, contraseña, rol) VALUES (?, ?, ?, ?, ?, ?, ?)");
-        $stmt_usuario->bind_param("isssssi", $cedulaMed, $nombreMed, $apellidoMed, $telefonoM, $correoMed, $ClaveMed, $rolId);
+        $stmt_usuario = $conexion->prepare("INSERT INTO usuarios (id, nombre, apellido, telefono, correo, fecha_nacimiento, contraseña, rol) VALUES (?, ?, ?, ?, ?, ?, ?, ?)");
+        $stmt_usuario->bind_param("issssssi", $cedulaMed, $nombreMed, $apellidoMed, $telefonoM, $correoMed, $fechaNac, $ClaveMed, $rolId);
         $stmt_usuario->execute();
     
         // Obtener el ID del nuevo usuario insertado
         $id_usuario = $conexion->insert_id; // El último ID insertado
     
         // 2. Insertar los datos específicos del médico en la tabla 'medicos'
-        $stmt_medico = $conexion->prepare("INSERT INTO medicos (id_medico, id_especialidad, direccion, fecha_nacimiento) VALUES (?, ?, ?, ?)");
-        $stmt_medico->bind_param("iiss", $id_usuario, $especialidadMed, $direccionMed, $fechaNac);
+        $stmt_medico = $conexion->prepare("INSERT INTO medicos (id_medico, id_especialidad, direccion, titulación_academica) VALUES (?, ?, ?, ?)");
+        $stmt_medico->bind_param("iiss", $id_usuario, $especialidadMed, $direccionMed, $Universidad);
         $stmt_medico->execute();
     
         // Si todo salió bien, confirmar la transacción

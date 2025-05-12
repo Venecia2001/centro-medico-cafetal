@@ -92,9 +92,7 @@ if (!empty($_POST["dia"])) {
 //     if($resultadoSql) {
 //         header("location:../controlHorarios.php");
 //     }else{
-//         ?>
-//         <h3 class="mensajeFallido">ha ocurrido un error</h3>
-//         <?php
+//         
 //     }
 
 // }

@@ -13,7 +13,7 @@
     <?php include "sideba_admin.php" ?>
 
     <main> 
-        <h1 class='tituloPrincipal'>Bienvenido Jhoan!</h1>
+        <h1 class='tituloSeccion'>Bienvenido Jhoan!</h1>
 
 
     <div class="Panel">

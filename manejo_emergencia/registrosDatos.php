@@ -2,38 +2,90 @@
 
 include("../conex_bd.php");
 
+// if(isset($_POST["registroDeMedicamento"])){
+
+//     $idEmergenciaMedica = $_POST["idEmergencia"];
+//     $id_medicamento = $_POST["idMedicamento"];
+//     $dosis = $_POST["dosisAdministrada"];
+//     $presentacionMed = $_POST["presentacionMed"];
+//     $AdministradoDurante = $_POST["AdministradoDurante"];
+//     $observaciones = $_POST["observaciones"];
+
+//     $sentencia = "INSERT INTO medicamentos_emergencia(`id_emergencia`, `medicamento_id`, `dosis`, `presentacion`, `observaciones`, `administrado_durante` ) VALUES ('$idEmergenciaMedica','$id_medicamento','$dosis','$presentacionMed','$observaciones', '$AdministradoDurante')";
+//     $resultadoSentencia = mysqli_query($conexion,$sentencia);
+
+//     if($resultadoSentencia) {
+
+//         if($AdministradoDurante === "Hospitalizacion") {
+//             header("Location: ../registrosHospitalizacion.php?id=" . $idEmergenciaMedica);
+//         } else {
+//             header("Location: ../registrosDeEmergencias.php?id=" . $idEmergenciaMedica);
+//         }
+
+//         // header("location:../registrosDeEmergencias.php?id=" . $idEmergenciaMedica);
+
+//         
+//     }else{
+//        
+//     }
+    
+// }
+
 if(isset($_POST["registroDeMedicamento"])){
 
     $idEmergenciaMedica = $_POST["idEmergencia"];
     $id_medicamento = $_POST["idMedicamento"];
-    $dosis = $_POST["dosisAdministrada"];
+    $dosis = $_POST["dosisAdministrada"]; // en unidades (pastillas, ml, etc.)
     $presentacionMed = $_POST["presentacionMed"];
     $AdministradoDurante = $_POST["AdministradoDurante"];
     $observaciones = $_POST["observaciones"];
 
-    $sentencia = "INSERT INTO medicamentos_emergencia(`id_emergencia`, `medicamento_id`, `dosis`, `presentacion`, `observaciones`, `administrado_durante` ) VALUES ('$idEmergenciaMedica','$id_medicamento','$dosis','$presentacionMed','$observaciones', '$AdministradoDurante')";
+    // Insertar en medicamentos_emergencia
+    $sentencia = "INSERT INTO medicamentos_emergencia(`id_emergencia`, `medicamento_id`, `dosis`, `presentacion`, `observaciones`, `administrado_durante`) 
+                  VALUES ('$idEmergenciaMedica','$id_medicamento','$dosis','$presentacionMed','$observaciones', '$AdministradoDurante')";
     $resultadoSentencia = mysqli_query($conexion,$sentencia);
 
-    if($resultadoSentencia) {
+    // === NUEVA SECCIÓN: Registrar movimiento de inventario y actualizar stock ===
+    if ($resultadoSentencia) {
 
+        // Obtener unidades_por_caja del medicamento
+        $consulta = "SELECT contenido_total FROM medicamentos WHERE medicamento_id = $id_medicamento";
+        $resultado = mysqli_query($conexion, $consulta);
+        $fila = mysqli_fetch_assoc($resultado);
+        $unidadesPorCaja = $fila['contenido_total'];
+
+        // Calcular cajas equivalentes
+        $cajasADescontar = $dosis / $unidadesPorCaja;
+
+        // Registrar salida en movimientos_inventario
+        $comentario = "Administración durante $AdministradoDurante";
+        $fecha = date("Y-m-d");
+
+        $movimientoSQL = "INSERT INTO movimientos_inventario (medicamento_id, tipo_movimiento, cantidad, fecha_movimiento, comentario)
+                          VALUES ('$id_medicamento', 'Salida', '$dosis', '$fecha', '$comentario')";
+        mysqli_query($conexion, $movimientoSQL);
+
+        // Actualizar stock_actual
+        $actualizarStock = "UPDATE medicamentos
+                            SET stock_actual = stock_actual - $cajasADescontar
+                            WHERE medicamento_id = $id_medicamento";
+        mysqli_query($conexion, $actualizarStock);
+
+        // Redireccionar
         if($AdministradoDurante === "Hospitalizacion") {
             header("Location: ../registrosHospitalizacion.php?id=" . $idEmergenciaMedica);
         } else {
             header("Location: ../registrosDeEmergencias.php?id=" . $idEmergenciaMedica);
         }
 
-        // header("location:../registrosDeEmergencias.php?id=" . $idEmergenciaMedica);
-
-        ?>
-            <h3 id ="notice">Se realizo else registro corectamente</h3>
-        <?php
-    }else{
-        ?>
-            <h3 class="mensajeFallido">ha ocurrido un error</h3>
-        <?php
+    } else {
+        echo '<h3 class="mensajeFallido">Ha ocurrido un error</h3>';
     }
-    
 }
+
+
+
+
 
 if(isset($_POST["registroDeServicio"])){
 
@@ -78,32 +130,6 @@ if(isset($_POST["registroDeServicio"])){
     
 }
 
-if(isset($_POST["registrarHospitalizacion"])){
-
-    $idEmergenciaHosp = $_POST["idEmergencia"];
-    $fechaDeIngreso = $_POST["fechaInicioHosp"];
-    $tipoDeHabit = $_POST["tipoDeHacitacion"];
-    $numeroCama = $_POST["numeroCama"];
-    $observaciones = $_POST["observacionesDeHosp"];
-
-    $registroHosp = "INSERT INTO hospitalizacion(emergencia_medica_id, fecha_ingreso, tipo_habitacion, numero_cama, observaciones_hosp) VALUES ('$idEmergenciaHosp','$fechaDeIngreso','$tipoDeHabit','$numeroCama','$observaciones')";
-    $resultadoRegistro = mysqli_query($conexion,$registroHosp);
-
-    if($resultadoRegistro) {
-
-        header("location:../registrosHospitalizacion.php?id=" . $idEmergenciaHosp);
-
-        ?>
-            <h3 id ="notice">Se realizo else registro corectamente</h3>
-        <?php
-    }else{
-        ?>
-            <h3 class="mensajeFallido">ha ocurrido un error</h3>
-        <?php
-    }
-    
-}
-
 
 
 if(isset($_POST["newPacienteTemp"])){
@@ -132,6 +158,64 @@ if(isset($_POST["newPacienteTemp"])){
     }
     
 }
+
+
+
+if(isset($_POST["idEmergencia"])){
+
+
+    $tipoDeHabit = $_POST["tipoDeHacitacion"];
+
+
+    $query = "
+        SELECT th.tipo_habitacion, 
+            (th.limite_camas - IFNULL(hc.camas_ocupadas, 0)) AS camas_disponibles
+        FROM tipos_habitacion th
+        LEFT JOIN (
+            SELECT tipo_habitacion, COUNT(*) AS camas_ocupadas
+            FROM hospitalizacion
+            WHERE estado = 'En curso'
+            GROUP BY tipo_habitacion
+        ) hc ON th.tipo_habitacion = hc.tipo_habitacion
+        WHERE th.tipo_habitacion = ?
+    ";
+
+    $stmt = $conexion->prepare($query);
+    $stmt->bind_param("s", $tipoDeHabit);
+    $stmt->execute();
+    $result = $stmt->get_result();
+    $camas_disponibles = $result->fetch_assoc();
+
+    if ($camas_disponibles['camas_disponibles'] > 0) {
+
+
+        $idEmergenciaHosp = $_POST["idEmergencia"];
+        $fechaDeIngreso = $_POST["fechaInicioHosp"];
+        
+        $numeroCama = $_POST["numeroCama"];
+        $observaciones = $_POST["observacionesDeHosp"];
+
+        $registroHosp = "INSERT INTO hospitalizacion(emergencia_medica_id, fecha_ingreso, tipo_habitacion, numero_cama, observaciones_hosp) VALUES ('$idEmergenciaHosp','$fechaDeIngreso','$tipoDeHabit','$numeroCama','$observaciones')";
+        $resultadoRegistro = mysqli_query($conexion,$registroHosp);
+
+        if ($resultadoRegistro) {
+            // Redirigir si el registro fue exitoso
+            // header("location:../registrosHospitalizacion.php?id=" . $idEmergenciaHosp);
+
+            echo json_encode(['status' => 'success', 'idHosp' => $idEmergenciaHosp, 'message' => 'Hospitalización registrada con éxito.']);
+        } else {
+            // Enviar mensaje de error si el registro falló
+            echo json_encode(['status' => 'error', 'message' => 'Ha ocurrido un error al registrar la hospitalización.']);
+        }
+
+
+    }else {
+        // Si no hay camas disponibles, enviar un mensaje de error
+        echo json_encode(['status' => 'error', 'message' => 'No hay camas disponibles para este tipo de habitación.']);
+    }
+    
+}
+
 
 if(isset($_POST["registrarEmergencia"])){
 

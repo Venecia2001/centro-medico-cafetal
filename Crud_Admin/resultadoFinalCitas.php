@@ -2,13 +2,19 @@
 
     include("../conex_bd.php");
 
-    if(isset($_POST['registrarResultados'])){
+    if(!empty($_POST['diagnosticoCita'])){
 
         $idDeCita = $_POST['idDeCita'];
         $diagnostico = $_POST['diagnosticoCita'];
         $tratamiento = $_POST['tratamientoCita'];
         $indicaciones = $_POST['prescripcionCita'];
         $examanesRealizados = $_POST['examenesCita'];
+
+        var_dump($idDeCita);
+        var_dump($diagnostico);
+        var_dump($tratamiento);
+        var_dump($indicaciones);
+        var_dump($examanesRealizados);
 
         $ResultadoCita = "INSERT INTO `historial_medico`(`id_cita`, `diagnostico`, `tratamiento`, `prescripcion`, `examenes_realizados`) VALUES ('$idDeCita','$diagnostico','$tratamiento','$indicaciones','$examanesRealizados')";
         $resultadosConsulta = mysqli_query($conexion, $ResultadoCita);
@@ -23,46 +29,8 @@
         }else{
             echo "no se realizaron actualizaciones";
         }
-    }
-
-  
-    if(!empty($_POST["idCita"])) {
-
-        $idCita = $_POST['idCita'];
-    
-        $consultaHistorial = "SELECT hm.*, c.id_cita, c.id_medico, c.id_cliente, c.fecha, c.especialidad, cl_paciente.nombre AS nombre_paciente, cl_medico.nombre AS nombre_medico, e.nombre_esp FROM historial_medico hm JOIN citas c ON hm.id_cita = c.id_cita JOIN usuarios cl_paciente ON c.id_cliente = cl_paciente.id JOIN usuarios cl_medico ON c.id_medico = cl_medico.id JOIN especialidades e ON e.id_especialidad = c.especialidad WHERE hm.id_cita = $idCita;";
-        $resultHistorial = mysqli_query($conexion,$consultaHistorial);
-    
-        $fila= mysqli_fetch_assoc($resultHistorial);
-            // $id = $datos["id"];
-            // $nombre = $datos["nombre"];
-            // $apellido = $datos["apellido"];
-            // $telefono = $datos["telefono"];
-        $id_citaHistorial = $fila['id_cita'];
-        $fecha = $fila["fecha"];
-        $diagnos = $fila["diagnostico"];
-        $tratamiento = $fila["tratamiento"];
-        $prescripcion = $fila["prescripcion"];      
-        $examenes = $fila['examenes_realizados'];    
-        $doctorRes = $fila['nombre_medico'];
-        $nombrePaciente = $fila['nombre_paciente'];
-        $nombre_esp = $fila['nombre_esp'];
-        
-
-    
-        echo json_encode(array(
-            'id' => $id_citaHistorial,
-            'nombre' => $nombrePaciente,
-            'nombreMedico' => $doctorRes,
-            'diagnostco' => $diagnos,
-            'tratamiento' => $tratamiento,
-            'presecciones' => $prescripcion,
-            'examenes' => $examenes,
-            'fecha' => $fecha,
-            'especialidad' => $nombre_esp
-        ));
-    } else {
-        echo json_encode(array('error' => 'No se encontraron datos de historial.'));
+    }else{
+        echo 'error al momento de registrar el resultado de la cita';
     }
 
     if(isset($_POST['registroHoras'])){

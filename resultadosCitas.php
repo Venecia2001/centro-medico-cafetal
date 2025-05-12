@@ -81,6 +81,11 @@
         </li>
 
         <li class="sidebar__item">
+            <span class="material-symbols-outlined">notifications</span>
+            <a href="historialCitas_medicos.php">Historial de Citas</a>
+        </li>
+
+        <li class="sidebar__item">
             <span class="material-symbols-outlined">Schedule</span>
             <a href="controlHorarios_medicos.php">Horarios</a>
         </li>
@@ -124,13 +129,13 @@
     </aside>
 
     <main>
-        <h1>Diagnostico de citas</h1>
+        <h1 class='tituloSeccion'>Diagnostico de citas</h1>
 
         <div class="datosPacientes">
 
             <div class="informacionDePaciente">
                 
-                <h3>Informacion Personal</h3>
+                <h3 class='tituloInterno'>Datos del Paciente</h3>
 
                 <?php
                      include "conex_bd.php";
@@ -169,11 +174,26 @@
                             $educacion = $datos->nivel_educacion;
                             ?>
 
-                            <h4> Nombre: <?php echo $datos->nombre ?></h4><br>
-                            <h4> Apellido: <?php echo $datos->apellido ?></h4><br>
-                            <h4> Correo Electronico:<?php echo $datos->correo ?></h4><br>
-                            <h4> Telefono: <?php echo $datos->telefono ?></h4><br>
-                            <h4> Direccion: <?php echo $datos->direccion ?></h4><br>
+                        <div class="cajaTexto">
+                            <label>Nombre: </label>
+                            <span class="campoDeInformacion"> <?php echo $datos->nombre ?></span><br>
+                        </div>
+                        <div class="cajaTexto">
+                            <label>Apellido: </label>
+                            <span class="campoDeInformacion"> <?php echo $datos->apellido ?></span><br>
+                        </div>
+                        <div class="cajaTexto">
+                            <label>Correo Electronico: </label>
+                            <span class="campoDeInformacion"> <?php echo $datos->correo ?></span><br>
+                        </div>
+                        <div class="cajaTexto">
+                            <label>Telefono: </label>
+                            <span class="campoDeInformacion"> <?php echo $datos->telefono ?></span><br>
+                        </div>
+                        <div class="cajaTexto">
+                            <label>Direccion: </label>
+                            <span class="campoDeInformacion"> <?php echo $datos->direccion ?></span><br>
+                        </div>
                         
                             <?php
                         }
@@ -182,46 +202,52 @@
                     }
 
                 ?>
-                
-                
-
-            </div>
-
-            
-            <div class="informacionDePaciente">
-
-                <h3>informacion Personal</h3>
 
                 <?php 
 
                 if(isset($_POST['getCita'])){
-                
+
                     ?>
-                    <h4> fecha Nacimiento: <?php echo $fechaNacimiento ?></h4><br>
-                    <h4> Edad: <?php echo $edad ?></h4><br>
-                    <h4> Sexo: <?php echo $sexo?></h4><br>
-                    <h4> alergias: <?php echo $alergias?></h4><br>
-                    <h4> Ocupacion: <?php echo $ocupacion ?></h4><br>
-                    <h4> Nivel de Estudio: <?php echo $educacion ?></h4>
+                        <div class="cajaTexto">
+                            <label>Fecha Nacimiento:</label>
+                            <span class="campoDeInformacion"> <?php echo $fechaNacimiento ?></span><br>
+                        </div>
+                        <div class="cajaTexto">
+                            <label>Sexo:</label>
+                            <span class="campoDeInformacion"> <?php echo $sexo ?></span><br>
+                        </div>
+                        <div class="cajaTexto">
+                            <label>alergias:</label>
+                            <span class="campoDeInformacion"> <?php echo $alergias ?></span><br>
+                        </div>
+                        <div class="cajaTexto">
+                            <label>Ocupacion:</label>
+                            <span class="campoDeInformacion"> <?php echo $ocupacion ?></span><br>
+                        </div>
+                        <div class="cajaTexto">
+                            <label>Nivel de Estudio:</label>
+                            <span class="campoDeInformacion"> <?php echo $educacion ?></span><br>
+                        </div>
                 <?php    
                 }else{
                     echo "No se tiene la informacion necesaria para procesar el diagnostico";
                 }   
                 ?>
+
             </div>
 
-        </div>
-
-        <div class="historialMedicoPaciente">
-
-        <!-- <h3>Historial medico</h3> -->
             
+            <div class="informacionDePaciente" id='ultimasCitas'>
+
+                <h3 class='tituloInterno'>Ultimas Citas Medicas</h3>
+
+
             <?php 
                 include "conex_bd.php";
 
                 if(isset($_POST['getCita'])){
             
-                    $consultaHistorial = "SELECT hm.*, c.id_cita, c.id_medico, c.id_cliente, c.fecha, c.especialidad, cl_paciente.nombre AS nombre_paciente, cl_medico.nombre AS nombre_medico, e.nombre_esp FROM historial_medico hm JOIN citas c ON hm.id_cita = c.id_cita JOIN usuarios cl_paciente ON c.id_cliente = cl_paciente.id JOIN usuarios cl_medico ON c.id_medico = cl_medico.id JOIN especialidades e ON e.id_especialidad = c.especialidad WHERE c.id_cliente = $id_paciente;";
+                    $consultaHistorial = "SELECT hm.*, c.id_cita, c.id_medico, c.id_cliente, c.fecha, c.especialidad, cl_paciente.nombre AS nombre_paciente, cl_medico.nombre AS nombre_medico, e.nombre_esp FROM historial_medico hm JOIN citas c ON hm.id_cita = c.id_cita JOIN usuarios cl_paciente ON c.id_cliente = cl_paciente.id JOIN usuarios cl_medico ON c.id_medico = cl_medico.id JOIN especialidades e ON e.id_especialidad = c.especialidad WHERE c.id_cliente = $id_paciente ORDER BY c.fecha DESC LIMIT 5";
                     $resultHistorial = mysqli_query($conexion,$consultaHistorial);
     
     
@@ -241,21 +267,21 @@
                         $nombre_esp = $datos['nombre_esp'];
                     ?>
     
-                    <div class="reporteCita">
+                    <div class='iten_citas'>
+                        <div class='seccion' id='especialidad'> <div class='headCitas' id='headEspecialidad'><h3>Especialidad</h3></div> <span> <?php echo $nombre_esp ?> </span></div>
+                        <div class='seccion' id='nombreMedico'> <div class='headCitas'><h3>Medico</h3></div> <span> <?php echo $doctorRes ?> </span></div>
+                        <div class='seccion' id='fechaDeCIta'> <div class='headCitas'><h3>Fecha</h3></div> <span><?php echo $fecha ?> </span></div>
+                        <div class='seccion' id='horaCita'> <div class='headCitas'><h3>Id de Cita</h3></div> <span><?php echo $id_citaHistorial   ?></span></div>
+                        <div class='seccion' id='estadoCita'> <div class='headCitas' id='headEstado'><h3>Detalles</h3></div> 
 
-                        <h3>id_Cita: <?php echo $id_citaHistorial ?> </h3><br>
-                        <h3>Especialidad: <?php echo $nombre_esp ?> </h3><br>
-                        <h3>fecha: <?php echo $fecha ?> </h3><br>
-                        <h3>doctor: <?php echo $doctorRes ?> </h3><br>
-                        <h3>paciente: <?php echo $nombrePaciente ?> </h3><br>
-                        <h3>diagnostico: <?php echo $diagnos?></h3><br>
-                        
-                        <form  action='Crud_Admin/resultadoFinalCitas.php' id="form_editar_<?php echo $id_citaHistorial; ?>" method="POST" style="display:inline;">
-                                <input type="hidden" name="idHistorialCita" value="<?php echo $id_citaHistorial; ?>">
-                                <button type="button" class="detallesCita" onclick="enviarFormulario(<?php echo $id_citaHistorial; ?>)">ver detalles</button>
-                        </form>
-        
+                            <form  action='Crud_Admin/resultadoFinalCitas.php' id="form_editar_<?php echo $id_citaHistorial; ?>" method="POST" style="display:inline;">
+                                    <input type="hidden" name="idHistorialCita" value="<?php echo $id_citaHistorial; ?>">
+                                    <button type="button" class="detallesCita" onclick="enviarFormulario(<?php echo $id_citaHistorial; ?>)">ver detalles</button>
+                            </form>
+                    
+                        </div>
                     </div>
+                    
                     <?php
                     }
                 }else{
@@ -263,7 +289,11 @@
                 }    
             
             ?>
-    
+
+
+                
+            </div>
+
         </div>
 
         <div class="formResultadoCita">
@@ -277,12 +307,13 @@
 
                     if(isset($_POST['getCita'])){
 
-                        $citasSql = "SELECT c.id_medico, c.id_cita, c1.nombre AS nombre_paciente, c2.nombre AS nombre_medico, e.nombre_esp, c.fecha, c.hora, c.estado, c.fecha_creacion FROM citas c JOIN usuarios c1 ON c.id_cliente = c1.id JOIN usuarios c2 ON c.id_medico = c2.id JOIN especialidades e ON c.especialidad = e.id_especialidad WHERE c.id_cita = $idCita";
+                        $citasSql = "SELECT c.id_medico, c.id_cita, c1.nombre AS nombre_paciente, c1.apellido AS apellido_paciente, c2.nombre AS nombre_medico, e.nombre_esp, c.fecha, c.hora, c.estado, c.fecha_creacion FROM citas c JOIN usuarios c1 ON c.id_cliente = c1.id JOIN usuarios c2 ON c.id_medico = c2.id JOIN especialidades e ON c.especialidad = e.id_especialidad WHERE c.id_cita = $idCita";
                         $result = mysqli_query($conexion, $citasSql);
 
                         while($datos=$result->fetch_object()){ 
                                 
                         $nombreDePaciente = $datos->nombre_paciente;
+                        $apellidoPaciente = $datos->apellido_paciente;
                         $nobreDeMedico = $datos->nombre_medico;
                         $fechaDelaCita = $datos->fecha;
 
@@ -290,11 +321,15 @@
                         }
                         
                         ?>
+                        <div class="cajaTexto">
+                            <label>Paciente:</label>
+                            <span class="campoDeInformacion"> <?php echo $nombreDePaciente.' '.$apellidoPaciente ?></span><br>
+                        </div>
 
-                        <label for="diag">Paciente</label>
-                        <h3><?php echo $nombreDePaciente  ?></h3><br>
-                        <label for="diag">Medico</label>
-                        <h3><?php echo $nobreDeMedico ?></h3><br>
+                        <div class="cajaTexto">
+                            <label>Medico:</label>
+                            <span class="campoDeInformacion"> <?php echo $nobreDeMedico ?></span><br>
+                        </div>
                         <?php
                     }else{
                         echo "No se tiene la informacion necesaria para procesar el diagnostico";
@@ -308,11 +343,17 @@
                         if(isset($_POST['getCita'])){
 
                     ?>
-                        <label for="diag">fecha</label>
-                        <h3><?php echo $fechaDelaCita ?></h3><br>
 
-                        <label for="diag">id Cita</label>
-                        <h3  id="idcitaEnElHistorial"><?php echo $idCita ?></h3><br>
+                        <div class="cajaTexto">
+                            <label>Fecha:</label>
+                            <span class="campoDeInformacion"> <?php echo $fechaDelaCita ?></span><br>
+                        </div>
+
+                        <div class="cajaTexto">
+                            <label>id de Cita:</label>
+                            <span class="campoDeInformacion"> <?php echo $idCita ?></span><br>
+                        </div>
+
                     <?php
                     }else{
                         echo "No se tiene la informacion necesaria para procesar el diagnostico";  
@@ -328,21 +369,33 @@
 
                 <form action="Crud_Admin/resultadoFinalCitas.php" id="formDianostico" method="POST">
 
-                    <input type="hidden" name="idDeCita" value="<?php echo $idCita ?>">
+                    <div class='compartimentoForm'>
 
-                    <label for="diagnostico">Diagnostico</label>
-                    <textarea name="diagnosticoCita" id="diagnostico" placeholder="escriba aqui"></textarea><br>
+                        <input type="hidden" name="idDeCita" value="<?php echo $idCita ?>">
 
-                    <label for="tratamiento">tratamiento</label>
-                    <textarea name="tratamientoCita" id="tratamiento"></textarea><br>
+                        <div class='boxTextResult'>
+                            <label for="diagnostico">Diagnostico</label>
+                            <textarea name="diagnosticoCita" id="diagnostico" placeholder="escribe aqui el Diagnostico"></textarea><br>
+                        </div>
+                        <div class='boxTextResult'>
+                            <label for="tratamiento">Tratamiento</label>
+                            <textarea name="tratamientoCita" id="tratamiento" placeholder="escribe aqui el Tratamiento"></textarea><br>
+                        </div>
 
-                    <label for="prescripciones">Prescripcion</label>
-                    <textarea name="prescripcionCita" id="prescripciones"></textarea><br>
+                    </div>
 
-                    <label for="prescripciones">Examenes Realizados</label>
-                    <input type="text" name="examenesCita"><br>
+                        <div class='compartimentoForm'>
+                            <div class='boxTextResult'>
+                                <label for="prescripciones">Prescripcion</label>
+                                <textarea name="prescripcionCita" id="prescripciones"  placeholder="escribe aqui las prescripciones"></textarea><br>
+                            </div>
+                            <div class='boxTextResult'>
+                                <label for="prescripciones" >Examenes Realizados</label>
+                                <input type="text" name="examenesCita"  placeholder="Examenes realizados" ><br>
+                            </div>
 
-                    <input type="submit" id="btnDiagnostico" name="registrarResultados" value="Guardar Resultado">
+                        <input type="submit" class='detallesCita' id="btnDiagnostico" name="registrarResultados" value="Guardar Resultado">
+                    </div>
                 </form>
             <?php
             }else{
@@ -353,8 +406,14 @@
         </div>
 
         <dialog id="modalDetallesHistorial">
-            <h2>Datos Paciente</h2>
+
+            <div class ="cabezeraFactura">
+
+                <h2>Datos Paciente</h2>
+
+            </div>
             <div class="HistorialMedico">
+
                 <form method="dialog">
                     <button class="btnClose"> X</button>
                 </form>
@@ -381,8 +440,8 @@
                     </div>
 
                     <div class="datosDeDiagnostico">
-                        
-                            <div class="contentDatos"  id="cajaTextId"> 
+                         
+                            <!-- <div class="contentDatos"  id="cajaTextId"> 
                                 <label for="">N Cita: </label>
                                 <span id="idDeCita" class="datosHistorial"></span> 
                             </div>
@@ -403,7 +462,14 @@
                             <div class="contentDatos"  id="cajaTextId"> 
                                 <label for="">Examenes Realizados: </label>
                                 <span id="examenesCita" class="datosHistorial"></span> 
-                            </div>
+                            </div> -->
+
+                            <ul class='resultadoCts'>
+                                <li><h3>Diagnostico:</h3> <samp class='resulCts' id='DiagnosticoCita'></samp></li>
+                                <li><h3>Tratamiento:</h3> <samp class='resulCts' id='tratamientoCita'></samp></li>
+                                <li><h3>Prescripciones:</h3> <samp class='resulCts' id='prescripcionesCita'></samp></li>
+                                <li><h3>Examanes :</h3> <samp class='resulCts' id='examenesCita'></samp></li>
+                            </ul>
                     </div>
                 
             </div>
@@ -445,7 +511,7 @@
                     console.log(inputId)
 
                     // Realizamos la solicitud con fetch
-                    fetch('Crud_Admin/resultadoFinalCitas.php', {
+                    fetch('Crud_Admin/jsonDetallesCitas.php', {
                     method: 'POST',  // Método de la solicitud
                     headers: {
                         'Content-Type': 'application/x-www-form-urlencoded'  // Tipo de contenido
@@ -473,7 +539,7 @@
                             document.getElementById('nombreDoctor').innerHTML = data.nombreMedico;
                             document.getElementById('fechaCita').innerHTML = data.fecha;
                             document.getElementById('especialidadHistorial').innerHTML = data.especialidad;
-                            document.getElementById('idDeCita').innerHTML = data.id;
+                            // document.getElementById('idDeCita').innerHTML = data.id;
                             document.getElementById('DiagnosticoCita').innerHTML = data.diagnostco;
                             document.getElementById('tratamientoCita').innerHTML = data.tratamiento;
                             document.getElementById('prescripcionesCita').innerHTML = data.presecciones;
@@ -528,17 +594,38 @@
             // }
 
 
+            //    document.getElementById("btnDiagnostico").addEventListener("click", function(event) {
+            //        event.preventDefault(); // Evita que el formulario se envíe inmediatamente
+
+            //        let confirmacion = confirm("¿Desea programar una cita de seguimiento?");
+        
+            //        if (confirmacion) {
+            //            document.getElementById("dialogSeguimiento").showModal();
+            //        } else {
+            //            document.getElementById("formDianostico").submit(); // Guarda solo el historial si no hay cita de seguimiento
+            //        }
+            //    });
+
             document.getElementById("btnDiagnostico").addEventListener("click", function(event) {
                 event.preventDefault(); // Evita que el formulario se envíe inmediatamente
 
                 let confirmacion = confirm("¿Desea programar una cita de seguimiento?");
-    
+
                 if (confirmacion) {
+                    // Si el usuario quiere una cita de seguimiento, mostramos el modal
                     document.getElementById("dialogSeguimiento").showModal();
                 } else {
-                    document.getElementById("formDianostico").submit(); // Guarda solo el historial si no hay cita de seguimiento
+                    // Si el usuario no quiere una cita de seguimiento, enviamos el formulario de historial
+                    document.getElementById("formDianostico").submit(); // Guarda solo el historial
                 }
             });
+
+// Opcional: Si deseas manejar el cierre del modal y enviar el formulario después de decidir, puedes agregar otro evento para el modal
+
+        document.getElementById("dialogSeguimientoCloseButton").addEventListener("click", function(event) {
+            // Aquí puedes manejar el flujo posterior al cierre del modal, si es necesario
+            document.getElementById("formDianostico").submit(); // Envía el formulario de historial si el modal se cierra
+        });
 
 
         </script>

@@ -14,8 +14,11 @@ $rolId = $_POST['rolMedico'];
 
 $especialidadMed = $_POST['especialidad'];
 $direccionMed = $_POST['direccionMed'];
-$cedulaMed = $_POST['cedula'];
+$estudiosUni = $_POST['estudios'];
 $fechaNac = $_POST['fecha_nac'];
+$experienciaPerfil = $_POST['experienciaMed'];
+
+var_dump($ClaveMed);
 
 try {
     // Iniciar una transacción
@@ -27,8 +30,8 @@ try {
     $stmt_usuario->execute();
 
     // 2. Actualizar los datos específicos del médico en la tabla 'medicos'
-    $stmt_medico = $conexion->prepare("UPDATE medicos SET id_especialidad = ?, direccion = ?, cedula = ?, fecha_nacimiento = ? WHERE id_medico = ?");
-    $stmt_medico->bind_param("isssi", $especialidadMed, $direccionMed, $cedulaMed, $fechaNac, $id_doctor);
+    $stmt_medico = $conexion->prepare("UPDATE medicos SET id_especialidad = ?, direccion = ?, titulación_academica = ?, perfil_experiencia = ?, fecha_nacimiento = ? WHERE id_medico = ?");
+    $stmt_medico->bind_param("issssi", $especialidadMed, $direccionMed, $estudiosUni, $experienciaPerfil,  $fechaNac, $id_doctor);
     $stmt_medico->execute();
 
     // Si todo salió bien, confirmar la transacción
@@ -83,6 +86,24 @@ if(isset($_POST['estadoCancelado'])){
 
 }
 
+
+if(isset($_POST['descripcionEnviada'])){
+
+    $idMedico = $_POST['id_doc'];
+    $experienciaDoc = $_POST['descripcionXp'];
+
+    $consultaActualizar = "UPDATE medicos SET perfil_experiencia = '$experienciaDoc' WHERE id_medico = $idMedico";
+    $resulAct = mysqli_query($conexion,$consultaActualizar);
+
+    if($resulAct){
+
+        header("location:../seccionMedicos.php");
+        
+    }else{
+        echo "no se realizaron actualizaciones";
+    }
+
+}
 
 
 ?>

@@ -23,11 +23,6 @@
             <nav class= "sidebar__nav" >
             
             <ul>
-
-            <li class="sidebar__item">
-                <span class="material-symbols-outlined">notifications</span>
-                <a href="inicioAdmin.php">Inicio</a>
-            </li>
             
             <li class="sidebar__item">
                 <span class="material-symbols-outlined">notifications</span>
@@ -37,6 +32,16 @@
             <li class="sidebar__item">
                 <span class="material-symbols-outlined">notifications</span>
                 <a href="registrosDeEmergencias.php">Registros de Emergencias</a>
+            </li>
+
+            <li class="sidebar__item">
+                <span class="material-symbols-outlined">notifications</span>
+                <a href="registrosHospitalizacion.php">Hospitalizacion</a>
+            </li>
+
+            <li class="sidebar__item">
+                <span class="material-symbols-outlined">notifications</span>
+                <a href="gestionMedicamentos.php">Gestion Medicamentos</a>
             </li>
 
             <li class="sidebar__item">
@@ -73,30 +78,129 @@
         </aside>
 
     <main>
+        <h2>Gestion de Emergencias Medicas</h2>
         <div class="cuadroGrande">
+
             <div class="divDeBusqueda">
-                <label for="">Buscar Paciente</label>
-                <input type="text">
-            </div>
+                <div class='clasecabezera'>
+                    <h2>Buscar Paciente</h2>
+
+                </div>
+               
+                <form action="manejo_emergencia/verificarPaciente" method="POST" id="searchFormPaciente">
+                    <input type="text" name="search" placeholder="Escribe aquí, busca por nombre apellido o cedula" id="search" required>
+                    <input type="submit" name="buscar" class='btnRegistro_busq' value="Buscar"> 
+                </form>
+
+                <div id='cajaDeTexto'> <span id='mensajeVerificarPaciente' > </span> </div>
+
+
+                <div id='divPacienteTemp'>
+                    <label for="rt">Registro Temporal</label>
+                    <button class='btnRegistro_busq' id="btnRegistroNew">Paciente Temporal</button>
+                </div> 
+                
+            </div> 
 
             <div class="cuadroRegistroTemoral">
-                <h2>Registro</h2>
-                <button id="btnRegistroNew"> + Agregar Nuevo Paciente</button>
+
+                <div class='espacioInt camasDisponibles'>
+                    <div class="clasecabezera">
+                        <h2>Camas Disponibles</h2>
+                    </div>
+
+                    <div class='bodyDisponibilidad'>
+
+                        <table id='datosHospitalizacion'>
+                            <thead>
+                                <th>Tipo de Habitacion</th>
+                                <th>Camas Ocupadas</th>
+                                <th>Camas totales</th>
+                            </thead>
+                            <tbody>
+                                <?php
+
+                                    include "conex_bd.php";
+
+                                    $consulta = "SELECT th.tipo_habitacion, th.limite_camas, COUNT(hosp.tipo_habitacion) AS camas_ocupadas FROM tipos_habitacion th LEFT JOIN hospitalizacion hosp ON hosp.tipo_habitacion = th.tipo_habitacion AND hosp.estado = 'En curso' GROUP BY th.tipo_habitacion, th.limite_camas; ";
+                                    $resultado = mysqli_query($conexion,$consulta);
+
+                                    while($datos=$resultado->fetch_object()){ ?>
+
+                                        <tr>
+                                            <td> <?php echo $datos->tipo_habitacion ?> </td>
+                                            <td> <?php echo $datos->camas_ocupadas ?> </td>
+                                            <td> <?php echo $datos->limite_camas ?> </td>
+                                        </tr>
+
+
+                                        <?php
+                                    }
+                                ?>
+                            </tbody>
+
+                        </table>
+
+                    </div>
+
+                    
+                </div>
+
+                <div class='espacioInt newEmergencia'>
+                    <div class="clasecabezera">
+                        <h2>Nueva Emergencias</h2>
+                    </div>
+
+                    <div class='cajaBoton'>
+
+                        <button id="btnEmergencia">Agregar Emergencia</button>
+
+                    </div>
+
+                    
+                </div>
+
             </div>
            
+        </div>
+        <div class='divBusquedaYfitros'>
+
+        <div class='divBusqueda'>
+            <form action="Crud_Admin/barraBusqueda.php" method="POST" id="searchFormEmergencia">
+                <input type="text" name="search" placeholder="Escribe aquí, busca por nombre apellido o cedula" id="searchEmerg" required>
+                <input type="submit" name="buscar" class='btnBuscarEmergencia' id='btnBuscarEmerg' value="Buscar">
+            </form>
+        </div>
+
+        <div class='divFiltro'>
+        <div class="filtroCitas">
+                <?php
+                    $current_date = date('Y-m-d'); // Fecha actual
+                    $one_week_before = date('Y-m-d', strtotime('-1 week')); // Fecha una semana atrás
+                    $one_month_before = date('Y-m-d', strtotime('-1 month')); // Fecha un mes atrás
+                ?>
+                <form action="" method="POST" id="formulario_filtro">
+                    <select name="filtro" id="seleccionarEmergencias">
+                        <option value="">Seleccione Fecha</option>
+                        <option value="filtroPorDia_<?php echo $current_date ?>">Emergencias del día</option>
+                        <option value="filtroSemanaAtras_<?php echo $one_week_before . '_' . $current_date ?>">Emergencias de la semana pasada</option> <!-- Semana pasada -->
+                        <option value="filtroMesAtras_<?php echo $one_month_before . '_' . $current_date ?>">Emergencias del mes pasado</option> <!-- Mes pasado -->
+                        <option value="totalEmergencia">Todas las Emergencias</option>
+                    </select>
+                </form>
+            </div>
+        </div>
+
+
         </div>
 
         <div class="cuadroConDiv">
 
-                <div class="cabezeraNewEmergencia">
-                    <h2>Reportes de Emergencias</h2>
-
-                    <button id="btnEmergencia"> + Agregar Emergencia</button>
-                </div>
+                
 
             <div class="cuadroEmergencias">
 
-                <div class="reportesEmergencias">
+                <div class="reportesEmergencias" id='contenedorReportes'>
                     <?php 
                     
                     include("conex_bd.php");
@@ -119,82 +223,46 @@
 
                         ?>
                         <div class="reporteEmerg">
-                            <h2>Emergencia Medica: <?php echo $id_emergencia ?></h2>
-                            <h3>Paciente: <?php echo $id_PacienteTemp." ".$id_cedula ?> </h3>
-                            <h3>tipo de emergencia: <?php echo  $tipo_emerg ?></h3>
-                            <h3>fecha:  <?php echo $fecha_emerg ?></h3>
-                            <h3>Gravedad:  <?php echo $gravedad ?></h3>
-                            <h3>Estado de emergencia: <?php echo $estado_emergencia ?></h3>
+                            <div class='headReporte'> <h2>Emergencia Medica: <?php echo $id_emergencia ?></h2>  </div>
+                            <div class='bodyReporte'>
+                            
+                                <h3>Paciente: <?php echo $id_PacienteTemp." ".$id_cedula ?> </h3>
+                                <h3>tipo de emergencia: <?php echo  $tipo_emerg ?></h3>
+                                <h3>fecha:  <?php echo $fecha_emerg ?></h3>
+                                <h3>Gravedad:  <?php echo $gravedad ?></h3>
+                                <h3>Estado de emergencia: <?php echo $estado_emergencia ?></h3>
 
-                            <!-- <form  action='manejo_emergencia/detallesDeEmergencia.php' id="form_detalles_<?php echo $id_emergencia; ?>" method="POST" style="display:inline;">
-                                    <input type="hidden" name="idEmergenciaMedica" value="<?php echo $id_emergencia; ?>">
-                                    <button type="button" class="detallesEmergencia" onclick="enviarFormulario(<?php echo $id_emergencia; ?>)">Ver detalles</button>
-                            </form> -->
+                                <!-- <form  action='manejo_emergencia/detallesDeEmergencia.php' id="form_detalles_<?php echo $id_emergencia; ?>" method="POST" style="display:inline;">
+                                        <input type="hidden" name="idEmergenciaMedica" value="<?php echo $id_emergencia; ?>">
+                                        <button type="button" class="detallesEmergencia" onclick="enviarFormulario(<?php echo $id_emergencia; ?>)">Ver detalles</button>
+                                </form> -->
 
-                            <div class="cajaDeBotones">
+                                <div class="cajaDeBotones">
 
-                                <a href="registrosDeEmergencias.php?id=<?php echo $id_emergencia; ?>" class="btnEnlace"> Detalles de Emergencia </a><br><br>
+                                    <a href="registrosDeEmergencias.php?id=<?php echo $id_emergencia; ?>" class="btnEnlace"> Detalles de Emergencia </a><br><br>
 
-                                <?php
+                                    <?php
 
-                                    $ConsultaSiHospitalizacion = "SELECT COUNT(*) as total FROM hospitalizacion WHERE emergencia_medica_id = $id_emergencia";
-                                    $resultadoHosp = mysqli_query($conexion, $ConsultaSiHospitalizacion);
+                                        $ConsultaSiHospitalizacion = "SELECT COUNT(*) as total FROM hospitalizacion WHERE emergencia_medica_id = $id_emergencia";
+                                        $resultadoHosp = mysqli_query($conexion, $ConsultaSiHospitalizacion);
 
-                                    $fila = $resultadoHosp->fetch_assoc();
+                                        $fila = $resultadoHosp->fetch_assoc();
 
-                                    if ($fila['total'] > 0) {
-                                        // Si hay registros, mostrar el enlace
-                                        echo '<a href="registrosHospitalizacion.php?id=' . $id_emergencia . '" class="btnEnlace"> Datos de Hospitalización </a>';
-                                    }
+                                        if ($fila['total'] > 0) {
+                                            // Si hay registros, mostrar el enlace
+                                            echo '<a href="registrosHospitalizacion.php?id=' . $id_emergencia . '" class="btnEnlace"> Detalles de Hospitalización </a>';
+                                        }
 
-                                ?>
+                                    ?>
+                                </div>
                             </div>
-                    </div>
+                        </div>
                     <?php
                 
                     }
                 }
                 ?>
-                <!-- <div class="reporteEmerg">
-                    <h2>Emergencia Medica</h2>
-                    <h3>paciente:</h3>
-                    <h3>tipo de emergencia:</h3>
-                    <h3>fecha</h3>
-                    <h3>Estado de emergencia: En Proceso</h3>
-
-                    <button class="btnEnlace"> Detalles</button>
-                </div>
-
-                <div class="reporteEmerg">
-                    <h2>Emergencia Medica</h2>
-                    <h3>paciente:</h3>
-                    <h3>tipo de emergencia:</h3>
-                    <h3>fecha</h3>
-                    <h3>Estado de emergencia: En Proceso</h3>
-
-                    <button class="btnEnlace">Detalles</button>
-                </div>
-
-                <div class="reporteEmerg">
-                    <h2>Emergencia Medica</h2>
-                    <h3>paciente:</h3>
-                    <h3>tipo de emergencia:</h3>
-                    <h3>fecha</h3>
-                    <h3>Estado de emergencia: En Proceso</h3>
-
-                    <button class="btnEnlace">Detalles</button>
-                </div> -->
-                </div> 
-
-                <!-- <div class="reporteEmerg">
-                    <h2>Emergencia Medica</h2>
-                    <h3>paciente:</h3>
-                    <h3>tipo de emergencia:</h3>
-                    <h3>fecha</h3>
-                    <h3>Estado de emergencia: En Proceso</h3>
-
-                    <button>Crear Atención Médica</button>
-                </div> -->
+                
             </div>
         </div>
 
@@ -202,21 +270,19 @@
         <dialog class="DialogDeEmergencias">
 
             <div class="headerModel"> 
-                <h2>Bienvenido!</h2>
+                <h2>Registrar Emergencia</h2>
                 <form method="dialog">
                 <button class="ModalClose"> X</button>
                 </form>
             </div>
 
             <div id="RegistroUsuario">
-
-            <h2>Registrarse</h2>
             <form action="manejo_emergencia/registrosDatos.php"   method="POST">
                 <label for="cedulaPaciente">Cedula Paciente(registrado)</label>
-                <input id ="idPaciente" type="number" placeholder="Nombre" class="idPaciente" name="idPaciente">
+                <input id ="idPaciente" type="number" placeholder="Cedula Paciente Registrado" class="idPaciente" name="idPaciente">
 
                 <label for="nombre">Cedula Paciente(No registrado)</label>
-                <input id ="idPacienteTemp" type="number" placeholder="id de paciente"  name="idPacienteTemp">
+                <input id ="idPacienteTemp" type="number" placeholder="Cedula Paciente Temporal"  name="idPacienteTemp">
 
                 <label for="medicoResponsable">Medico Responsable</label>
                 <select name="medicoResponsable" id="selectMedicoEmergencia">
@@ -298,8 +364,6 @@
                 <button type="submit" class="botonesLogin" id="btnRegistrarEmergencia" name="registrarEmergencia" >Registrar Emergencia</button>
             </form>
 
-            <span class="resultado"> todos los campos son requedidos</span>
-
             </div>
 
         </dialog>
@@ -330,16 +394,14 @@
                             <label for="Edad">Edad</label>
                             <input id="Edad" type="number" placeholder="Edad " name="edad" value="" >
 
-                            <label for="Telefono">contacto de emergencia </label>
+                            <label for="Telefono">Contacto de Emergencia </label>
                             <input id="telefono" type="text" placeholder="Telefono" name="newTelefono" value="">
 
-                            <label for="direccion">direccion</label>
+                            <label for="direccion">Direccion</label>
                             <input id="direccion" type="text" placeholder="direccion" name="newdireccion" value="" >
 
                             <button type="submit" class="botonesLogin" id="botonRegistrarse" name="newPacienteTemp">Guardar</button>
                         </form>
-
-                    <span class="resultado"> todos los campos son requedidos</span>
 
                 </div>
 
@@ -493,6 +555,237 @@
         //             .catch(error => console.error("Error en la solicitud:", error));
     
         // }
+        const mensajeVerificacion = document.getElementById('mensajeVerificarPaciente');
+        const divPacienteTemp = document.getElementById('divPacienteTemp');
+        var barraBusqueda = document.getElementById('search');
+
+        document.getElementById('searchFormPaciente').addEventListener('submit', function(event) {
+            event.preventDefault(); 
+
+                var palabraClave = barraBusqueda.value;
+
+                console.log(palabraClave)
+
+                // Si se seleccionó una especialidad
+                // Usar fetch para hacer la solicitud
+                fetch('manejo_emergencia/verificarPaciente.php?palabra_id=' + palabraClave )
+                .then(response => response.json())  // Procesamos la respuesta como JSON
+                .then(data => {
+                    // Limpiamos el select de médicos
+                    
+                    // Si hay médicos, los agregamos al select
+                    if (data.success) {
+                        // Crear un primer option para "Seleccionar un médico"
+                        console.log(data);
+
+                        mensajeVerificacion.innerHTML = data.message
+
+                    
+                        // Iterar sobre los resultados y agregar filas a la tabla
+                        // data.data.forEach(medico => {
+                        //     // Crear una fila de la tabla
+                        //     console.log(data)
+                        // });
+                  
+                    } else {
+                        mensajeVerificacion.innerHTML = "El paciente no se cuentra rgistrado, debe registrarlo temporalmente en la plataforma para asocialo a una nueva emergencia.";
+
+                        divPacienteTemp.style.display = 'block';
+                        
+                    }
+                })
+                .catch(error => {
+                    console.error("Error al cargar los pacientes:", error);
+                });
+        });
+
+        document.getElementById('searchFormEmergencia').addEventListener('submit', function(event) {
+            event.preventDefault();
+
+            let barraBusqueda = document.getElementById('searchEmerg');
+            let contenedorTarjetas = document.getElementById('contenedorReportes');
+
+            // barraBusqueda.innerHtml = inputFiltrar.value
+
+            var palabraClave = barraBusqueda.value;
+            console.log(palabraClave)
+
+            // Si se seleccionó una especialidad
+            // Usar fetch para hacer la solicitud
+            fetch('manejo_emergencia/busquedasEmergencias.php?palabra_id='+ palabraClave)
+                .then(response => response.json())  // Procesamos la respuesta como JSON
+                .then(data => {
+                        // Limpiamos el select de médicos
+                        contenedorTarjetas.innerHTML = '';
+
+                        // Si hay médicos, los agregamos al select
+                        if (data.success) {
+                            // Crear un primer option para "Seleccionar un médico"
+                            console.log(data);
+
+                        
+                            data.data.forEach(emerg => {
+                                // Crear una fila de la tabla
+
+                                contenedorTarjetas.innerHTML += `
+                                <div class="reporteEmerg">
+                                    <div class='headReporte'> <h2>Emergencia Medica: ${emerg.id_emergencia}</h2>  </div>
+                                    <div class='bodyReporte'>
+                            
+                                        <h3>Paciente: ${emerg.id_cedula ? emerg.id_cedula : ''} 
+                                            ${emerg.id_PacienteTemp ? emerg.id_PacienteTemp : ''} 
+                                        </h3>
+                                        <h3>tipo de emergencia: ${emerg.tipo_emerg}</h3>
+                                        <h3>fecha: ${emerg.fecha}</h3>
+                                        <h3>Gravedad: ${emerg.gravedad}</h3>
+                                        <h3>Estado de emergencia: ${emerg.estado_emergencia}</h3>
+
+                                        <div class="cajaDeBotones">
+
+                                            <a href="registrosDeEmergencias.php?id=${emerg.id_emergencia}" class="btnEnlace"> Detalles de Emergencia </a><br><br>
+
+                                        </div>
+                                    </div>
+                                </div>
+                                    `;
+
+
+                                    fetch(`manejo_emergencia/verificacionHospitalizacion.php?id_emergencia=${emerg.id_emergencia}`)
+                                    .then(response => response.json())  // Parseamos la respuesta como JSON
+                                    .then(data => {
+                                        if (data.success) {
+                                            // Si hay hospitalización, agregamos el enlace de "Detalles de Hospitalización" dinámicamente
+                                            const contenedor = document.querySelectorAll('.reporteEmerg .bodyReporte .cajaDeBotones')[contenedorTarjetas.children.length - 1];
+
+                                            // Crear el enlace
+                                            const enlace = document.createElement('a');
+                                            enlace.href = `registrosHospitalizacion.php?id=${emerg.id_emergencia}`;
+                                            enlace.classList.add('btnEnlace');
+                                            enlace.textContent = 'Detalles de Hospitalización';
+
+                                            // Agregar el enlace al contenedor correspondiente
+                                            contenedor.appendChild(enlace);
+                                        } else {
+                                            console.log('No hay registros de hospitalización');
+                                        }
+                                    })
+                                    .catch(error => {
+                                        console.error('Error al hacer la solicitud:', error);
+                                    });
+                            });
+                        
+                        } else {
+                            // cuerpoTabla.innerHTML = "<tr><td colspan='6'>No se encontraron datos relacionados.</td></tr>";
+                        }
+                    })
+                    .catch(error => {
+                        console.error("Error al cargar los médicos:", error);
+                    });
+        });
+
+
+
+        document.getElementById('seleccionarEmergencias').addEventListener('change', function() {
+            const filtro = this.value;
+
+            console.log(filtro)
+        
+            // Si no hay valor seleccionado, no hacer nada
+            if (!filtro) return;
+
+            if(filtro === "totalEmergencia"){
+                location.reload();            
+            }
+
+            let contenedorTarjetas = document.getElementById('contenedorReportes');
+
+            // Crear los datos a enviar
+            const formData = new FormData();
+            formData.append('filtro', filtro);
+
+            // Enviar los datos al servidor usando fetch
+                fetch('manejo_emergencia/filtroEmergencias.php', {
+                    method: 'POST',
+                    body: formData
+                })
+                .then(response => {
+                    // Verificar si la respuesta es exitosa (código de estado 200)
+                    if (!response.ok) {
+                        throw new Error('Error en la respuesta del servidor');
+                    }
+                    return response.json(); // Parsear la respuesta como JSON
+                })
+                .then(data => {
+
+
+                    if (data.success) {
+
+                        contenedorTarjetas.innerHTML = '';
+                        console.log(data.data)
+
+                        if (data.data && data.data.length > 0) {
+                                data.data.forEach(emerg => {
+                                    // Crear una fila de la tabla
+
+                                    contenedorTarjetas.innerHTML += `
+                                    <div class="reporteEmerg">
+                                        <div class='headReporte'> <h2>Emergencia Medica: ${emerg.id_emergencia}</h2>  </div>
+                                        <div class='bodyReporte'>
+                                
+                                            <h3>Paciente: ${emerg.id_cedula ? emerg.id_cedula : ''} 
+                                                ${emerg.id_PacienteTemp ? emerg.id_PacienteTemp : ''} 
+                                            </h3>
+                                            <h3>tipo de emergencia: ${emerg.tipo_emerg}</h3>
+                                            <h3>fecha: ${emerg.fecha}</h3>
+                                            <h3>Gravedad: ${emerg.gravedad}</h3>
+                                            <h3>Estado de emergencia: ${emerg.estado_emergencia}</h3>
+
+                                            <div class="cajaDeBotones">
+
+                                                <a href="registrosDeEmergencias.php?id=${emerg.id_emergencia}" class="btnEnlace"> Detalles de Emergencia </a><br><br>
+
+                                            </div>
+                                        </div>
+                                    </div>
+                                        `;
+
+
+                                    fetch(`manejo_emergencia/verificacionHospitalizacion.php?id_emergencia=${emerg.id_emergencia}`)
+                                    .then(response => response.json())  // Parseamos la respuesta como JSON
+                                    .then(data => {
+                                        if (data.success) {
+                                            // Si hay hospitalización, agregamos el enlace de "Detalles de Hospitalización" dinámicamente
+                                            const contenedor = document.querySelectorAll('.reporteEmerg .bodyReporte .cajaDeBotones')[contenedorTarjetas.children.length - 1];
+
+                                            // Crear el enlace
+                                            const enlace = document.createElement('a');
+                                            enlace.href = `registrosHospitalizacion.php?id=${emerg.id_emergencia}`;
+                                            enlace.classList.add('btnEnlace');
+                                            enlace.textContent = 'Detalles de Hospitalización';
+
+                                            // Agregar el enlace al contenedor correspondiente
+                                            contenedor.appendChild(enlace);
+                                        } else {
+                                            console.log('No hay registros de hospitalización');
+                                        }
+                                    })
+                                    .catch(error => {
+                                        console.error('Error al hacer la solicitud:', error);
+                                    });
+                                });
+                            } else {
+                                // Si no hay datos o está vacío
+                                contenedorTarjetas.innerHTML = "No existen registros en este lapso de tiempo";
+                            }
+                        // Aquí puedes manejar los datos como lo desees
+                    } else {
+                        // cuerpoTabla.innerHTML = "<tr><td colspan='12'>No se encontraron datos relacionados.</td></tr>";
+                    }
+                })
+                .catch(error => {
+                    console.error('Error al hacer la solicitud:', error);
+                });
+        });
 
 
 

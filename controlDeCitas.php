@@ -12,86 +12,87 @@
 
     <?php include "sideba_admin.php" ?>
 
-    <main> 
+    <main id='contedorMacroCitas'> 
 
-    <h2>hola admin!</h2>
+    <h2 class='tituloSeccion'> Citas Medicas Registradas</h2>
+
     <div class="table__citas">
                 <div class="filtroCitas">
+
+                    <div class='btmNewCita'>
+
+                        <button id=citaAdmin> Crear Cita</button>
+
+                    </div>
+
+
                     <?php
                         $current_date = date('Y-m-d'); // Fecha actual
                         $one_week_later = date('Y-m-d', strtotime('+1 week')); // Fecha una semana más adelante
                     ?>
                     <form action="" method="POST" id="formulario_filtro">
                         <select name="filtro" id="seleccionarFechasCitas">
-                            <option value="">Seleccione Fecha</option>
+                            <option value="">Filtrar por Fecha</option>
                             <option value="<?php echo $current_date ?>">Citas del día</option>
                             <option value="filtroSemana_<?php echo $current_date . '_' . $one_week_later ?>">Citas de la semana</option>
                             <option value="totalCitas">Todas las citas</option>
                         </select>
                     </form>
                 </div>
-    <table>
-        <thead>
-            <th>Id_cita</th>
-            <th>Paciente</th>
-            <th>Medico</th>
-            <th>especialidad</th>
-            <th>Fecha</th>
-            <th>Hora</th>
-            <th>Estatus</th>
-            <th>fecha de creacion</th>
-            <th>Editar</th>
-            <th>Eliminar</th>
-        </thead>
-        <tbody id='bodyTable'>
-            <?php 
-            
-            include "conex_bd.php";
-
-            $citasSql = "SELECT c.id_cita, c1.nombre AS nombre_paciente, c2.nombre AS nombre_medico, e.nombre_esp, c.fecha, c.hora, c.estado, c.fecha_creacion FROM citas c JOIN usuarios c1 ON c.id_cliente = c1.id  JOIN usuarios c2 ON c.id_medico = c2.id  JOIN especialidades e ON c.especialidad = e.id_especialidad;";
-            $result = mysqli_query($conexion, $citasSql);
-
-            while($datos=$result->fetch_object()){ 
+        <table>
+            <thead>
+                <th>Id_cita</th>
+                <th>Paciente</th>
+                <th>Medico</th>
+                <th>especialidad</th>
+                <th>Fecha</th>
+                <th>Hora</th>
+                <th>Estatus</th>
+                <th>fecha de creacion</th>
+                <th>Eliminar</th>
+            </thead>
+            <tbody id='bodyTable'>
+                <?php 
                 
-                $id_cita = $datos->id_cita; 
+                include "conex_bd.php";
+
+                $citasSql = "SELECT c.id_cita, c1.nombre AS nombre_paciente, c2.nombre AS nombre_medico, e.nombre_esp, c.fecha, c.hora, c.estado, c.fecha_creacion FROM citas c JOIN usuarios c1 ON c.id_cliente = c1.id  JOIN usuarios c2 ON c.id_medico = c2.id  JOIN especialidades e ON c.especialidad = e.id_especialidad;";
+                $result = mysqli_query($conexion, $citasSql);
+
+                while($datos=$result->fetch_object()){ 
+                    
+                    $id_cita = $datos->id_cita; 
+                    ?>
+
+                    <tr>
+                        <td><?php echo $datos->id_cita ?> </td>
+                        <td><?php echo $datos->nombre_paciente ?> </td>
+                        <td> Dr.<?php echo $datos->nombre_medico ?> </td>
+                        <td><?php echo $datos->nombre_esp ?> </td>
+                        <td><?php echo $datos->fecha ?> </td>
+                        <td ><?php echo $datos->hora ?> </td>
+                        <td class='<?php echo $datos->estado ?>'> <?php echo $datos->estado ?> </td>
+                        <td><?php echo $datos->fecha_creacion ?> </td>
+                    
+                        <?php echo "<td>
+                                        
+                                        <form  id='formEliminar' action='Crud_Admin/Citas_medicas.php' method ='POST'>
+                                            <input type='hidden' name='id_cita' value='".$datos->id_cita."'>
+                                            <button type='submit' name='eliminarCita' class='delete'><span class='material-symbols-outlined'> delete </span></button>
+                                        </form>
+                                    </td>";?>
+
+
+
+                    </tr>
+
+                    <?php
+                }
+                
                 ?>
 
-                <tr>
-                    <td><?php echo $datos->id_cita ?> </td>
-                    <td><?php echo $datos->nombre_paciente ?> </td>
-                    <td> Dr.<?php echo $datos->nombre_medico ?> </td>
-                    <td><?php echo $datos->nombre_esp ?> </td>
-                    <td><?php echo $datos->fecha ?> </td>
-                    <td ><?php echo $datos->hora ?> </td>
-                    <td class='<?php echo $datos->estado ?>'> <?php echo $datos->estado ?> </td>
-                    <td><?php echo $datos->fecha_creacion ?> </td>
-                    <td>
-                        <!-- Formulario con botón para editar -->
-                        <!-- <form id="form_editar_<?php echo $id_cita; ?>" action="Crud_Admin/Citas_medicas.php" method="POST" style="display:inline;">
-                            <input type="hidden" name="idEditar" value="<?php echo $id_cita; ?>">
-                            <button type="button" class="linkEditar" onclick="enviarFormulario(<?php echo $id_cita; ?>)">editar</button>
-                        </form> -->
-                    </td>
-
-                    <?php echo "<td>
-                                    
-                                    <form  id='formEliminar' action='Crud_Admin/Citas_medicas.php' method ='POST'>
-                                        <input type='hidden' name='id_cita' value='".$datos->id_cita."'>
-                                         <button type='submit' name='eliminarCita' class='delete'>Eliminar</button>
-                                    </form>
-                                </td>";?>
-
-
-
-                </tr>
-
-                <?php
-            }
-            
-            ?>
-
-        </tbody>
-    </table><br><br>
+            </tbody>
+        </table><br><br>
 
     </div>
 
@@ -124,79 +125,125 @@
 
     </div> -->
 
-        <form action="Crud_Admin/Citas_medicas.php" method = "post" id="formCitas">
+        <dialog id='dialogNewCitaAdmin'>
+
+                        <form method="dialog">
+                            <button class="ModalClose"> X</button>
+                        </form>
 
             <h2> Agregar nueva Cita</h2>
 
-            <label for="usuarios">Paciente</label>
-            <select name="nameUser" id="usuario">
-                <option value="">Seleccione un Paciente</option>
-                <?php 
-                    $sql = $conexion->query("SELECT * FROM usuarios WHERE rol = 3");
-                    while($users = $sql->fetch_object()){ ?>
+            <form action="Crud_Admin/Citas_medicas.php" method = "post" id="formCitas">
 
-                    <option value="<?php echo $users->id ?>"><?php echo $users->nombre?></option>
+                <label for="usuarios">Paciente</label>
+                <select name="nameUser" id="usuario">
+                    <option value="">Seleccione un Paciente</option>
+                    <?php 
+                        $sql = $conexion->query("SELECT * FROM usuarios WHERE rol = 3");
+                        while($users = $sql->fetch_object()){ ?>
 
-                     <?php
-                    }
-                ?> 
+                        <option value="<?php echo $users->id ?>"><?php echo $users->nombre?></option>
 
-            
+                        <?php
+                        }
+                    ?> 
 
+                </select><br>
 
-            </select><br>
-
-            <label for="especialidad">Especialidad:</label>
-            <select name="especialidad" id="specialty_id">
-                <option value="">Seleccione una especialidad</option>
-                
-                <?php
-                    include "conex_bd.php";
-                        
-                    $sql = $conexion->query("SELECT id_especialidad, nombre_esp FROM `especialidades`");
-
-                    while($datos=$sql->fetch_object()){ ?>
-
-                        <option value="<?php echo $datos->id_especialidad ?>"><?php echo $datos->nombre_esp?></option>
-
+                <label for="especialidad">Especialidad:</label>
+                <select name="especialidad" id="specialty_id">
+                    <option value="">Seleccione una especialidad</option>
+                    
                     <?php
-                        $selectEspecialidad = $datos->nombre_esp;
-                    } 
-                ?>
-            </select><br>
+                        include "conex_bd.php";
+                            
+                        $sql = $conexion->query("SELECT id_especialidad, nombre_esp FROM `especialidades`");
 
-            <label for="medico">Médico:</label>
+                        while($datos=$sql->fetch_object()){ ?>
 
-            <select name="medico" id="doctor_id"  onchange="cargarHorarios()">
-                <option value="">Seleccione un médico</option>
+                            <option value="<?php echo $datos->id_especialidad ?>"><?php echo $datos->nombre_esp?></option>
+
+                        <?php
+                            $selectEspecialidad = $datos->nombre_esp;
+                        } 
+                    ?>
+                </select><br>
+
+                <label for="medico">Médico:</label>
+
+                <select name="medico" id="doctor_id"  onchange="cargarHorarios()">
+                    <option value="">Seleccione un médico</option>
+                    
+                </select><br>
+
+                <input type="hidden" name='idDoctorTrue' id='medico_hidden'>
+
+                <!-- <label for="hora">fecha de cita</label> -->
+                <!-- <input type="date" id="fecha" name="fecha"> -->
                 
-            </select><br>
+                <div class="espacioCalendario">
+                    <label for="fechaPruebas">Fecha de cita</label>
+                    <input type="text" id="fechaPruebas" placeholder="aaaa/mm/dd" name="fecha" />
 
-            <input type="hidden" name='idDoctorTrue' id='medico_hidden'>
 
-            <!-- <label for="hora">fecha de cita</label> -->
-            <!-- <input type="date" id="fecha" name="fecha"> -->
-            
+                    <div id="mensaje"></div><br>
+                </div>
+                <!-- 
+                <label for="hora">hora de cita</label>
+                <input type="time" id="horas" name="horaCita"> -->
 
-            <label for="fechaPruebas">Fecha de cita</label>
-            <input type="text" id="fechaPruebas" placeholder="aaaa/mm/dd" name="fecha" />
-            <div id="mensaje"></div><br>
-            <!-- 
-            <label for="hora">hora de cita</label>
-            <input type="time" id="horas" name="horaCita"> -->
+                <label for="hora">Selecciona una hora:</label>
+                <select id="horaSelect" name="horaSelecion">
+                    <!-- Las horas disponibles se generarán con JavaScript -->
+                </select>
+                
+                <div id="mensajeHora"></div><br>     
 
-            <label for="hora">Selecciona una hora:</label>
-            <select id="horaSelect" name="horaSelecion">
-                <!-- Las horas disponibles se generarán con JavaScript -->
-            </select>
-            
-            <div id="mensajeHora"></div><br>     
+                <input type="submit" id="submit_button" value="Confirmar Cita" name="confirmarCita">
 
-            <input type="submit" id="submit_button" value="Confirmar Cita" name="confirmarCita">
+            </form>
 
-        </form>
+        </dialog>
 
     </main>
+
+
+    <style>
+
+      .flatpickr-calendar {
+        margin: auto;
+        display: block;
+        
+      }
+
+      .flatpickr-day {
+          border-radius: 5px !important; /* Eliminar bordes redondeados */
+          margin: 2px;
+      } 
+      
+      .flatpickr-months .flatpickr-month {
+        background: #008080;
+        color: rgba(0, 0, 0, 0.9);
+        fill: rgba(0, 0, 0, 0.9);
+        height: 40px;
+        line-height: 1;
+      }
+
+      /* Estilo para los días deshabilitados */
+      .flatpickr-day.disabled {
+          background-color:rgb(182, 182, 182) !important; /* Color de fondo para los días deshabilitados */
+          color:rgb(139, 139, 139) !important; /* Color de texto para los días deshabilitados */
+          pointer-events: none; /* Deshabilitar la interacción con los días */
+      }
+
+      /* Estilo para los días seleccionados, para hacer el fondo cuadrado */
+      .flatpickr-day.selected {
+          border-radius: 0 !important; /* Eliminar bordes redondeados */
+          background-color: #00a291 !important; /* Cambiar el color de fondo */
+          color: #fff !important; /* Cambiar el color del texto */
+      }
+  </style>
+
 
     <script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
 
@@ -205,6 +252,20 @@
 
 
     <script>
+
+        // flatpickr("#fechaPruebas", {
+        //     position: "auto",  // Ajusta la posición automáticamente
+        //     appendTo: document.querySelector("dialog"),  // Coloca el calendario dentro del dialog
+        //     // Otras configuraciones de Flatpickr que puedas necesitar
+        // });
+
+        const btnCita = document.getElementById('citaAdmin');
+        btnCita.addEventListener("click", openLogin)
+
+        function openLogin(){
+            const dialog = document.getElementById("dialogNewCitaAdmin");
+            dialog.showModal(); 
+        } 
 
             
     let horaDeInicio = null;
@@ -458,6 +519,7 @@
 
         // Configuración de Flatpickr
         flatpickr("#fechaPruebas", {
+            inline: true,
             dateFormat: "Y-m-d",  // Formato de la fecha
             disable: [
                 // Deshabilitar todos los días que no estén en el array de días disponibles
@@ -605,12 +667,9 @@
                             <td class="${cita.estado}">${cita.estado}</td>
                             <td>${cita.fechaCreacion}</td>
                             <td> 
-                                
-                            </td>
-                            <td> 
                                 <form  id='formEliminar' action='Crud_Admin/Citas_medicas.php' method ='POST'>
                                         <input type='hidden' name='id_cita' value='${cita.id_cita}'>
-                                         <button type='submit' name='eliminarCita' class='delete'>Eliminar</button>
+                                         <button type='submit' name='eliminarCita' class='delete'><span class='material-symbols-outlined'> delete </span></button>
                                 </form>
                             </td>
                             

@@ -52,7 +52,7 @@ if (isset($_POST['espcialidad_id'])) {
     $idFiltro = $_POST['espcialidad_id'];
 
     // Preparar la consulta para obtener médicos según la especialidad
-    $filtroPorEsp = "SELECT cl.*, m.id_medico, m.id_especialidad, m.direccion, m.foto_perfil, m.fecha_nacimiento, e.nombre_esp AS nombre_especialidad FROM usuarios cl JOIN medicos m ON cl.id = m.id_medico JOIN especialidades e ON m.id_especialidad = e.id_especialidad WHERE m.id_especialidad = $idFiltro AND cl.rol <> 5";
+    $filtroPorEsp = "SELECT cl.*, m.id_medico, m.id_especialidad, m.direccion, m.foto_perfil, e.nombre_esp AS nombre_especialidad FROM usuarios cl JOIN medicos m ON cl.id = m.id_medico JOIN especialidades e ON m.id_especialidad = e.id_especialidad WHERE m.id_especialidad = $idFiltro AND cl.rol <> 5";
     $resultBusquedaEsp = mysqli_query($conexion, $filtroPorEsp);
 
     if ($resultBusquedaEsp->num_rows > 0) {

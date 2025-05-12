@@ -16,7 +16,7 @@ if(isset($_POST["registrar"])){
         $tlf = $_POST["telefono"];
         $email = $_POST["email"];
         $clave = $_POST["contraseña"];
-
+        $fecha_nac = $_POST["fecha_nac"];
         $nombreLower = strtolower($nombre);  // Convierte el nombre a minúsculas
         $apellidoLower = strtolower($apellido);  // Convierte el apellido a minúsculas
 
@@ -35,7 +35,7 @@ if(isset($_POST["registrar"])){
             }else{ 
 
 
-                $consultaSql = "INSERT INTO usuarios(id,nombre,apellido,telefono,correo,contraseña) VALUES ('$cedula_id','$nombreLower','$apellidoLower','$tlf','$email','$clave')";
+                $consultaSql = "INSERT INTO usuarios(id,nombre,apellido,telefono,correo,fecha_nacimiento,contraseña) VALUES ('$cedula_id','$nombreLower','$apellidoLower','$tlf','$email','$fecha_nac','$clave')";
                 $resultado = mysqli_query($conexion,$consultaSql);
 
                 if($resultado) {
@@ -111,52 +111,109 @@ if(isset($_POST["registrar"])){
 
     }
 
-    if (isset($_POST["confirmarCita"])){
+    // if (isset($_POST["confirmarCita"])){
+
+    //     $idUsurio = $_POST["nameUser"];
+    //     $esp = $_POST["especialidad"];
+    //     $medicos_esp = $_POST["medico_idTrue"];
+    //     $fechas = $_POST["fecha"];
+    //     $horario = $_POST["horaSelecion"];
+
+    //     //Datos de menor si el usuario los proporciona
+
+    //     // $nombreMenor = $_POST['nombreMenor'];
+    //     // $fechaNacimientoMenor = $_POST['fechaNacimientoMenor'];
+
+    //     $nombreMenor = !empty($_POST['nombreMenor']) ? $_POST['nombreMenor'] : NULL;
+    //     $fechaNacimientoMenor = !empty(trim($_POST['fechaNacimientoMenor'])) ? $_POST['fechaNacimientoMenor'] : NULL;
+
+    //     // Verificar el consentimiento
+    //     $consentimiento = isset($_POST['consentimientoMenor']) && $_POST['consentimientoMenor'] === 'on' ? 1 : 0;
+
+    //     // $consentimiento = (isset($_POST['consentimientoMenor']) && $_POST['consentimientoMenor'] === 'on') ? 1 : NULL;
+
+
+    //     // echo $nombre." ".$esp." ".$medicos_esp." ".$fechas." ".$horario;
+
+    //     // $consultaCita = "INSERT INTO `citas`(`especialidad`, `id_medico`, `id_cliente`, `fecha`, `hora`) VALUES ('?','?','?','?','?')";
+    //     // $stmt = $conexion->prepare($consultaCita);
+    //     // $stmt->bind_param("iiiis", $idUsurio, $esp, $medicos_esp, $fechas, $horario);
+
+    //     // if ($stmt->execute()) {
+    //     //     echo "Cita insertada correctamente.";
+    //     // } else {
+    //     //     echo "Error al insertar la cita: " . $stmt->error;
+    //     // }
+        
+    //     // Cerrar la declaración y la conexión
+    //     // $stmt->close();
+    //     // $conexion->close();
+
+    //     $consultaCita = "INSERT INTO `citas`(`especialidad`, `id_medico`, `id_cliente`, `fecha`, `hora`, `nombre_menor`, `fecha_nacimiento_menor`, `consentimiento`) VALUES ('$esp','$medicos_esp','$idUsurio','$fechas','$horario','$nombreMenor','$fechaNacimientoMenor','$consentimiento')";
+    //     $resultadoSql = mysqli_query($conexion,$consultaCita);
+
+    //     if ($resultadoSql) {
+    //         $_SESSION['mensaje'] = '<p style="color: green; font-weight: bold;">✅ Su cita ha sido agendada correctamente.</p>';
+    //     } else {
+    //         $_SESSION['mensaje'] = '<p style="color: red; font-weight: bold;">❌ Ha ocurrido un error. Intente nuevamente.</p>';
+    //     }
+    
+    //     header("Location: index.php");
+    //     exit();
+
+    // }
+
+    if (isset($_POST["confirmarCita"])) {
 
         $idUsurio = $_POST["nameUser"];
-        $esp = $_POST["especialidad"];
+        $esp = $_POST["especialidad_nombre"];
         $medicos_esp = $_POST["medico_idTrue"];
         $fechas = $_POST["fecha"];
         $horario = $_POST["horaSelecion"];
-
-
-        // echo $nombre." ".$esp." ".$medicos_esp." ".$fechas." ".$horario;
-
-        // $consultaCita = "INSERT INTO `citas`(`especialidad`, `id_medico`, `id_cliente`, `fecha`, `hora`) VALUES ('?','?','?','?','?')";
-        // $stmt = $conexion->prepare($consultaCita);
-        // $stmt->bind_param("iiiis", $idUsurio, $esp, $medicos_esp, $fechas, $horario);
-
-        // if ($stmt->execute()) {
-        //     echo "Cita insertada correctamente.";
-        // } else {
-        //     echo "Error al insertar la cita: " . $stmt->error;
-        // }
-        
-        // Cerrar la declaración y la conexión
-        // $stmt->close();
-        // $conexion->close();
-
-        $consultaCita = "INSERT INTO `citas`(`especialidad`, `id_medico`, `id_cliente`, `fecha`, `hora`) VALUES ('$esp','$medicos_esp','$idUsurio','$fechas','$horario')";
-        $resultadoSql = mysqli_query($conexion,$consultaCita);
-
+    
+        // Datos de menor si el usuario los proporciona
+        $nombreMenor = isset($_POST['nombreMenor']) && $_POST['nombreMenor'] !== '' ? $_POST['nombreMenor'] : NULL;
+        $fechaNacimientoMenor = isset($_POST['fechaNacimientoMenor']) && $_POST['fechaNacimientoMenor'] !== '' ? $_POST['fechaNacimientoMenor'] : NULL;
+        $consentimiento = (isset($_POST['consentimientoMenor']) && $_POST['consentimientoMenor'] === 'on') ? 1 : NULL;
+    
+        // Comprobar si los campos de menor están completos (no son NULL ni vacíos)
+        if ($nombreMenor && $fechaNacimientoMenor && $consentimiento !== NULL) {
+            // Si los campos de menor están completos, insertar la consulta con esos campos
+            $consultaCita = "INSERT INTO `citas`(`especialidad`, `id_medico`, `id_cliente`, `fecha`, `hora`, `nombre_menor`, `fecha_nacimiento_menor`, `consentimiento`) 
+                            VALUES ('$esp','$medicos_esp','$idUsurio','$fechas','$horario','$nombreMenor','$fechaNacimientoMenor','$consentimiento')";
+        } else {
+            // Si los campos de menor no están completos, insertar la consulta sin esos campos
+            $consultaCita = "INSERT INTO `citas`(`especialidad`, `id_medico`, `id_cliente`, `fecha`, `hora`) 
+                            VALUES ('$esp','$medicos_esp','$idUsurio','$fechas','$horario')";
+        }
+    
+        // Ejecutar la consulta
+        $resultadoSql = mysqli_query($conexion, $consultaCita);
+    
+        // Verificar si la consulta fue exitosa
         if ($resultadoSql) {
             $_SESSION['mensaje'] = '<p style="color: green; font-weight: bold;">✅ Su cita ha sido agendada correctamente.</p>';
         } else {
             $_SESSION['mensaje'] = '<p style="color: red; font-weight: bold;">❌ Ha ocurrido un error. Intente nuevamente.</p>';
         }
     
+        // Redirigir al usuario
         header("Location: index.php");
         exit();
-
     }
+
+
+
+
+
+
 
     
     if (isset($_POST["perfilUsuario"])){
 
         $id_usurio = $_POST["id"];
-        $cedula = $_POST["cedula"];
         $direccion = $_POST["direccion"];
-        $fecha_nac = $_POST["fecha_nac"];
+       
         $edad = $_POST["edad"];
         $genero = $_POST["genero"];
         $alergias = $_POST["alergias"];
@@ -168,7 +225,7 @@ if(isset($_POST["registrar"])){
         // move_uploaded_file($imagen_tem,"perfiles_img/".$foto_perfil);
 
 
-        $consultaSql = "INSERT INTO perfil_usuario(`id_usuario`, `direccion`, `fecha_nacimiento`, `edad`, `genero`, `alergias`, `ocupacion`, `nivel_educacion`) VALUES ('$id_usurio','$direccion','$fecha_nac','$edad','$genero','$alergias','$ocupacion','$estudios')";
+        $consultaSql = "INSERT INTO perfil_usuario(`id_usuario`,`direccion`,`edad`, `genero`, `alergias`, `ocupacion`, `nivel_educacion`) VALUES ('$id_usurio','$direccion','$edad','$genero','$alergias','$ocupacion','$estudios')";
 
         
         $resultadoSql = mysqli_query($conexion,$consultaSql);

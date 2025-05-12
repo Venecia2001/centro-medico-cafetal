@@ -85,22 +85,22 @@ if(isset($_POST['ActualizarHosp'])){
 
 }
 
-if(isset($_POST['actualizarMetodoPago'])){
+// if(isset($_POST['actualizarMetodoPago'])){
 
-    $idFactura =  $_POST["idFactura"];
-    $metodoDePago = mysqli_real_escape_string($conexion, $_POST['selectPago']);
+//     $idFactura =  $_POST["idFactura"];
+//     $metodoDePago = mysqli_real_escape_string($conexion, $_POST['selectPago']);
 
-    // var_dump($metodoDePago);
+//     // var_dump($metodoDePago);
 
-    $consultaSql = "UPDATE facturas SET metodo_pago = '$metodoDePago', estado = 'Pagado' WHERE factura_id = $idFactura";
-    $resultadoSql = mysqli_query($conexion, $consultaSql);
+//     $consultaSql = "UPDATE facturas SET metodo_pago = '$metodoDePago', estado = 'Pagado' WHERE factura_id = $idFactura";
+//     $resultadoSql = mysqli_query($conexion, $consultaSql);
 
-    if($resultadoSql){
+//     if($resultadoSql){
 
-        header("Location:../seccionFacturacion.php");
+//         header("Location:../seccionFacturacion.php");
 
-    }
-}
+//     }
+// }
 
 if(isset($_POST['actualizarMetodoPagoCita'])){
 

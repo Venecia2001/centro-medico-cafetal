@@ -295,6 +295,28 @@
                     <!-- Mostrar mensaje de éxito o error -->
                     <?php if (!empty($mensaje)) echo $mensaje; ?>
 
+                    <button type="button" id='btnVerCitaMenor'>Cita a Menor de Edad</button>
+
+                    <div id='formCitaInterna' class="datosMenor">
+                        <div class="headerCitas">
+                            <h2> Datos del Menor</h2><br>
+                        </div>
+
+                      <div class='textoDeInput'>
+                        
+                        <label for="nombreMenor">Nombre del Menor:</label>
+                        <input type="text" id="nombreMenor" name="nombreMenor" placeholder="Nombre y Apellido del menor">
+                        
+                        <label for="fechaNacimientoMenor">Fecha de Nacimiento:</label>
+                        <input type="date" id="fechaNacimientoMenor" name="fechaNacimientoMenor" max="<?= date('Y-m-d'); ?>">
+
+                        <!-- Consentimiento del representante -->
+                        <label for="consentimientoMenor" id='textCheck'>
+                            <input type="checkbox" id="consentimientoMenor" name="consentimientoMenor"> Acepto que soy el representante legal del menor.
+                        </label><br><br>
+                      </div>
+                    </div>
+
 
                   </div>
 
@@ -306,6 +328,7 @@
 
                     <div class="especialidadesCita">
                       <input type="hidden" id="specialty_id_hidden" name="especialidad" value="">
+                      <input type="hidden" id="specialty_name_hidden" name="especialidad_nombre" value="">
                       
                       <?php
                           include "conex_bd.php";
@@ -372,7 +395,7 @@
 
       .flatpickr-calendar {
         margin: auto;
-        display: block; /* por si acaso está en inline */
+        display: block;
       }
 
       .flatpickr-day {
@@ -401,7 +424,7 @@
           background-color: #00a291 !important; /* Cambiar el color de fondo */
           color: #fff !important; /* Cambiar el color del texto */
       }
-  </style>
+    </style>
     
 
 <?php include "footer.php";  ?>
@@ -421,6 +444,29 @@
 
 <script>
 
+  const botonCitaMenor = document.getElementById('btnVerCitaMenor')
+  botonCitaMenor.addEventListener("click", openFormCita)
+
+  function openFormCita(){
+
+    const today = new Date();
+
+    // Calcular la fecha de hace 18 años
+    const eighteenYearsAgo = new Date(today.setFullYear(today.getFullYear() - 18));
+
+    // Formatear la fecha como YYYY-MM-DD
+    const formattedDate = eighteenYearsAgo.toISOString().split('T')[0];
+
+    // Asignar la fecha máxima al input de fecha de nacimiento
+    document.getElementById('fechaNacimientoMenor').setAttribute('min', formattedDate);
+
+
+    const formInterno = document.getElementById("formCitaInterna");
+    formInterno.style.display = "block"; 
+    
+  }
+
+
     document.querySelectorAll('.especialidad').forEach(div => {
       div.addEventListener('click', function () {
         // Quitar selección previa
@@ -430,12 +476,32 @@
         this.classList.add('seleccionada');
 
         // Guardar ID en input hidden
-        document.getElementById('specialty_id_hidden').value = this.dataset.id;
+        // document.getElementById('specialty_id_hidden').value = this.dataset.id;
 
-        console.log("Especialidad seleccionada:", this.dataset.id);
+        // console.log("Especialidad seleccionada:", this.dataset.id);
         
         // Aquí puedes disparar otras funciones como cargar doctores, etc.
         // cargarMedicos(this.dataset.id);
+      });
+    });
+
+    document.addEventListener('DOMContentLoaded', function () {
+      const especialidades = document.querySelectorAll('.especialidad');
+      const inputId = document.getElementById('specialty_id_hidden');
+      const inputNombre = document.getElementById('specialty_name_hidden');
+
+      especialidades.forEach(function (esp) {
+        esp.addEventListener('click', function () {
+          const id = this.getAttribute('data-id');
+          const nombre = this.textContent.trim();
+
+          inputId.value = id;
+          inputNombre.value = nombre;
+
+          // Opcional: resaltar la selección
+          especialidades.forEach(e => e.classList.remove('selected'));
+          this.classList.add('selected');
+        });
       });
     });
 
@@ -520,7 +586,7 @@
     dialog.showModal(); 
   }
 
-
+  
   // function mostrarFronRegistro(){
   //   inicioSesion.style.display = "none"
   //   botonMostrarRegistro.classList.add("botonesLoginSelecionado");

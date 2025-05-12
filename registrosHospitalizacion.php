@@ -122,11 +122,6 @@ if(!empty($_GET["id"])) {
             <nav class= "sidebar__nav" >
             
             <ul>
-
-            <li class="sidebar__item">
-                <span class="material-symbols-outlined">notifications</span>
-                <a href="inicioAdmin.php">Inicio</a>
-            </li>
             
             <li class="sidebar__item">
                 <span class="material-symbols-outlined">notifications</span>
@@ -140,7 +135,22 @@ if(!empty($_GET["id"])) {
 
             <li class="sidebar__item">
                 <span class="material-symbols-outlined">notifications</span>
+                <a href="#">Hospitalizacion</a>
+            </li>
+
+            <li class="sidebar__item">
+                <span class="material-symbols-outlined">notifications</span>
+                <a href="gestionMedicamentos.php">Gestion Medicamentos</a>
+            </li>
+
+            <li class="sidebar__item">
+                <span class="material-symbols-outlined">notifications</span>
                 <a href="#">Facturacion</a>
+            </li>
+
+            <li class="sidebar__item">
+                <span class="material-symbols-outlined">notifications</span>
+                <a href="seccionFacturasCitas.php">Facturacion Citas</a>
             </li>
 
         
