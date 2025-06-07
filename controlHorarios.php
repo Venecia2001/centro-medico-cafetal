@@ -34,7 +34,7 @@
 
                 <div class="medico aggEsp">
                     <h2>Especialidad</h2>
-                    <select name="especialidad" id="specialty_id">
+                    <select name="especialidad" id="specialty_id" class="selectForm" require>
                                     <option value="">Seleccione la especialidad</option>
                                     <?php
                                     include "conex_bd.php";
@@ -54,14 +54,14 @@
 
                 <div class="medico aggNombre">
                         <h2>Nombre Medico</h2>
-                        <select name="medico" id="doctor_id">
+                        <select name="medico" id="doctor_id" class="selectForm" require>
                             <option value="">Seleccione un médico</option>
                             
                         </select><br>
                 </div>
                 <div class="medico aggDiaSemana">
-                        <h2>dia disponible</h2>
-                        <select name="dia" id="diaSemana">
+                        <h2>Dia disponible</h2>
+                        <select name="dia" id="diaSemana" class="selectForm" require>
                             <option value="">Seleciona un dia</option>
                             <option value="1">Lunes</option>
                             <option value="2">Martes</option>
@@ -69,14 +69,14 @@
                             <option value="4">Jueves</option>
                             <option value="5">Viernes</option>
                             <option value="6">Sabado</option>
-                            <option value="7">Domingo</option>
+                            <option value="0">Domingo</option>
                         </select>
 
                         
                 </div>
-                <div class="medico aggHoraInicio">
+                <div class="medico aggHoraInicio" require>
                         <h2>Ininio de Turno</h2>
-                        <select name="comienzoTurno" id="horaC">
+                        <select name="comienzoTurno" class="selectForm" id="horaC">
                         <option value="">Comienzo de turno</option>
                                 <option value="08:00">08:00</option>
                                 <option value="09:00">09:00</option>
@@ -92,7 +92,7 @@
 
                 <div class="medico aggHoraFin">
                         <h2>fin de turno</h2>
-                        <select name="finTurno" id="horaF">
+                        <select name="finTurno" id="horaF" class="selectForm" require>
                         <option value="">Final de Turno</option>
                                 <option value="08:00">08:00</option>
                                 <option value="09:00">09:00</option>
@@ -108,8 +108,6 @@
 
                 <div class="medico btnRegistrar">
 
-                    
-                
                     <input type="submit" name="registroHoras" id="button_horario" value='Registrar'>
                     <p id="mensajeAlert"></p>
                 
@@ -173,7 +171,7 @@
                                     case 6:
                                         $nombreDia = 'Sábado';
                                         break;
-                                    case 7: 
+                                    case 0: 
                                         $nombreDia = 'Domingo';
                                         break;
                                     default:
@@ -194,9 +192,9 @@
                             </form>
                         </td>
 
-                        <?php echo "<td> 
+                        <?php echo "<td>  
                                     
-                                    <form  id='formEliminar' action='Crud_Admin/accionesHorarios.php' method ='POST'>
+                                    <form  id='formEliminar' action='Crud_Admin/accionesHorarios.php' method ='POST' onsubmit=\"return confirm('¿Estás seguro de que deseas Eliminar este Horarios?');\">
                                         <input type='hidden' name='id' value='".$idHorario."'>
                                          <button type='submit' name='eliminarHorario' class='deleteMed'><span class='material-symbols-outlined'> delete </span></button>
                                     </form>
@@ -262,7 +260,7 @@
                         <option value="4">Jueves</option>
                         <option value="5">Viernes</option>
                         <option value="6">Sabado</option>
-                        <option value="7">Domingo</option>
+                        <option value="0">Domingo</option>
                     </select><br>
 
                     <label for="">Hora De Inicio</label><br>
@@ -282,7 +280,7 @@
 
                     <label for="">Hora de culminacion</label><br>
                     <!-- <span id="mensajeHoraFin"></span> -->
-                    <select name="finTurnoEdit" id="horaFEdit"  class="selectForm">
+                    <select name="finTurnoEdit" id="horaFEdit" class="selectForm">
                         <option value="">Final de Turno</option>
                         <option value="08:00">08:00</option>
                         <option value="09:00">09:00</option>
@@ -367,6 +365,40 @@
                 doctorSelect.innerHTML = '<option value="">Selecciona un médico</option>';
             }
             });
+        });
+
+        document.getElementById("button_horario").addEventListener("click", function(e) {
+            e.preventDefault(); // Previene el envío del formulario hasta validar
+
+            const especialidad = document.getElementById("specialty_id").value;
+            const medico = document.getElementById("doctor_id").value;
+            const dia = document.getElementById("diaSemana").value;
+            const comienzoTurno = document.getElementById("horaC").value;
+            const finTurno = document.getElementById("horaF").value;
+            const mensaje = document.getElementById("mensajeAlert");
+
+            if (!especialidad || !medico || !dia || !comienzoTurno || !finTurno) {
+                // mensaje.textContent = "Debes seleccionar todos los campos antes de registrar.";
+                // mensaje.style.color = "red";
+                alert('Debes seleccionar todos los campos antes de registrar.')
+            } else {
+                // Validación adicional: inicio debe ser menor que fin
+                if (comienzoTurno >= finTurno) {
+                    mensaje.textContent = "La hora de inicio debe ser menor que la de fin.";
+                    mensaje.style.color = "red";
+                    return;
+                }
+
+                // // Todo bien, enviamos el formulario
+                // document.getElementById("formHorarios").submit();
+
+                 const formHorario = document.getElementById("formHorarios");
+                const hiddenInput = document.createElement("input");
+                hiddenInput.type = "hidden";
+                hiddenInput.name = "registroHoras";
+                formHorario.appendChild(hiddenInput);
+                formHorario.submit();
+                }
         });
 
 

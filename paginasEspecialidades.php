@@ -56,7 +56,48 @@
 
       <p class="textoPricipal"> <?php echo $descripcion_esp ?></p>
 
+
+      <?php 
+        if (!empty($_SESSION['usuario'])) {
+            $nombreCompleto = "bienvenid@ " . $_SESSION["nombre"] . " " . $_SESSION["apellido"];
+            ?>
+            <input type='hidden' id="sesionUsuarioPhp" value='<?php echo htmlspecialchars($nombreCompleto, ENT_QUOTES, "UTF-8"); ?>'>
+      <?php
+      } else {
+      ?>
+        <input type='hidden' id="sesionUsuarioPhp" value=''>
+      <?php
+      }
+      ?>
+
+          <!-- <input type='hidden' id="sesionUsuarioPhp" value='<?php echo "bienvenid@".$_SESSION["nombre"]?>'> -->
+        
+
       <button id="botonSolicitud"> solicita una cita </button>
+
+      <dialog id="mesajeCitaOnline"> 
+
+          <div class="bodyMensaje">
+
+            <form method="dialog">
+                  <button class="ModalClose"> X</button>
+            </form>
+
+            <div class="textAlUser">
+                  <h2>¡Atención!</h2>
+
+              <p>
+                Para agendar una cita médica, primero necesitas estar registrado como usuario.
+                Si aún no tienes una cuenta, por favor regístrate para poder acceder a nuestros servicios.
+                </p>
+
+                <button> <a id="enlaceRegistro" href="registroUsuarios.php"> Regístrate Ahora </a> </button>
+
+            </div>
+          </div>
+
+
+      </dialog>
 
       <!-- <dialog id="dialogOnline" >
         <div class="contenidoDialog"> 
@@ -371,7 +412,9 @@
                     </div>
 
                     <div class="especialidadesCita">
+
                       <input type="hidden" id="specialty_id_hidden" name="especialidad" value="<?php echo $idEspecialidad ?>">
+                      <input type="hidden" id="specialty_name_hidden" name="especialidad_nombre" value="<?php echo $nombre_esp?>">
                       
                       <?php
                           include "conex_bd.php";
@@ -479,6 +522,19 @@
 
 <script>
 
+  const pPhp = document.getElementById("sesionUsuarioPhp").value;
+
+  const botonCitas= document.getElementById("botonSolicitud");
+
+  if (pPhp !== "") {
+        console.log("El elemento tiene texto y es: " + pPhp);
+        botonCitas.addEventListener("click", openModal);
+    } else {
+        console.log("El elemento está vacío o no tiene texto");
+        botonCitas.addEventListener("click", openMensajeAdvertencia);
+    }
+
+
   const botonCitaMenor = document.getElementById('btnVerCitaMenor')
     botonCitaMenor.addEventListener("click", openFormCita)
 
@@ -502,14 +558,19 @@
     }
 
 
-      const botonCitas = document.getElementById('botonSolicitud')
-      botonCitas.addEventListener("click", openModal)
+      // const botonCitas = document.getElementById('botonSolicitud')
+      // botonCitas.addEventListener("click", openModal)
 
       function openModal(){
 
         const dialog = document.getElementById("dialogCitasOnline");
         dialog.showModal(); 
 
+      }
+
+      function openMensajeAdvertencia(){
+        const dialog = document.getElementById("mesajeCitaOnline");
+        dialog.showModal(); 
       }
 
         document.addEventListener("DOMContentLoaded", function() {

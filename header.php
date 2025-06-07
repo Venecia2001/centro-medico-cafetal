@@ -49,7 +49,32 @@ if(!empty($_SESSION['usuario'])){
             <?php if (!isset($_SESSION['usuario'])): ?>
                 <li> <a class="botones" href="login.php">inicio de Sesion</a> </li>
             <?php else: ?>
-                <li> <a class="botones" href="perfil_usuario.php">Perfil</a> </li>
+
+                <?php
+
+                include "conex_bd.php";
+
+                $idUsuario  = $_SESSION['id'];
+
+                $consultaPerfil = "SELECT COUNT(*) AS total FROM perfil_usuario WHERE id_usuario = $idUsuario";
+                $resultadoPerfil = mysqli_query($conexion, $consultaPerfil);
+
+                if ($resultadoPerfil) {
+                    $row = mysqli_fetch_assoc($resultadoPerfil);
+                    $total = $row['total'];
+
+                    if ($total > 0) { ?>
+                        <li> <a class="botones" href="perfil_usuario.php">Perfil</a> </li>
+                    <?php
+                    }else{ ?>
+
+                        <li> <a class="botones PerfilImcompleto" title="Completa tu perfil" href="perfil_usuario.php"> Perfil</a> </li>
+                        <?php
+                    }
+                }    
+                ?>
+                
+
                 <li> <a class="botones" href="perfil_historialMedico.php">Historial Medico</a> </li>
                 <li> <a class="botones" href="cerrar.php">Cerrar Sesion</a> </li>
             <?php endif; ?>

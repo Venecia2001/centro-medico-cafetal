@@ -203,7 +203,7 @@ if (isset($_POST['ModificarEsp'])) {
                                 </form>
 
                                 <?php echo "
-                                            <form  id='formEliminar' action='Crud_Admin/newEspecialidades.php' method ='POST'>
+                                            <form  id='formEliminar' action='Crud_Admin/newEspecialidades.php' method ='POST' onsubmit='return confirmarEliminacion($idEspecialidad)'>
                                                 <input type='hidden' name='id' value='".$idEspecialidad."'>
                                                 <button type='submit' name='eliminar' class='btnEdit btnDelete'><span class='material-symbols-outlined'> delete </span></button>
                                             </form>
@@ -236,16 +236,14 @@ if (isset($_POST['ModificarEsp'])) {
 
         <div class="headerModel"> 
 
-                <h2 class='tituloRegistroDialog'>Nueva Especialidad</h2>
-
                 <form method="dialog">
                     <button class="ModalClose"> X</button>
                 </form>
         </div>
 
             <div class="registroEsp">
-                <h2>Datos Especialidad</h2>
-                <form method="POST" action="especialidades.php" class="formEsp" enctype="multipart/form-data">
+                <h2>Nueva Especialidad</h2>
+                <form method="POST" action="especialidades.php" class="formEsp" id='formEspecilidadNew' enctype="multipart/form-data">
 
                             <label for="nombre">Nombre Especialidad:</label>
                             <input type="text" name="nombreEsp" id="nombreEsp" required><br>
@@ -254,11 +252,10 @@ if (isset($_POST['ModificarEsp'])) {
                             <input type="text" name="DescripcionEsp" id="DescripcionEsp" required><br>
 
                             <label for="telefono">consultorio:</label>
-                            <input type="number" name="consultorioEsp" id="consultorio" required><br>
+                            <input type="text" min="0" name="consultorioEsp" id="consultorio" required><br>
 
                             <label for="correo">Servicio Relacionado:</label>
                             <select name="servicioRel" id="esp" required>
-                                <option value="">Seleccione la especialidad</option>
                                 <?php
                                 include "conex_bd.php";
                                     
@@ -277,41 +274,42 @@ if (isset($_POST['ModificarEsp'])) {
                             <label for="clave">imagen Relacionada:</label>
                             <input type="file" name="archivo" id="inputFotoResg" required>
 
-                            <input type="submit" name="registroEsp" class="botonesLogin" id="botonRegistrar" value="Crear Especialidad">
+                            <input type="submit" name="registroEsp" class="botonesLogin" id="botonRegistrarseNewEsp" value="Crear Especialidad">
                 </form>
+
+                    <span class="resultado"> todos los campos son requeridos</span>
             </div>
 
         </dialog>
+        
 
         <dialog id="modalEdit" class="dialogEsp">
             
             <div class="registroMed">
-                <h2>Modificar Especialidad</h2>
-
                 <form method="dialog">
                     <button class="ModalClose"> X</button>
                 </form>
             </div>
 
             <div class='registroEsp'>
-                <form method="POST" action="especialidades.php" class="formMed" enctype="multipart/form-data">
+                <form method="POST" action="especialidades.php" id='formEspEdit' class="formMed" enctype="multipart/form-data">
 
-                    <h2 class='tituloRegistroDialog'>Datos Especialidad</h2>
+                    <h2 class='tituloRegistroDialog'>Modificar Especialidad</h2>
                         
                         <input type="hidden" name="idDeEsp" id="idDeLaEsp">
 
                         <label for="nombre">Nombre Especialidad:</label>
-                        <input type="text" name="nombreEsp" id="nombreEspecialidad" required><br>
+                        <input type="text" name="nombreEsp" id="nombreEspEdit" required><br>
 
                         <label for="nombre">Descripcion de la Especialidad:</label>
                         <textarea id="DescripcionEspecialidad" name="DescripcionEsp" rows="4" cols="30" placeholder="Escribe aquí..."></textarea><br><br>
 
                         <label for="consultorio">consultorio:</label>
-                        <input type="text"  id="consultorioEdit" name="consultorioEsp" required /><br>
+                        <input type="text"  id="consultorioEdit" name="consultorioEspEdit" required /><br>
 
                         <label for="correo">Servicio Relacionado:</label>
-                        <select name="servicioRel" id="ServicioEsp" required>
-                            <option value="">Seleccione la especialidad</option>
+
+                        <select name="servicioRel" id="ServicioEspEdit" required>
                             <?php
                                 include "conex_bd.php";
                                             
@@ -321,20 +319,21 @@ if (isset($_POST['ModificarEsp'])) {
 
                                 <option value="<?php echo $datos->id_servicio ?>"><?php echo $datos->nombre_servicio?></option>
 
-                            <?php
+                                <?php
                                     
-                            } 
-                            ?>
+                                } 
+                                ?>
                             </select><br>
 
-                            <label for="clave">imagen Relacionada:</label>
+                            <label for="imgRelacionada">imagen Relacionada:</label>
                             <label id="inputImg"></label>
                             <input type="hidden" name="archivoNombre" id="inputNombre">
 
                             <input type="file" name="archivoEdit" id="inputFile">
 
-                            <input type="submit" name="ModificarEsp" id="botonRegistrar" value="Modificar">
+                            <input type="submit" name="ModificarEsp" id="botonRegistrarEdit" value="Modificar">
                 </form>
+                <span id="resultadoEdit"> todos los campos son requeridos</span>
             </div>
             
         </dialog>
@@ -343,6 +342,10 @@ if (isset($_POST['ModificarEsp'])) {
 
 
     <script>
+
+        function confirmarEliminacion(id) {
+            return confirm("¿Estás seguro de que deseas eliminar la especialidad? Esta acción no se puede deshacer.");
+        }
 
         const tarjetaAgg = document.getElementById("aggEspecialidades");
         tarjetaAgg.addEventListener("click", openModal);
@@ -388,10 +391,10 @@ if (isset($_POST['ModificarEsp'])) {
                 console.log(data.foto_relacionada)
 
                 document.getElementById('idDeLaEsp').value = data.id;
-                document.getElementById('nombreEspecialidad').value = data.nombre;
+                document.getElementById('nombreEspEdit').value = data.nombre;
                 document.getElementById('DescripcionEspecialidad').value = data.descripcion;
                 document.getElementById('consultorioEdit').value = data.N_consultorio;
-                document.getElementById('ServicioEsp').value = data.servicio_relacionado;
+                document.getElementById('ServicioEspEdit').value = data.servicio_relacionado;
                 document.getElementById('inputImg').innerHTML = data.foto_relacionada;
                 document.getElementById('inputNombre').value = data.foto_relacionada;
                 // document.getElementById('cedulaMed').value = data.cedula;
@@ -412,6 +415,106 @@ if (isset($_POST['ModificarEsp'])) {
     
     
     }
+
+    function validarFormulario(campos, esEdicion = false) {
+        let textoTituloPattern = /^[A-Za-zÁÉÍÓÚáéíóúÑñ\s]+$/;
+        let textoDescripcionPattern = /^[A-Za-zÁÉÍÓÚáéíóúÑñ0-9\s.,;:()\-"¿?!¡']+$/;
+
+        const {
+            tituloEspecialidad,
+            descripcion,
+            nConsultorio,
+            archivo
+        } = campos;
+
+        if (tituloEspecialidad.length < 2 || tituloEspecialidad.length > 40 || !textoTituloPattern.test(tituloEspecialidad)) {
+            return [true, "El Titulo solo debe contener letras, espacios y tener como mínimo 2 caracteres."];
+        } else if (descripcion.length < 2 || descripcion.length > 250 || !textoDescripcionPattern.test(descripcion)) {
+            return [true, "La descripcion solo debe contener letras, espacios y tener como mínimo 2 caracteres."];
+        } else if (nConsultorio === "") {
+            return [true, "El número de consultorio es obligatorio."];
+        } else if (!/^\d+$/.test(nConsultorio)) {
+            return [true, "El número de consultorio no es válido."];
+        }
+
+        // Validar archivo solo si NO es edición o si el archivo fue cambiado
+        if (!esEdicion && !archivo) {
+            return [true, "Debe seleccionar una imagen relacionada a la especialidad."];
+        } else if (archivo && !archivo.type.startsWith("image/")) {
+            return [true, "El archivo debe ser una imagen válida."];
+        }
+
+        return [false, ""];
+    }
+
+    // ---------------------------
+    // Manejo de formulario de registro
+    // ---------------------------
+    const botonRegistrar = document.getElementById("botonRegistrarseNewEsp");
+    const spanResultado = document.querySelector(".resultado");
+    const spanResultadoEdit = document.getElementById("resultadoEdit")
+
+    console.log(document.getElementById("inputFotoResg").files);
+
+    botonRegistrar.addEventListener("click", (e) => {
+        e.preventDefault();
+
+        const campos = {
+            tituloEspecialidad: document.getElementById("nombreEsp").value.trim(),
+            descripcion: document.getElementById("DescripcionEsp").value.trim(),
+            nConsultorio: document.getElementById("consultorio").value.trim(),
+            archivo: document.getElementById("inputFotoResg").files[0]
+        };
+
+        const error = validarFormulario(campos);
+        if (error[0]) {
+            spanResultado.innerHTML = error[1];
+            spanResultado.classList.add("red");
+            spanResultado.classList.remove("green");
+        } else {
+            spanResultado.innerHTML = "Te has registrado correctamente";
+            spanResultado.classList.add("green");
+            spanResultado.classList.remove("red");
+
+            const form = document.getElementById("formEspecilidadNew");
+            const hiddenInput = document.createElement("input");
+            hiddenInput.type = "hidden";
+            hiddenInput.name = "registroEsp";
+            form.appendChild(hiddenInput);
+            form.submit();
+        }
+    });
+
+
+    const botonEditar = document.getElementById("botonRegistrarEdit"); // botón del formulario de edición
+
+    botonEditar.addEventListener("click", function(e) {
+        const campos = {
+            tituloEspecialidad: document.getElementById("nombreEspEdit").value.trim(),
+            descripcion: document.getElementById("DescripcionEspecialidad").value.trim(),
+            nConsultorio: document.getElementById("consultorioEdit").value.trim(),
+            archivo: document.getElementById("inputFile").files[0]
+        };
+
+        const error = validarFormulario(campos, true);
+        if (error[0]) {
+            e.preventDefault();
+            spanResultadoEdit.innerHTML = error[1];
+            spanResultadoEdit.classList.add("red");
+            spanResultadoEdit.classList.remove("green");
+        } else {
+            spanResultadoEdit.innerHTML = "Te has registrado correctamente";
+            spanResultadoEdit.classList.add("green");
+            spanResultadoEdit.classList.remove("red");
+
+            const formEdit = document.getElementById("formEspEdit");
+            const hiddenInputEdit = document.createElement("input");
+            hiddenInputEdit.type = "hidden";
+            hiddenInputEdit.name = "ModificarEsp";
+            formEdit.appendChild(hiddenInputEdit);
+            formEdit.submit();
+        }
+     });
 
 
 

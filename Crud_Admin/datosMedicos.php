@@ -7,10 +7,17 @@ if(isset($_POST['EdicionCompleta'])){
 $id_doctor = $_POST["id_doc"];
 $nombreMed = $_POST['nombreM'];
 $apellidoMed = $_POST['apellidoM'];
-$telefonoM = $_POST['telefonoM'];
 $correoMed = $_POST['correoMed'];
 $ClaveMed = $_POST['ClaveMed'];
 $rolId = $_POST['rolMedico'];
+
+$tlf = $_POST["telefonoM"];
+$prefijoTlf = $_POST['prefijoTlf'];
+
+$prefijo = trim($prefijoTlf);
+$numero = trim($tlf);
+
+$telefonoCompleto = $prefijo . $numero;  // Resultado: "04121234567"
 
 $especialidadMed = $_POST['especialidad'];
 $direccionMed = $_POST['direccionMed'];
@@ -25,13 +32,13 @@ try {
     $conexion->begin_transaction();
 
     // 1. Actualizar los datos del cliente en la tabla 'usuarios'
-    $stmt_usuario = $conexion->prepare("UPDATE usuarios SET nombre = ?, apellido = ?, telefono = ?, correo = ?, contraseña = ?, rol = ? WHERE id = ?");
-    $stmt_usuario->bind_param("ssssssi", $nombreMed, $apellidoMed, $telefonoM, $correoMed, $ClaveMed, $rolId, $id_doctor);
+    $stmt_usuario = $conexion->prepare("UPDATE usuarios SET nombre = ?, apellido = ?, telefono = ?, correo = ?, fecha_nacimiento = ?, contraseña = ?, rol = ? WHERE id = ?");
+    $stmt_usuario->bind_param("sssssssi", $nombreMed, $apellidoMed, $telefonoCompleto, $correoMed, $fechaNac, $ClaveMed, $rolId, $id_doctor);
     $stmt_usuario->execute();
 
     // 2. Actualizar los datos específicos del médico en la tabla 'medicos'
-    $stmt_medico = $conexion->prepare("UPDATE medicos SET id_especialidad = ?, direccion = ?, titulación_academica = ?, perfil_experiencia = ?, fecha_nacimiento = ? WHERE id_medico = ?");
-    $stmt_medico->bind_param("issssi", $especialidadMed, $direccionMed, $estudiosUni, $experienciaPerfil,  $fechaNac, $id_doctor);
+    $stmt_medico = $conexion->prepare("UPDATE medicos SET id_especialidad = ?, direccion = ?, titulación_academica = ?, perfil_experiencia = ? WHERE id_medico = ?");
+    $stmt_medico->bind_param("isssi", $especialidadMed, $direccionMed, $estudiosUni, $experienciaPerfil, $id_doctor);
     $stmt_medico->execute();
 
     // Si todo salió bien, confirmar la transacción

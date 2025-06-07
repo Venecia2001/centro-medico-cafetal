@@ -27,6 +27,7 @@ body{
     justify-content: space-between;
     padding: 30px 0 30x 6px;
     box-shadow: 0px 7px 8px 2px black;
+    z-index: 20;
 }
 
 .sidebar__nav{
@@ -412,7 +413,7 @@ main{
 }
 
 .usuarios_regis{
-    width: 90%;
+    width: 100%;
     min-height: 45vh;
     margin: auto;
 }
@@ -474,6 +475,18 @@ main{
     color: red;
 }
 
+.cell-oculta-texto {
+    width: 130px;            /* o cualquier ancho fijo que funcione bien */
+    overflow: hidden;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+    /* display: inline-block; */
+}
+
+.cell-correo{
+     width: 193px;
+}
+
 #tableUser tbody tr:nth-child(even) {
     background-color: #555555;
 }
@@ -499,6 +512,7 @@ table th{
 }
 
 table{
+    /* table-layout: fixed;   fuerza a respetar el ancho de las celdas */
     border-collapse: collapse;
     border-radius: 5px;
     margin-bottom: 25px;
@@ -758,20 +772,56 @@ dialog::backdrop{
     color: white;
 }
 
-#opcionesRol{
+.selecRol{
     padding: 8px;
-    background-color: transparent;
-    color: white;
-    font-size: 1.1rem;
-    border-radius: 7px;
-    margin-bottom: 15px;
+  background-color: #f9f9f9;
+  color: #404040;
+  font-size: 1.1rem;
+  border-radius: 7px;
+  margin-bottom: 15px;
+  border: none;
 }
 
-#opcionesRol option{
+.selecRol option{
     padding: 5px;
-    background-color: #009590;
+    background-color: #fbfbfb;
 }
 
+#botonRegistrarseNew{
+    background-color: #1fb645;
+  height: 35px;
+  border: none;
+  border-radius: 7px;
+  color: #e7e7e7;
+  font-size: 1.2rem;
+}
+
+#botonRegistrarseNewEsp{
+    background-color: #1fb645;
+  height: 35px;
+  border: none;
+  border-radius: 7px;
+  color: #e7e7e7;
+  font-size: 1.2rem;
+}
+
+#botonRegistrarseNewEsp:hover{
+    background-color: #23dd52;
+}
+
+.resultado{
+    text-align: center;
+    font-size: 1rem;
+    margin: 12px;
+    text-wrap: balance;
+}
+.green{
+    color: rgb(27, 158, 27);
+}
+.red{
+    color: red;
+    font-size: 1.2rem;
+}
 
 
 #LinkRegistro{
@@ -806,33 +856,47 @@ dialog::backdrop{
 
 #modalRegistro{
     width: 40%;
-    background-color: rgb(39, 39, 39);
+    background-color: rgb(49, 49, 49);
     color: white;
     border: none;
+    border-radius: 15px;
 }
 
 .registroMed{
-    background-image: linear-gradient(18deg, #00987c, #00edefc7);;
+    /* background-image: linear-gradient(18deg, #00987c, #00edefc7);; */
     width: 100%;
     margin: auto;
     min-height: 60px;
     display: flex;
-    flex-direction: row;
-    padding: 15px;
+    flex-direction: column;
+    padding: 5px;
     border-radius: 8px;
-    box-shadow: 0px 0px 10px teal;
+    /* box-shadow: 0px 0px 10px teal; */
+}
+
+.tituloFormulario{
+    width: 100%;
+    /* font-size: 1.2rem; */
+    color: white;
+    text-align: center;
+    
 }
 
 .registroMed h2{
     color: white;
+    margin: 8px;
 }
 
 .formularioMed{
     width: 100%;
     min-height: 425px;
+    background-image: linear-gradient(18deg, #00987c, #00edefc7);
     display: flex;
     flex-direction: row;
+    border-radius: 7px;
     font-size: 1.2rem;
+    padding: 8px;
+    padding-top: 25px;
 }
 
 .formularioMed label{
@@ -853,8 +917,6 @@ dialog::backdrop{
 
 .formularioMed select{
     width: 80%;
-    background-color: #3c3c3ce1;
-    color: white;
     margin-bottom: 10px;
     border: none;
     border-radius: 5px;
@@ -875,24 +937,37 @@ dialog::backdrop{
     margin-left: 15px ;
 }
 
-#botonRegistroMed{
+#botonRegistroMedico{
 
     border: 1px solid rgb(0, 144, 149);
-    width: 200px;
-    height: 50px;
+    width: 100%;
+    height: 45px;
     border-radius: 15px;
-    background-color: rgb(68, 68, 68);
+    background-color: rgb(0, 181, 105);
     color: white;
+    font-size: 1.1rem;
 
+}
+
+#botonRegistroMedico:hover{
+
+    background-color: rgb(6, 213, 127);
 }
 
 .deleteMed{
     border: none;
     background-color: transparent;
+    color: white;
+    text-align: center;
+}
+
+.deleteMed:hover
+{
+    color: red;
 }
 
 #modalEdit{
-    width: 50%;
+    width: 35%;
   background: rgb(45, 45, 45);
   height: 575px;
   border:none;
@@ -926,7 +1001,31 @@ dialog::backdrop{
 
 #openFormulario:hover{
     background-color: #00ccd7;;
+}
 
+#botonEditarMed{
+
+border: 1px solid rgb(0, 144, 149);
+    width: 100%;
+    height: 45px;
+    border-radius: 15px;
+    background-color: rgb(0, 181, 105);
+    color: white;
+    font-size: 1.1rem;
+
+}
+
+#botonEditarMed:hover{
+
+    background-color: rgb(6, 213, 127);
+}
+
+#celdaImg{
+    text-align: center;
+}
+
+#celdaImg img{
+    border-radius: 7px;
 }
 
 
@@ -952,29 +1051,30 @@ dialog::backdrop{
     margin-bottom: 30px;
 }
 
-#formHorarios select{
+/* #formHorarios select{
     width: 100%;
     padding: 8px;
     background-color: #454545;
     color: white;
     border:none;
   border-radius:6px;
-}
+} */
 
 #button_horario{
-    width: 115px;
+    width: 80%;
   height: 32px;
   position: absolute;
   left: 22px;
   bottom: 10px;
-  background-color: #454545;
+  background-color: rgb(0, 211, 124);
   color: white;
   border: none;
   border-radius: 8px;
+  font-size: 1rem;
 }
 
 #button_horario:hover{
-  background-color: #5a5a5a;
+  background-color: rgb(34, 223, 144);
 }
 
 #titulito{
@@ -998,12 +1098,18 @@ dialog::backdrop{
 .btnBuscarHorarios{ 
     width: 115px;
     height: 32px;
-    background-color: #454545;
+    background-color: rgb(0, 199, 193);
     color: white;
     border: none;
     border-radius: 8px;
-
+    font-size: 1rem;
 }
+
+.btnBuscarHorarios:hover{ 
+    background-color: rgb(1, 225, 218);
+}
+
+
 
 #search{
     width: 84%;
@@ -1054,12 +1160,15 @@ dialog::backdrop{
 
 .selectForm{
     margin-bottom: 18px;
-    width: 250px;
-    padding: 2px;
-    color: rgb(20, 20, 20);
+    padding: 7px;
+    width: 100%;
+    background-color: #f9f9f9;
+    color: #404040;
+    border-radius: 7px;
     border: none;
-    font-size: 1.2rem;
+    font-size: .9rem;
 }
+
 
 #mensajeAlert{
     position: absolute;
@@ -1068,16 +1177,14 @@ dialog::backdrop{
     color: white;
 }
 
-
-
 /* SECCION INICIO: VISTA DE CADA AREA DE INTERES  */
 
 .Panel{
     width: 100%;
-    height: 500px;
+    height: 515px;
     display: grid;
   grid-template-columns: repeat(3, 1fr); /* 3 columnas de igual tamaño */
-  grid-template-rows: repeat(2, 1fr); /* 3 filas de igual tamaño */
+  grid-template-rows: repeat(3, 1fr); /* 3 filas de igual tamaño */
   gap: 10px; /* Espacio entre las celdas */
 }
 
@@ -1089,15 +1196,15 @@ dialog::backdrop{
 .tarjeta{
     display: block;
     width: 90%;
-    height: 200px;
-    background: radial-gradient(#60efbc, #58d5c9);
+    height: 165px;
+    background: cornflowerblue;
     border-radius: 25px;
     text-decoration: none;
 }
 
 .titlePanel{
     width: 100%;
-    height: 50px;
+    height: 35px;
     background-color: #00aeb0;
     color: white;
     font-size: 1.5rem;
@@ -1105,11 +1212,27 @@ dialog::backdrop{
     display: flex;
     justify-content: center;
     align-items: center;
+    border-top-left-radius: 15px;
+  border-top-right-radius: 15px;
+  position: relative;
 }
 
 .titlePanel p {
     margin: 0;
     padding: 2px;
+}
+
+.stilosSelectFact{
+    /* width: fit-content; */
+    width: 85px;
+  position: absolute;
+  right: 5px;
+  top: 35px;
+  background-color: #414141;
+  color: white;
+  border: none;
+  border-radius: 7px;
+  padding: 2px;
 }
 
 .contenido{
@@ -1137,18 +1260,26 @@ dialog::backdrop{
     align-items: center;
 }
 
-#numPacientes{
+.numTarjeta{
     font-size: 24px;
-    width: 100px;
-    height: 100px;
+    width: fit-content;
+    min-width: 80px;
+    height: 80px;
+    padding: 2px 10px;
     background-color: #2e2e2e;
-    border: 1px solid white;
+    border: 1px solid #02f5c7;
     border-radius: 50%;
     display: flex;
     align-items: center;
     justify-content: center;
-    color: white;
+    color: #02f5c7;
 }
+
+/* /* #numeroIngresos{
+    width: fit-content;
+    min-width: 80px; 
+    padding: 2px;
+} */
 
 #botonEdit{
     width: 70%;
@@ -1251,7 +1382,7 @@ dialog::backdrop{
 
 .dialogEsp{
     width: 35%;
-    min-height: 680px;
+    min-height: 605px;
     padding: 8px;
     position: relative;
     background-color: #323232;
@@ -1311,11 +1442,23 @@ dialog::backdrop{
 .btnEdit{
     position: relative;
     z-index: 20;
-    background-color: #00865a;
+    background-color: #00c182;
+    border: none;
+    border-radius: 5px;
+    color: #e8e8e8;
+    width: 40px;
+}
+
+.btnEdit:hover{
+    background-color: #00e297;
 }
 
 .btnDelete{
     background-color: rgb(175, 0, 0);
+}
+
+.btnDelete:hover{
+    background-color: rgb(220, 0, 0);
 }
 
 /* ------------------------------------------SECCION DE CONFIGURACION--------------------------------------------------------------- */
@@ -1725,5 +1868,64 @@ dialog::backdrop{
 .clasebtn{
     margin-top: 18px;
     background-color: #005a52;
+}
+
+.badgeMes {
+    position: absolute;
+  top: 20px;
+  right: 15px;
+  background-color: #00ffcf;
+  border: 1px solid rgb(45, 45, 45);
+  color: rgb(42, 42, 42);
+  padding: 10px 14px;
+  font-size: 14px;
+  border-radius: 50px;
+  box-shadow: 0 0 5px rgba(0, 0, 0, 0.2);
+
+}
+
+.campoCompuestoCI{
+    width: 100%;
+    display: flex;
+    margin-top: 10px;
+}
+
+#cedulaReg{
+    width: 95%;
+}
+
+#cedulaMedico{
+    width: 65%;
+}
+
+#nacionalidad{
+    height: 30px;
+    width: 35px;
+    margin-left: 1px;
+    background-color: rgb(231, 231, 231);
+    border: none;
+    border-radius: 7px;
+    color: rgb(44, 44, 44);
+}
+
+#TelefonoR{
+    width: 95%;
+}
+
+#telefonoMedico{
+    width: 65%;
+}
+#telefono{
+    width: 95%;
+}
+
+.prefijoTelefono{
+    height: 30px;
+    width: 55px !important;
+    margin-left: 1px;
+    background-color: rgb(231, 231, 231);
+    border: none;
+    border-radius: 7px;
+    color: rgb(44, 44, 44);
 }
 

@@ -12,16 +12,27 @@ if(isset($_POST["registrar"])){
 
         $nombre = $_POST["nombre"];
         $apellido = $_POST["apellido"];
+        $nacionalidad = $_POST["nacionalidadCi"];
         $cedula_id = $_POST["cedula"];
+
+        $prefijoTlf = $_POST['prefijoTlf'];
         $tlf = $_POST["telefono"];
+
+        $prefijo = trim($prefijoTlf);
+        $numero = trim($tlf);
+
+        $telefonoCompleto = $prefijo . $numero;  // Resultado: "04121234567"
+
         $email = $_POST["email"];
-        $clave = $_POST["contraseña"];
         $fecha_nac = $_POST["fecha_nac"];
         $nombreLower = strtolower($nombre);  // Convierte el nombre a minúsculas
         $apellidoLower = strtolower($apellido);  // Convierte el apellido a minúsculas
 
+        $clave = $_POST["contraseña"];
+        $claveHash = password_hash($clave, PASSWORD_BCRYPT);
 
-        $validacion = "SELECT COUNT(*) FROM usuarios WHERE correo = '$email' ";
+
+        $validacion = "SELECT COUNT(*) AS total FROM usuarios WHERE correo = '$email' OR id = $cedula_id";
         $resultValidacion = mysqli_query($conexion, $validacion);
 
         if ($resultValidacion) {
@@ -29,13 +40,13 @@ if(isset($_POST["registrar"])){
             $total = $row['total'];
 
             if ($total > 0) {
-                $_SESSION['error'] = "El correo electrónico ya está registrado. Por favor, elige otro.";
+                $_SESSION['error'] = "El correo electrónico o la cedula ya están registrados. Por favor, elige otro.";
                 header("Location: registroUsuarios.php");
                 exit();
             }else{ 
 
 
-                $consultaSql = "INSERT INTO usuarios(id,nombre,apellido,telefono,correo,fecha_nacimiento,contraseña) VALUES ('$cedula_id','$nombreLower','$apellidoLower','$tlf','$email','$fecha_nac','$clave')";
+                $consultaSql = "INSERT INTO usuarios(id,nacionalidad,nombre,apellido,telefono,correo,fecha_nacimiento,contraseña) VALUES ('$cedula_id', '$nacionalidad', '$nombreLower','$apellidoLower','$telefonoCompleto','$email','$fecha_nac','$claveHash')";
                 $resultado = mysqli_query($conexion,$consultaSql);
 
                 if($resultado) {
@@ -214,9 +225,13 @@ if(isset($_POST["registrar"])){
         $id_usurio = $_POST["id"];
         $direccion = $_POST["direccion"];
        
-        $edad = $_POST["edad"];
+        // $edad = $_POST["edad"];
         $genero = $_POST["genero"];
+        $altura = $_POST["altura"];
+        $peso = $_POST["pesoKg"];
         $alergias = $_POST["alergias"];
+
+        $condiciones_medicas = $_POST["enfermedades"];
         $ocupacion = $_POST["ocupacion"];
         $estudios = $_POST["educacion"];
 
@@ -225,7 +240,7 @@ if(isset($_POST["registrar"])){
         // move_uploaded_file($imagen_tem,"perfiles_img/".$foto_perfil);
 
 
-        $consultaSql = "INSERT INTO perfil_usuario(`id_usuario`,`direccion`,`edad`, `genero`, `alergias`, `ocupacion`, `nivel_educacion`) VALUES ('$id_usurio','$direccion','$edad','$genero','$alergias','$ocupacion','$estudios')";
+        $consultaSql = "INSERT INTO perfil_usuario(`id_usuario`, `direccion`, `genero`, `altura`, `peso`, `alergias`, `condiciones_medicas`, `ocupacion`, `nivel_educacion`) VALUES ('$id_usurio','$direccion','$genero', '$altura', '$peso', '$alergias', '$condiciones_medicas','$ocupacion','$estudios')";
 
         
         $resultadoSql = mysqli_query($conexion,$consultaSql);

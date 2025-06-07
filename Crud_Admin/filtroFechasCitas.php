@@ -12,7 +12,7 @@
 
         if($fechaDeLaCita == 'citasTotales'){
 
-            $consultasqlTodas = "SELECT c.id_medico, c.id_cita, c1.nombre AS nombre_paciente, c1.apellido AS apellido_paciente, c2.nombre AS nombre_medico, e.nombre_esp, c.fecha, c.hora, c.estado, c.fecha_creacion FROM citas c JOIN usuarios c1 ON c.id_cliente = c1.id JOIN usuarios c2 ON c.id_medico = c2.id JOIN especialidades e ON c.especialidad = e.id_especialidad WHERE c.id_medico = $idMedicoSession";
+            $consultasqlTodas = "SELECT c.id_medico, c.id_cita, c1.nombre AS nombre_paciente, c1.apellido AS apellido_paciente, c2.nombre AS nombre_medico, e.nombre_esp, c.fecha, c.hora, c.estado, c.fecha_creacion FROM citas c JOIN usuarios c1 ON c.id_cliente = c1.id JOIN usuarios c2 ON c.id_medico = c2.id JOIN especialidades e ON c.especialidad = e.nombre_esp WHERE c.id_medico = $idMedicoSession";
 
             $resultadoBusquedaTodas = mysqli_query($conexion, $consultasqlTodas);
 
@@ -52,7 +52,7 @@
         }else{
 
             // Preparar la consulta SQL con marcadores de posición
-            $consultasql = "SELECT c.id_medico, c.id_cita, c1.nombre AS nombre_paciente, c2.nombre AS nombre_medico, e.nombre_esp, c.fecha, c.hora, c.estado, c.fecha_creacion FROM citas c JOIN usuarios c1 ON c.id_cliente = c1.id JOIN usuarios c2 ON c.id_medico = c2.id JOIN especialidades e ON c.especialidad = e.id_especialidad WHERE c.id_medico = $idMedicoSession AND c.fecha = '$fechaDeLaCita'";
+            $consultasql = "SELECT c.id_medico, c.id_cita, c1.nombre AS nombre_paciente, c2.nombre AS nombre_medico, e.nombre_esp, c.fecha, c.hora, c.estado, c.fecha_creacion FROM citas c JOIN usuarios c1 ON c.id_cliente = c1.id JOIN usuarios c2 ON c.id_medico = c2.id JOIN especialidades e ON especialidades e ON c.especialidad = e.nombre_esp WHERE c.id_medico = $idMedicoSession AND c.fecha = '$fechaDeLaCita'";
 
             $resultadoBusqueda = mysqli_query($conexion, $consultasql);
 

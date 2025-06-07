@@ -67,7 +67,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                 <a href="seccionRecepcion.php">Emergencias Medicas</a>
             </li>
 
-            <li class="sidebar__item">
+            <!-- <li class="sidebar__item">
                 <span class="material-symbols-outlined">notifications</span>
                 <a href="registrosDeEmergencias.php">Registros de Emergencias</a>
             </li>
@@ -75,7 +75,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             <li class="sidebar__item">
                 <span class="material-symbols-outlined">notifications</span>
                 <a href="registrosHospitalizacion.php">Hospitalizacion</a>
-            </li>
+            </li> -->
 
             <li class="sidebar__item">
                 <span class="material-symbols-outlined">notifications</span>
@@ -117,45 +117,48 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
     <main id="contenedorCentral">
 
+        <h2 class='tituloSeccion'>Facturas Citas Medicas </h2>
+
         <div class="panelDeBusqueda">
 
-            <div>
-                <H2>Facturas</H2>
-            </div>
+            <div class='divBuscar'> 
 
-            <div>
-                    <form action="Crud_Admin/barraBusqueda.php" method="POST" id="searchForm">
-                        <input type="text" name="search" id="search" required>
-                        <input type="submit" name="buscar" value="Buscar">
-                        <p>Buscar por cedula paciente, id emergencia, id factura</p>
+                    <form action="Crud_Admin/barraBusqueda.php" method="POST" id="searchFormFact">
+                        <input type="text" placeholder="Buscar por o cedula o N Factura" name="search" id="searchFacturas" required>
+                        <input type="submit" name="buscar" value="Buscar" id='btmBuscarFactura'>
                     </form>
             </div>
+
+            <div class='filtrosFacturas'>
+
+                <div class="filtroCitas">
+                    <?php
+                        $current_date = date('Y-m-d'); // Fecha actual
+                        $one_week_later = date('Y-m-d', strtotime('+1 week')); // Fecha una semana más adelante
+                        $one_week_before = date('Y-m-d', strtotime('-1 week')); // Fecha una semana atrás
+                        $one_month_before = date('Y-m-d', strtotime('-1 month')); // Fecha un mes atrás
+                    ?>
+                    <form action="" method="POST" id="formulario_filtro">
+                        <label for="">Filtrar por Fecha</label>
+                        <select name="filtro" id="seleccionarFechasCitas">
+                            <option value="">Seleccione Fecha</option>
+                            <option value="filtroPorDia_<?php echo $current_date ?>">Facturas del día</option>
+                            <option value="filtroSemanaAtras_<?php echo $one_week_before . '_' . $current_date ?>">Facturas de la semana pasada</option> <!-- Semana pasada -->
+                            <option value="filtroMesAtras_<?php echo $one_month_before . '_' . $current_date ?>">Facturas del mes pasado</option> <!-- Mes pasado -->
+                            <option value="totalCitas">Todas las Facturas</option>
+                        </select>
+                    </form>
+                </div>
+
+            </div>
+
 
            
 
         </div>
         <div  class="espacioDeFacturas">
 
-            <h2>Facturas Citas Medicas </h2>
-            <div class="filtroCitas">
-            <?php
-                $current_date = date('Y-m-d'); // Fecha actual
-                $one_week_later = date('Y-m-d', strtotime('+1 week')); // Fecha una semana más adelante
-                $one_week_before = date('Y-m-d', strtotime('-1 week')); // Fecha una semana atrás
-                $one_month_before = date('Y-m-d', strtotime('-1 month')); // Fecha un mes atrás
-            ?>
-            <form action="" method="POST" id="formulario_filtro">
-                <select name="filtro" id="seleccionarFechasCitas">
-                    <option value="">Seleccione Fecha</option>
-                    <option value="filtroPorDia_<?php echo $current_date ?>">Citas del día</option>
-                    <option value="filtroSemanaAtras_<?php echo $one_week_before . '_' . $current_date ?>">Citas de la semana pasada</option> <!-- Semana pasada -->
-                    <option value="filtroMesAtras_<?php echo $one_month_before . '_' . $current_date ?>">Citas del mes pasado</option> <!-- Mes pasado -->
-                    <option value="totalCitas">Todas las citas</option>
-                </select>
-            </form>
-        </div>
-
-            <table border="1">
+            <table border="1" id='tablaMedicamentos'>
             <thead>
                 <th>id_factura</th>
                 <th>id_cita</th>
@@ -190,13 +193,17 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                     <td>
                         <form  action='manejo_emergencia/detallesDeEmergencia.php' id="form_detallesFac_<?php echo $datos->id_factura_cita ?>" method="POST" style="display:inline;">
                                     <input type="hidden" name="idFactura" value="<?php echo $datos->id_factura_cita ?>">
-                                    <button type="button" class="detallesEmergencia" onclick="enviarMetodoPago(<?php echo $datos->id_factura_cita; ?>)">Registro Metodo Pago</button>
+                                    <button type="button" class="detallesEmergencia" onclick="enviarMetodoPago(<?php echo $datos->id_factura_cita; ?>)"><span class="material-symbols-outlined">
+checkbook
+</span></button>
                         </form> 
                     </td>
                     <td>
                         <form  action='manejo_emergencia/detallesFacturasCitas.php' id="form_detalles_<?php echo $datos->id_cita ?>" method="POST" style="display:inline;">
                                     <input type="hidden" name="idCita" value="<?php echo $datos->id_cita ?>">
-                                    <button type="button" class="detallesEmergencia" onclick="enviarFormulario(<?php echo $datos->id_cita; ?>)">Ver detalles</button>
+                                    <button type="button" class="detallesEmergencia" onclick="enviarFormulario(<?php echo $datos->id_cita; ?>)"><span class="material-symbols-outlined">
+content_paste_search
+</span></button>
                         </form>
                     </td>
                     
@@ -406,12 +413,12 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         }
 
 
-        var barraBusqueda = document.getElementById('search');
+        var barraBusqueda = document.getElementById('searchFacturas');
         var cuerpoTabla = document.getElementById('tablaFact');
 
         
         
-        document.getElementById('searchForm').addEventListener('submit', function(event) {
+        document.getElementById('searchFormFact').addEventListener('submit', function(event) {
             event.preventDefault(); 
 
                 var palabraClave = barraBusqueda.value;
@@ -448,14 +455,18 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                                <td>
                                     <form  action='manejo_emergencia/detallesDeEmergencia.php' id="form_detallesFac_${factura.facturaId}" method="POST" style="display:inline;">
                                                 <input type="hidden" name="idFactura" value="${factura.facturaId}">
-                                                <button type="button" class="detallesEmergencia" onclick="enviarMetodoPago(${factura.facturaId})">Registro Metodo Pago</button>
+                                                <button type="button" class="detallesEmergencia" onclick="enviarMetodoPago(${factura.facturaId})"><span class="material-symbols-outlined">
+checkbook
+</span></button>
                                     </form> 
                                 </td>
 
                                 <td>
                                     <form  action='manejo_emergencia/detallesFacturasCitas.php' id="form_detalles_${factura.idCita}" method="POST" style="display:inline;">
                                                 <input type="hidden" name="idCita" value="${factura.idCita}">
-                                                <button type="button" class="detallesEmergencia" onclick="enviarFormulario(${factura.idCita})">Ver detalles</button>
+                                                <button type="button" class="detallesEmergencia" onclick="enviarFormulario(${factura.idCita})"><span class="material-symbols-outlined">
+content_paste_search
+</span></button>
                                     </form>
                                 </td>
                                 `;
@@ -465,7 +476,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                         });
                   
                     } else {
-                        cuerpoTabla.innerHTML = "<tr><td colspan='6'>No se encontraron datos relacionados.</td></tr>";
+                        cuerpoTabla.innerHTML = "<tr><td colspan='12'>No se encontraron datos relacionados.</td></tr>";
                     }
 
                 })
@@ -526,14 +537,18 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                                     <td>
                                         <form  action='manejo_emergencia/detallesDeEmergencia.php' id="form_detallesFac_${factura.facturaId}" method="POST" style="display:inline;">
                                                     <input type="hidden" name="idFactura" value="${factura.facturaId}">
-                                                    <button type="button" class="detallesEmergencia" onclick="enviarMetodoPago(${factura.facturaId})">Registro Metodo Pago</button>
+                                                    <button type="button" class="detallesEmergencia" onclick="enviarMetodoPago(${factura.facturaId})"><span class="material-symbols-outlined">
+checkbook
+</span></button>
                                         </form> 
                                     </td>
 
                                     <td>
                                         <form  action='manejo_emergencia/detallesFacturasCitas.php' id="form_detalles_${factura.idCita}" method="POST" style="display:inline;">
                                                     <input type="hidden" name="idCita" value="${factura.idCita}">
-                                                    <button type="button" class="detallesEmergencia" onclick="enviarFormulario(${factura.idCita})">Ver detalles</button>
+                                                    <button type="button" class="detallesEmergencia" onclick="enviarFormulario(${factura.idCita})"><span class="material-symbols-outlined">
+content_paste_search
+</span></button>
                                         </form>
                                     </td>
                                     `;

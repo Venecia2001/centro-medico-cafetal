@@ -24,7 +24,16 @@
 
         <h1><?php echo $titulo ?></h1>
         <p><?php echo $descripcion ?></p>
-        <button id="botonInicio"> <a href="registroUsuarios.php"> <?php echo $textoDeBoton ?></a></button>
+
+          <?php
+            $ocultarBoton = isset($_SESSION['usuario']) ? "oculto" : "";
+          ?>
+
+          <button id="botonInicio" class="<?php echo $ocultarBoton; ?>">
+              <a href="registroUsuarios.php"><?php echo $textoDeBoton; ?></a>
+          </button>
+          
+        <!-- <button id="botonInicio"> <a href="registroUsuarios.php"> <?php echo $textoDeBoton ?></a></button> -->
 
 
         <?php 
@@ -81,56 +90,60 @@
       
 </div>
 
-<section id="contenedorPrincipal">
+<section class='contenerdorGradeCitasOnline'>
 
-    
-      <?php 
+  <section id="contenedorPrincipal">
 
-        include "conex_bd.php";
+      
+        <?php 
 
-        $consultaSeccion2 ="SELECT * FROM secciones_pagina WHERE id_seccion = 2";
-        $resultadoSql = mysqli_query($conexion, $consultaSeccion2);
+          include "conex_bd.php";
 
-        while($data = $resultadoSql->fetch_array()){
-            $idSeccion2 = $data["id_seccion"];
-            $titulo2 = $data['titulo_seccion'];
-            $descripcion2 = $data['descripcion_seccion'];
-            $fotoRelacionada2 = $data['imgen_seccion'];
-            $textoDeBoton2 = $data["texto_btn"];
+          $consultaSeccion2 ="SELECT * FROM secciones_pagina WHERE id_seccion = 2";
+          $resultadoSql = mysqli_query($conexion, $consultaSeccion2);
 
-        }
+          while($data = $resultadoSql->fetch_array()){
+              $idSeccion2 = $data["id_seccion"];
+              $titulo2 = $data['titulo_seccion'];
+              $descripcion2 = $data['descripcion_seccion'];
+              $fotoRelacionada2 = $data['imgen_seccion'];
+              $textoDeBoton2 = $data["texto_btn"];
 
-      ?>
+          }
 
-    <div id="citaOnline">
-        <h2><?php echo $titulo2?></h2>
-    </div>
+        ?>
 
-    <div id="contenedorCita">
+      <div id="citaOnline">
+          <h2><?php echo $titulo2?></h2>
+      </div>
 
-        <div class="cita" id="listaDeCitas">
+      <div id="contenedorCita">
 
-          <div class="MargenArriba"></div>
+          <div class="cita" id="listaDeCitas">
 
-            <h3 id="H3Online"><?php echo $descripcion2?></h3>
-            <ul>
-                <li>Cardiología</li>
-                <li>Odontología</li>
-                <li>Traumatología</li>
-            </ul>
+            <div class="MargenArriba"></div>
 
-            <button id="citasOnline"><?php echo $textoDeBoton2?></button>
+              <h3 id="H3Online"><?php echo $descripcion2?></h3>
+              <ul>
+                  <li>Cardiología</li>
+                  <li>Odontología</li>
+                  <li>Traumatología</li>
+              </ul>
 
-            <div class="Margenabajo"></div>
+              <button id="citasOnline"><?php echo $textoDeBoton2?></button>
 
-        </div>
+              <div class="Margenabajo"></div>
 
-        <div class="cita" id="imagenOnline">
-        <img src="uploads/.<?php echo $fotoRelacionada2; ?>" alt="Imagen de especialidad">
+          </div>
 
-        </div>
+          <div class="cita" id="imagenOnline">
+          <img src="uploads/.<?php echo $fotoRelacionada2; ?>" alt="Imagen de especialidad">
 
-    </div>
+          </div>
+
+      </div>
+
+  </section>
 
 </section>
 
@@ -430,10 +443,8 @@
 <?php include "footer.php";  ?>
 
           <?php
-
             include "conex_bd.php";
             include "isertarDatos.php";
-
           ?>
 
 <script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
@@ -450,7 +461,6 @@
   function openFormCita(){
 
     const today = new Date();
-
     // Calcular la fecha de hace 18 años
     const eighteenYearsAgo = new Date(today.setFullYear(today.getFullYear() - 18));
 
@@ -509,16 +519,11 @@
   const pPhp = document.getElementById("sesionUsuarioPhp");
 
   // if(pPhp.innerHtml == ""){
-
   //   console.log("no se ha iniciado sesion alguna")
-
   // }else{
-
   //   console.log(pPhp.innerHTML);
   // }
-
   // Verificar si el contenido del elemento no está vacío
-  
   // console.log(pPhp.innerHTML);
 
   let horaDeInicio = null;
@@ -716,8 +721,6 @@
 
                 });
 
-                
-
                 } else {
                 doctorContainer.innerHTML = '<div>No hay médicos disponibles.</div>';
                 }
@@ -840,22 +843,20 @@
                   .catch(error => {
                       console.error("Error:", error);
                   });
-
-
-
-
-
                 })
-
-
             }
+
+            const hoy = new Date();
+            const fechaMaxima = new Date(hoy.setMonth(hoy.getMonth() + 6));
+
+            // Formatear la fecha máxima a "YYYY-MM-DD"
+            const fechaMaximaStr = fechaMaxima.toISOString().split('T')[0];
 
             function pintarDias(arregloDay){
 
               let diasDisponibles = [];
               diasDisponibles = arregloDay;
               console.log(diasDisponibles)
-
 
               // Array de días disponibles (Lunes=1, Miércoles=3, Viernes=5)
 
@@ -871,6 +872,7 @@
                         }
                     ],
                     minDate: "today",
+                    maxDate: fechaMaximaStr, // Limitar a 6 meses
                     locale: "es", // Establecer el idioma a español
 
                     onChange: function(selectedDates, dateStr, instance) {
@@ -903,7 +905,14 @@
                                 }else if (day === 5) {  // Viernes
                                     dayElem.style.backgroundColor = '#00b4c0'; // Color de fondo para viernes
                                     dayElem.style.color = '#ffffff';           // Color del texto para viernes
+                                } else if (day === 6) {  // Sabado
+                                    dayElem.style.backgroundColor = '#00ffcf'; // Color de fondo para viernes
+                                    dayElem.style.color = '#ffffff';           // Color del texto para viernes
+                                } else if (day === 0) {  // Domingo
+                                    dayElem.style.backgroundColor = '#39b8df'; // Color de fondo para viernes
+                                    dayElem.style.color = '#ffffff';           // Color del texto para viernes
                                 }
+                                
                             }
                         }
                     }

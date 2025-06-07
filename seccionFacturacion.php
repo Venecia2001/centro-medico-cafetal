@@ -67,7 +67,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                 <a href="seccionRecepcion.php">Emergencias Medicas</a>
             </li>
 
-            <li class="sidebar__item">
+            <!-- <li class="sidebar__item">
                 <span class="material-symbols-outlined">notifications</span>
                 <a href="registrosDeEmergencias.php">Registros de Emergencias</a>
             </li>
@@ -75,7 +75,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             <li class="sidebar__item">
                 <span class="material-symbols-outlined">notifications</span>
                 <a href="registrosHospitalizacion.php">Hospitalizacion</a>
-            </li>
+            </li> -->
 
             <li class="sidebar__item">
                 <span class="material-symbols-outlined">notifications</span>
@@ -116,28 +116,20 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
     <main id="contenedorCentral">
 
+
+        <h2 class='tituloSeccion'>Facturas Generadas </h2>
+
         <div class="panelDeBusqueda">
 
-            <div>
-                <H2>Facturas</H2>
-            </div>
-
             <div class='divBuscar'>
-                <form action="Crud_Admin/barraBusqueda.php" method="POST" id="searchForm">
-                        <input type="text" name="search" id="search" required>
-                        <input type="submit" name="buscar" value="Buscar">
-                        <p>Buscar por cedula paciente, id emergencia, id factura</p>
+                <form action="Crud_Admin/barraBusqueda.php" method="POST" id="searchFormFact">
+                        <input type="text" placeholder="Buscar por o cedula o N Factura" name="search" id="searchFacturas" required>
+                        <input type="submit" name="buscar" value="Buscar" id='btmBuscarFactura'>
                     </form>
             </div>
 
-           
+            <div class='filtrosFacturas'>
 
-        </div>
-        <div  class="espacioDeFacturas">
-
-            <h2>Facturas Generadas </h2>
-            
-            <div class="filtroCitas">
                 <?php
                     $current_date = date('Y-m-d'); // Fecha actual
                     $one_week_later = date('Y-m-d', strtotime('+1 week')); // Fecha una semana más adelante
@@ -145,16 +137,29 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                     $one_month_before = date('Y-m-d', strtotime('-1 month')); // Fecha un mes atrás
                 ?>
                 <form action="" method="POST" id="formulario_filtro">
+                    <label for="">Filtrar por Fecha</label>
                     <select name="filtro" id="seleccionarFechasCitas">
                         <option value="">Seleccione Fecha</option>
-                        <option value="filtroPorDia_<?php echo $current_date ?>">Citas del día</option>
-                        <option value="filtroSemanaAtras_<?php echo $one_week_before . '_' . $current_date ?>">Citas de la semana pasada</option> <!-- Semana pasada -->
-                        <option value="filtroMesAtras_<?php echo $one_month_before . '_' . $current_date ?>">Citas del mes pasado</option> <!-- Mes pasado -->
-                        <option value="totalCitas">Todas las citas</option>
+                        <option value="filtroPorDia_<?php echo $current_date ?>">Facturas del día</option>
+                        <option value="filtroSemanaAtras_<?php echo $one_week_before . '_' . $current_date ?>">Facturas de la semana pasada</option> <!-- Semana pasada -->
+                        <option value="filtroMesAtras_<?php echo $one_month_before . '_' . $current_date ?>">Facturas del mes pasado</option> <!-- Mes pasado -->
+                        <option value="totalCitas">Todas las Facturas</option>
                     </select>
                 </form>
+
+
             </div>
-            <table border="1">
+
+           
+
+        </div>
+        <div  class="espacioDeFacturas">
+
+            <div class="filtroCitas">
+                
+            </div>
+            
+            <table border="1" id='tablaMedicamentos'>
             <thead>
                 <th>id_factura</th>
                 <th>Cedula Paciente</th>
@@ -197,13 +202,17 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                     <td>
                         <form  action='manejo_emergencia/detallesDeEmergencia.php' id="form_detallesFac_<?php echo $datos->factura_id ?>" method="POST" style="display:inline;">
                                     <input type="hidden" name="idFactura" value="<?php echo $datos->factura_id ?>">
-                                    <button type="button" class="detallesEmergencia" onclick="enviarMetodoPago(<?php echo $datos->factura_id; ?>)">Registro Metodo Pago</button>
+                                    <button type="button" class="detallesEmergencia" onclick="enviarMetodoPago(<?php echo $datos->factura_id; ?>)"><span class="material-symbols-outlined">
+checkbook
+</span></button>
                         </form> 
                     </td>
                     <td>
                         <form  action='manejo_emergencia/detallesDeEmergencia.php' id="form_detalles_<?php echo $datos->emergencia_medica_id ?>" method="POST" style="display:inline;">
                                     <input type="hidden" name="idEmergenciaMedica" value="<?php echo $datos->emergencia_medica_id ?>">
-                                    <button type="button" class="detallesEmergencia" onclick="enviarFormulario(<?php echo $datos->emergencia_medica_id; ?>)">Ver detalles</button>
+                                    <button type="button" class="detallesEmergencia" onclick="enviarFormulario(<?php echo $datos->emergencia_medica_id; ?>)"><span class="material-symbols-outlined">
+content_paste_search
+</span></button>
                         </form>
                     </td>
                 </tr>   
@@ -394,7 +403,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             <dialog id="DialogMetodoPago" class="dialogRegistrosNew">
 
         <div class="headerModel"> 
-            <h2>Registro Metodo de Pago</h2>
             <form method="dialog">
             <button class="ModalClose"> X</button>
             </form>
@@ -605,12 +613,12 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             // Si se seleccionó una especialidad
             
         // Obtener el campo de barraBusqueda y tbody
-        var barraBusqueda = document.getElementById('search');
+        var barraBusqueda = document.getElementById('searchFacturas');
         var cuerpoTabla = document.getElementById('tablaFact');
 
         
         
-        document.getElementById('searchForm').addEventListener('submit', function(event) {
+        document.getElementById('searchFormFact').addEventListener('submit', function(event) {
             event.preventDefault(); 
 
                 var palabraClave = barraBusqueda.value;
@@ -647,14 +655,18 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                                 <td>
                                      <form  action='manejo_emergencia/detallesDeEmergencia.php' id="form_detallesFac_${factura.facturaId}" method="POST" style="display:inline;">
                                         <input type="hidden" name="idFactura" value="${factura.facturaId}">
-                                        <button type="button" class="detallesEmergencia" onclick="enviarMetodoPago(${factura.facturaId})">Registro Metodo Pago</button>
+                                        <button type="button" class="detallesEmergencia" onclick="enviarMetodoPago(${factura.facturaId})"><span class="material-symbols-outlined">
+checkbook
+</span></button>
                                     </form> 
                                 </td>
 
                                 <td> 
                                     <form  action='manejo_emergencia/detallesDeEmergencia.php' id="form_detalles_${factura.idEmergencia}" method="POST" style="display:inline;">
                                         <input type="hidden" name="idEmergenciaMedica" value="${factura.idEmergencia}">
-                                        <button type="button" class="detallesEmergencia" onclick="enviarFormulario(${factura.idEmergencia})">Ver detalles</button>
+                                        <button type="button" class="detallesEmergencia" onclick="enviarFormulario(${factura.idEmergencia})"><span class="material-symbols-outlined">
+content_paste_search
+</span></button>
                                     </form>
                                 </td>
                                 `;
@@ -727,14 +739,18 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                                     <td>
                                         <form  action='manejo_emergencia/detallesDeEmergencia.php' id="form_detallesFac_${factura.facturaId}" method="POST" style="display:inline;">
                                             <input type="hidden" name="idFactura" value="${factura.facturaId}">
-                                            <button type="button" class="detallesEmergencia" onclick="enviarMetodoPago(${factura.facturaId})">Registro Metodo Pago</button>
+                                            <button type="button" class="detallesEmergencia" onclick="enviarMetodoPago(${factura.facturaId})"><span class="material-symbols-outlined">
+checkbook
+</span></button>
                                         </form> 
                                     </td>
 
                                     <td> 
                                         <form  action='manejo_emergencia/detallesDeEmergencia.php' id="form_detalles_${factura.idEmergencia}" method="POST" style="display:inline;">
                                             <input type="hidden" name="idEmergenciaMedica" value="${factura.idEmergencia}">
-                                            <button type="button" class="detallesEmergencia" onclick="enviarFormulario(${factura.idEmergencia})">Ver detalles</button>
+                                            <button type="button" class="detallesEmergencia" onclick="enviarFormulario(${factura.idEmergencia})"><span class="material-symbols-outlined">
+content_paste_search
+</span></button>
                                         </form>
                                     </td>
                                     `;

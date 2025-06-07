@@ -29,7 +29,7 @@
                 <a href="seccionRecepcion.php">Emergencias Medicas</a>
             </li>
 
-            <li class="sidebar__item">
+            <!-- <li class="sidebar__item">
                 <span class="material-symbols-outlined">notifications</span>
                 <a href="registrosDeEmergencias.php">Registros de Emergencias</a>
             </li>
@@ -37,7 +37,7 @@
             <li class="sidebar__item">
                 <span class="material-symbols-outlined">notifications</span>
                 <a href="registrosHospitalizacion.php">Hospitalizacion</a>
-            </li>
+            </li> -->
 
             <li class="sidebar__item">
                 <span class="material-symbols-outlined">notifications</span>
@@ -78,7 +78,7 @@
         </aside>
 
     <main>
-        <h2>Gestion de Emergencias Medicas</h2>
+        <h2 class='tituloSeccion'>Gestión de Emergencias</h2>
         <div class="cuadroGrande">
 
             <div class="divDeBusqueda">
@@ -167,7 +167,7 @@
 
         <div class='divBusqueda'>
             <form action="Crud_Admin/barraBusqueda.php" method="POST" id="searchFormEmergencia">
-                <input type="text" name="search" placeholder="Escribe aquí, busca por nombre apellido o cedula" id="searchEmerg" required>
+                <input type="text" name="search" placeholder="ubica la emergencia por su id o por la cedula del paciente" id="searchEmerg" required>
                 <input type="submit" name="buscar" class='btnBuscarEmergencia' id='btnBuscarEmerg' value="Buscar">
             </form>
         </div>

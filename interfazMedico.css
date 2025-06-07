@@ -27,6 +27,7 @@ body{
     justify-content: space-between;
     padding: 30px 0 30x 6px;
     box-shadow: 0px 7px 8px 2px black;
+    z-index: 20;
 }
 
 .sidebar__nav{
@@ -296,7 +297,7 @@ main{
     font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
     font-size: 1.5rem;
     margin-bottom: 20px;
-    background-image: linear-gradient(180deg, #01c0f5 0%, #00e8be 100%);
+    background-color: cornflowerblue;
 }
 
 .datosPersonalesHead h2{
@@ -311,11 +312,49 @@ main{
 
 .infoPrincipal{
     width: 50%;
-    padding: 10px;
-    border-radius: 15px;
-    background-image: linear-gradient(180deg, #0097e2 0%, #00e4b9 100%);
+    background-color: #6495ed7a;
+    padding: 24px;
+    border-radius: 16px;
     position: relative;
+    /* margin: 20px auto; */
+    backdrop-filter: blur(8px);
+    box-shadow: 0 6px 20px rgba(0, 0, 0, 0.15); 
+    transition: box-shadow 0.3s ease;
 }
+
+
+/* .infoPrincipal {
+     background-color: rgba(255, 255, 255, 0.85);
+    border-radius: 16px;
+    padding: 24px;
+    margin: 20px auto;
+    width: 50%;
+    backdrop-filter: blur(8px);
+    box-shadow: 0 6px 20px rgba(0, 0, 0, 0.15); 
+    transition: box-shadow 0.3s ease;
+} */
+
+
+.campoCompuestoCI{
+    width: 100%;
+    display: flex;
+    margin-top: 10px;
+}
+
+#telefonoMed{
+    width: 65%;
+}
+
+.prefijoTelefono{
+    height: 30px;
+    width: 55px !important;
+    margin-left: 1px;
+    background-color: rgb(231, 231, 231);
+    border: none;
+    border-radius: 7px;
+    color: rgb(44, 44, 44);
+}
+
 .infoAdicional{
     width: 50%;
     display: flex;
@@ -328,16 +367,26 @@ main{
     padding: 10px;
     margin-bottom: 30px;
     border-radius: 15px;
-    background-image: linear-gradient(180deg, #0097e2 0%, #00e4b9 100%);
+    background-color: #6495ed7a;
+    backdrop-filter: blur(8px);
+    box-shadow: 0 6px 20px rgba(0, 0, 0, 0.15); 
+    transition: box-shadow 0.3s ease;
 }
 
 #cajaAgregarFoto{
     width: 100%;
     padding: 10px;
     border-radius: 15px;
-    background-image: linear-gradient(180deg, #252525 0%, #737373 100%);
+    background-color: #6495ed7a;
     margin-bottom: 0;
+     backdrop-filter: blur(8px);
+    box-shadow: 0 6px 20px rgba(0, 0, 0, 0.15); 
+    transition: box-shadow 0.3s ease;
 
+}
+
+.oculto {
+    display: none;
 }
 
 .campoDeInformacion{
@@ -355,7 +404,7 @@ main{
 }
 
 .cajaTexto label{
-    color:white;
+    color:rgb(242, 242, 242);
     font-weight: 600;
 }
 
@@ -379,7 +428,7 @@ main{
 }
 
 #btnEditar{
-    background-color: #434343;
+    background-image: linear-gradient(18deg, #00987c, #00edefc7);
     width: 160px;
     color: white;
     font-size: 1.1rem;
@@ -417,7 +466,7 @@ main{
 
 
  #modalEdit{
-    width: 35%;
+    width: 45%;
     border: none;
     border-radius: 15px;
     background-color: #333333;
@@ -481,12 +530,13 @@ main{
 
 .formMed select{
     width: 80%;
-    background-color: #3c3c3ce1;
-    color: white;
-    margin-bottom: 10px;
-    border: none;
-    border-radius: 5px;
-    padding: 5px;
+    padding: 8px;
+  background-color: #f9f9f9;
+  color: #404040;
+  font-size: .8rem;
+  border-radius: 7px;
+  margin-bottom: 15px;
+  border: none;
 }
 
 #botonRegistroMed{
@@ -775,7 +825,7 @@ table tr:nth-child(odd) {
 }
 
 .detallesCita{
-    background-color: #313131;
+    background-color: #0bd6d6;
     width: 80%;
     height: 40px;
     color: white;
@@ -784,10 +834,11 @@ table tr:nth-child(odd) {
     border: none;
     border-radius:15px;
     margin-top: 8px;
+    font-size: .9rem;
 }
 
 .detallesCita:hover{
-    background-color:#4f4f4f ;
+    background-color:#09ebeb ;
 }
 
 .informacionDePaciente{
@@ -882,6 +933,7 @@ table tr:nth-child(odd) {
 .boxTextResult{
     display: flex;
     flex-direction: column;
+    margin-left: 35px;
 }
 
 .boxTextResult label{
@@ -1227,17 +1279,17 @@ text-align: center;
 }
 
 #dialogSeguimiento{
-    width: 45%;
+    width: 35%;
     min-height: 400px;
-    background-color: #005a52;
-    /* display: flex;
-    flex-direction: column;
-    align-items: center;
-    border: none; */
+    background-color: #6495edc7;
+    border-radius: 16px;
+    color: rgb(242, 242, 242);
+    border: 1px solid rgb(43, 189, 189);
 }
 
 #dialogSeguimiento h2{
-   color: blanchedalmond;
+   color: rgb(247, 247, 247);
+   text-align: center;
 }
 
 
@@ -1246,20 +1298,40 @@ text-align: center;
     display: flex;
     flex-direction: column;
     width: 95%;
+    padding-left: 20px;
 }
 
 #dialogSeguimiento label{
-    color: white;
-    font-size: 20px;
+    color: rgb(240, 240, 240);
+    font-size: 1.2rem;
 }
 
 #dialogSeguimiento input{
     margin-bottom: 15px;
     padding: 5px;
+    border: none;
+    border-bottom: 1px solid rgb(255, 255, 255);
+    width: 85%;
+    background-color: transparent;
+    color: white;
+    
 }
 
 #btnSeguimito{
-    margin-top: 20px;
+    width: 55%;
+  height: 35px;
+  border: none;
+  border-radius: 9px;
+  background-color: #45c5c5;
+  color: white;
+  font-size: 1.1rem;
+  margin: auto;
+  margin-top: 30px;
+}
+
+
+#btnSeguimito:hover{
+    background-color: #40d9d9;
 }
 
 /* --------------------------------------------seccion de Historias Medicos ------------------------------------------------- */
@@ -1344,3 +1416,46 @@ dialog::backdrop{
     width: 100%;
     padding-left: 30px;
 }
+
+/* .infoPrincipal {
+     background-color: rgba(255, 255, 255, 0.85);
+    border-radius: 16px;
+    padding: 24px;
+    margin: 20px auto;
+    width: 50%;
+    backdrop-filter: blur(8px);
+    box-shadow: 0 6px 20px rgba(0, 0, 0, 0.15); 
+    transition: box-shadow 0.3s ease;
+} */
+
+.infoPrincipal:hover {
+    box-shadow: 0 6px 18px rgba(0, 0, 0, 0.15); /* Un poco más de sombra al pasar el mouse */
+}
+
+.cajaTexto {
+    margin-bottom: 12px;
+}
+
+label {
+    font-weight: bold;
+    color: #333;
+}
+
+.campoDeInformacion {
+    color: #f1f1f1;
+    margin-left: 8px;
+}
+
+/* #btnEditar {
+    background-color: #007BFF;
+    color: white;
+    border: none;
+    padding: 10px 16px;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+#btnEditar:hover {
+    background-color: #0056b3;
+} */

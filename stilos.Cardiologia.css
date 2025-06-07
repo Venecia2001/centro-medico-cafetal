@@ -1148,8 +1148,8 @@ form{
         display: flex;
         flex-direction: column;
         justify-content: flex-start;
-        width: 350px;
-        height: 400px;
+        width: 265px;
+        min-height: 400px;
         background: #262626e3;
         color: #ffffff;
         margin-top: 40px;
@@ -1168,4 +1168,33 @@ form{
     width: 100%; /* Hacer que la imagen ocupe todo el ancho */
     height: 100%; /* Hacer que la imagen ocupe todo el alto */
     object-fit: cover; /* La imagen se adapta sin perder la proporción */
+}
+
+#mesajeCitaOnline{
+    width: 60%;
+    height: 345px;
+    background-color: #404142;
+    padding: 20px;
+    border-radius: 18px;
+}
+
+.bodyMensaje{
+    color:white;
+    width: 100%;
+    height: 280px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    margin: auto;
+    font-size: 1.3rem;
+    border: 1px solid #008370;
+    border-radius: 10px;
+    padding: 15px;
+    margin-top: 25px;
+}
+
+#enlaceRegistro {
+    text-decoration: none;
+    color: white;
+    font-size: 1.4rem;
 }

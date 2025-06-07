@@ -167,7 +167,6 @@
 
                             // $nombrePaciente = $datos->nombre;
                             $fechaNacimiento = $datos->fecha_nacimiento;
-                            $edad = $datos->edad;
                             $sexo = $datos->genero;
                             $alergias = $datos->alergias;
                             $ocupacion = $datos->ocupacion;
@@ -307,7 +306,7 @@
 
                     if(isset($_POST['getCita'])){
 
-                        $citasSql = "SELECT c.id_medico, c.id_cita, c1.nombre AS nombre_paciente, c1.apellido AS apellido_paciente, c2.nombre AS nombre_medico, e.nombre_esp, c.fecha, c.hora, c.estado, c.fecha_creacion FROM citas c JOIN usuarios c1 ON c.id_cliente = c1.id JOIN usuarios c2 ON c.id_medico = c2.id JOIN especialidades e ON c.especialidad = e.id_especialidad WHERE c.id_cita = $idCita";
+                        $citasSql = "SELECT c.id_medico, c.id_cita, c1.nombre AS nombre_paciente, c1.apellido AS apellido_paciente, c2.nombre AS nombre_medico, e.nombre_esp, c.fecha, c.hora, c.estado, c.fecha_creacion FROM citas c JOIN usuarios c1 ON c.id_cliente = c1.id JOIN usuarios c2 ON c.id_medico = c2.id JOIN especialidades e ON c.especialidad = e.nombre_esp WHERE c.id_cita = $idCita";
                         $result = mysqli_query($conexion, $citasSql);
 
                         while($datos=$result->fetch_object()){ 
@@ -363,7 +362,7 @@
 
             </div>
             <?php
-                    if(isset($_POST['getCita'])){
+                    if(isset($_POST['getCita'])){ 
 
                     ?>
 
@@ -375,11 +374,11 @@
 
                         <div class='boxTextResult'>
                             <label for="diagnostico">Diagnostico</label>
-                            <textarea name="diagnosticoCita" id="diagnostico" placeholder="escribe aqui el Diagnostico"></textarea><br>
+                            <textarea name="diagnosticoCita" id="diagnostico" placeholder="escribe aqui el Diagnostico" required></textarea><br>
                         </div>
                         <div class='boxTextResult'>
                             <label for="tratamiento">Tratamiento</label>
-                            <textarea name="tratamientoCita" id="tratamiento" placeholder="escribe aqui el Tratamiento"></textarea><br>
+                            <textarea name="tratamientoCita" id="tratamiento" placeholder="escribe aqui el Tratamiento" required></textarea><br>
                         </div>
 
                     </div>
@@ -387,11 +386,11 @@
                         <div class='compartimentoForm'>
                             <div class='boxTextResult'>
                                 <label for="prescripciones">Prescripcion</label>
-                                <textarea name="prescripcionCita" id="prescripciones"  placeholder="escribe aqui las prescripciones"></textarea><br>
+                                <textarea name="prescripcionCita" id="prescripciones"  placeholder="escribe aqui las prescripciones" required></textarea><br>
                             </div>
                             <div class='boxTextResult'>
-                                <label for="prescripciones" >Examenes Realizados</label>
-                                <input type="text" name="examenesCita"  placeholder="Examenes realizados" ><br>
+                                <label for="examenesCita" >Examenes Realizados</label>
+                                <input type="text" name="examenesCita" id='examenesCita'  placeholder="Examenes realizados" required><br>
                             </div>
 
                         <input type="submit" class='detallesCita' id="btnDiagnostico" name="registrarResultados" value="Guardar Resultado">
@@ -487,7 +486,7 @@
             <form action="Crud_Admin/registrarCitaSeguimiento.php" method="POST">
 
                 <label for="nombre">Cedula Paciente</label>
-                <input type="text" name="id_paciente" value="<?php echo $id_paciente; ?>">
+                <input type="text" name="id_paciente" value="<?php echo $id_paciente; ?>" require>
                 <input type="hidden" name="id_medico" value="<?php echo $idMedico; ?>">
                 <input type="hidden" name="id_especialidad" value="<?php echo $esp; ?>">
 
@@ -615,8 +614,15 @@
                     // Si el usuario quiere una cita de seguimiento, mostramos el modal
                     document.getElementById("dialogSeguimiento").showModal();
                 } else {
-                    // Si el usuario no quiere una cita de seguimiento, enviamos el formulario de historial
-                    document.getElementById("formDianostico").submit(); // Guarda solo el historial
+
+                    const formulario = document.getElementById("formDianostico")
+                    // Validar que los campos requeridos estén completos antes de enviar
+                    if (formulario.checkValidity()) {
+                        formulario.submit(); // Todo está bien, enviar
+                    } else {
+                        // Dispara los mensajes de validación nativos del navegador
+                        formulario.reportValidity();
+                    }
                 }
             });
 

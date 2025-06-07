@@ -172,13 +172,14 @@
                             <th>Estatus</th>
                             <th>cancelar</th>
                             <th>Resultado</th>
+                             <input type="hidden" value='<?php echo $idMedicoSession?>' id='idDeDoctor'>
                         </thead>
                         <tbody id="bodyTable">
                         <?php 
                             
                             include "conex_bd.php";
 
-                            $citasSql = "SELECT c.id_medico, c.id_cita, c1.nombre AS nombre_paciente, c1.apellido AS apellidoPaciente, c2.nombre AS nombre_medico, e.nombre_esp, c.fecha, c.hora, c.estado, c.fecha_creacion FROM citas c JOIN usuarios c1 ON c.id_cliente = c1.id JOIN usuarios c2 ON c.id_medico = c2.id JOIN especialidades e ON c.especialidad = e.id_especialidad WHERE c.id_medico = $idMedicoSession AND c.fecha BETWEEN CURDATE() AND CURDATE() + INTERVAL 7 DAY;";
+                            $citasSql = "SELECT c.id_medico, c.id_cita, c1.nombre AS nombre_paciente, c1.apellido AS apellidoPaciente, c2.nombre AS nombre_medico, e.nombre_esp, c.fecha, c.hora, c.estado, c.fecha_creacion FROM citas c JOIN usuarios c1 ON c.id_cliente = c1.id JOIN usuarios c2 ON c.id_medico = c2.id JOIN especialidades e ON c.especialidad = e.nombre_esp WHERE c.id_medico = $idMedicoSession AND c.fecha BETWEEN CURDATE() AND CURDATE() + INTERVAL 7 DAY;";
                             $result = mysqli_query($conexion, $citasSql);
 
                             while($datos=$result->fetch_object()){ 
@@ -194,16 +195,15 @@
                                     <td><?php echo $datos->fecha ?> </td>
                                     <td ><?php echo $datos->hora ?> </td>
                                     <td class='estadoCita <?php echo $datos->estado ?>'> <?php echo $datos->estado ?> </td>
-                                    <input type="hidden" value='<?php echo $idMedicoSession?>' id='idDeDoctor'>
+                                   
 
-                                    <?php echo "<td> 
-                                                    
-                                                    <form  id='formCancelar' action='Crud_Admin/datosMedicos.php' method ='POST'>
-                                                        <input type='hidden' name='id_cita' value='".$datos->id_cita."'>
-                                                        <input type='hidden' name='statusCita' value='cancelado'>
-                                                        <button type='submit' name='estadoCancelado' class='cancelar btnTable'>cancelar Cita</button>
-                                                    </form>
-                                                </td>";?>
+                                    <?php echo '<td>
+                                            <form id="formCancelar" action="Crud_Admin/datosMedicos.php" method="POST" onsubmit="return confirm(\'¿Estás seguro de que deseas Cancelar esta cita?\');">
+                                                <input type="hidden" name="id_cita" value="'.$datos->id_cita.'">
+                                                <input type="hidden" name="statusCita" value="cancelado">
+                                                <button type="submit" name="estadoCancelado" class="cancelar btnTable">Cancelar Cita</button>
+                                            </form>
+                                        </td>' ?>;
                                     <?php echo "<td> 
                                                     
                                                     <form  id='formResultado' action='resultadosCitas.php' method ='POST'>
@@ -239,15 +239,17 @@
                 const estado = fila.querySelector('.estadoCita').textContent.trim();
 
                 // Si el estado es "realizado", deshabilitamos el botón en esa fila
-                if (estado === 'realizado') {
+                if (estado === 'realizado' || estado === 'cancelado') {
                     // Encontrar el botón "Generar Resultado" en esa fila
                     const botonGenerarResultado = fila.querySelector('.resultCita');
+                    const botonCancelarCita = fila.querySelector('.cancelar');
 
                     // Deshabilitar el botón
                     botonGenerarResultado.disabled = true;
-
+                    botonCancelarCita.disabled = true;
                     // Opcional: agregar una clase para cambiar el estilo del botón deshabilitado
                     botonGenerarResultado.classList.add('disabled');
+                    botonCancelarCita.classList.add('disabled');
 
                     console.log(`El botón de la cita ${fila.querySelector('td').textContent} ha sido deshabilitado porque el estado es "realizado".`);
                 }
@@ -307,7 +309,7 @@
                                 <td>${cita.hora}</td>
                                 <td class="estadoCita ${cita.estado}">${cita.estado}</td>
                                 <td> 
-                                    <form  id='formCancelar' action='Crud_Admin/datosMedicos.php' method ='POST'>
+                                    <form  id='formCancelar' action='Crud_Admin/datosMedicos.php' method ='POST' onsubmit="return confirm('¿Estás seguro de que deseas Cancelar esta cita?');">
                                             <input type='hidden' name='id_cita' value='${cita.id_cita}'>
                                             <input type='hidden' name='statusCita' value='cancelado'>
                                             <button type='submit' name='estadoCancelado' class='cancelar btnTable'>cancelar Cita</button>
@@ -325,10 +327,16 @@
                             // Agregar la fila al cuerpo de la tabla
                             contenedorCitas.appendChild(fila);
 
-                            if (cita.estado === "realizado") {
+                            if (cita.estado === "realizado" || cita.estado === 'cancelado' ) {
                                 const botonGenerarResultado = fila.querySelector('.resultCita');
+                                const botonCancelarCita = fila.querySelector('.cancelar');
+
                                 botonGenerarResultado.disabled = true;  // Deshabilitamos solo el botón de esta fila
+                                botonCancelarCita.disabled = true;
+
                                 botonGenerarResultado.classList.add('disabled');  // Opcional: agregar una clase para cambiar el estilo
+                                botonCancelarCita.classList.add('disabled');
+
                             }
 
 

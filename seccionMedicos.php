@@ -230,6 +230,7 @@ if(isset($_POST['fotoEnviada'])){
                     $clave = $data["contraseña"];
                     $nombre_esp = $data['nombre_especialidad'];
                     $direccion = $data['direccion'];
+                    $rolMedico = $data['rol'];
                     $fotoPerfil = $data['foto_perfil'];
                     $fechaNac = $data['fecha_nacimiento'];
                     $universidad = $data['titulación_academica'];
@@ -267,10 +268,10 @@ if(isset($_POST['fotoEnviada'])){
                         <span class="campoDeInformacion"> <?php echo $direccion ?></span><br>
                     </div>
 
-                    <div class="cajaTexto">
+                    <!-- <div class="cajaTexto">
                         <label>Contraseña: </label>
                         <span class="campoDeInformacion"> <?php echo $clave ?></span><br>
-                    </div>
+                    </div> -->
 
                     <button id="btnEditar">Editar Datos</button>
     
@@ -293,9 +294,9 @@ if(isset($_POST['fotoEnviada'])){
                             <label>Experiencia: </label>
                             <span class="campoDeInformacion"> <?php echo $perfilDoctor?: '<span class="nota">Nota,</span> Es importante que registre su experiencia para ofrecer mas informacion a nuestros usuarios'; ?></span><br>
 
-                            <?php if (empty($perfilDoctor)) : ?>
-                                <button id="botonSoloUnavez">Completar Experiencia</button>
-                            <?php endif; ?>
+                            <button id="botonSoloUnavez" class="<?php echo empty($perfilDoctor) ? '' : 'oculto'; ?>">
+                                Completar Experiencia
+                            </button>
 
                         </div>
 
@@ -330,7 +331,7 @@ if(isset($_POST['fotoEnviada'])){
                     <button class="ModalClose"> X</button>
                 </form>
 
-                <form method="POST" action="Crud_Admin/datosMedicos.php" class="formMed">
+                <form method="POST" action="Crud_Admin/datosMedicos.php" class="formMed" id='formulario_edicion_medicos'>
                     <div class="infoBasica">
 
                             <input type="hidden" name="id_doc" value="<?php echo $idMed?>" id="id_doctor">
@@ -340,28 +341,60 @@ if(isset($_POST['fotoEnviada'])){
 
                             <label for="nombre">Apellido:</label>
                             <input type="text" name="apellidoM" id="apellidoMed" value="<?php echo $apellidoMed ?>" required><br>
+                            
+                            <label for="Telefono">Telefono</label>
+  
+                            <?php
 
-                            <label for="telefono">Telefono:</label>
-                            <input type="text" name="telefonoM" id="telefonoMed"  value="<?php echo $telefono ?>" required><br>
+                                $telefonoCompleto = $telefono;
+
+                                $prefijo = substr($telefono, 0, 4);         // primeros 4 dígitos
+                                $numeroSinPrefijo = substr($telefono, 4);
+
+                            ?>
+
+                                <div class='campoCompuestoCI'>
+
+                                    <select class='prefijoTelefono' id="PrefijoTlfEdit" name="prefijoTlf" required>
+                                        <option value="0412" <?= $prefijo == "0412" ? 'selected' : '' ?>>0412</option>
+                                        <option value="0414" <?= $prefijo == "0414" ? 'selected' : '' ?>>0414</option>
+                                        <option value="0416" <?= $prefijo == "0416" ? 'selected' : '' ?>>0416</option>
+                                        <option value="0422" <?= $prefijo == "0422" ? 'selected' : '' ?>>0422</option>
+                                        <option value="0424" <?= $prefijo == "0424" ? 'selected' : '' ?>>0424</option>
+                                        <option value="0426" <?= $prefijo == "0426" ? 'selected' : '' ?>>0426</option>
+                                    </select>
+
+                                    <input type="text" name="telefonoM" id="telefonoMed"  value="<?php echo $numeroSinPrefijo ?>" required><br>
+                                </div>
 
                             <label for="correo">Correo:</label>
                             <input type="email" name="correoMed" id="correoMed"  value="<?php echo $correo ?>" required><br>
-
                             
                             <label for="direccion">Dirección:</label>
-                            <input type="text" name="direccionMed" id="direccionM"  value="<?php echo $direccion ?>" required><br>
-
+                            <input type="text" name="direccionMed" id="direccionEdit" value="<?php echo $direccion ?>" required><br>
 
                             <label for="clave">Contraseña:</label>
-                            <input type="text" name="ClaveMed" id="claveMed"  value="<?php echo $clave ?>" required><br><br>
+                            <input type="text" name="ClaveMed" id="claveMed" placeholder="Solo llena si deseas cambiar la contraseña" required><br><br>
+
+                            <!-- <label for="clave">Contraseña:</label>
+                            <input id="claveMed" type="text" name="ClaveMed" placeholder="Solo llena si deseas cambiar la contraseña"> -->
 
                             <input type="hidden" name="rolMedico" value=2>
                     </div>
 
                     <div class="infoPerfil"> 
+                        
+                        <label for="rolMedico">Rol de Medico</label>
+                            <select name="rolMedico" class='selecRol' id="selectTipodeMedicoEdit">
+                                <option value="">Seleccione un rol</option>
+                                <option value="2" <?= $rolMedico == 2 ? 'selected' : '' ?>>Médico regular</option>
+                                 <option value="5" <?= $rolMedico == 5 ? 'selected' : '' ?>>Medico de Urgencias</option>
+                            </select>
+
+
                         <label for="">Especialidad</label>
                         <select name="especialidad" id="esp" required>
-                            <option value=""><?php echo $nombre_esp ?></option>
+                            <!-- <option value=""></option> -->
                             <?php
                             include "conex_bd.php";
                                     
@@ -369,7 +402,9 @@ if(isset($_POST['fotoEnviada'])){
 
                             while($datos=$sql->fetch_object()){ ?>
 
-                                <option value="<?php echo $datos->id_especialidad ?>"><?php echo $datos->nombre_esp?></option>
+                                <option value="<?php echo $datos->id_especialidad ?>" <?= ($datos->nombre_esp == $nombre_esp) ? 'selected' : '' ?>>
+                                    <?php echo $datos->nombre_esp ?>
+                                </option>
 
                             <?php
                                     $selectEspecialidad = $datos->nombre_esp;
@@ -387,6 +422,8 @@ if(isset($_POST['fotoEnviada'])){
                             <textarea id="experiencias" name="experienciaMed" rows="4" cols="50" value="<?php echo $perfilDoctor ?>"><?php echo $perfilDoctor ?></textarea>
 
                             <input type="submit" name="EdicionCompleta" value="Editar Médico" id ="botonRegistroMed">
+
+                            <span class="resultado"></span>
                     </div>
                 </form>
 
@@ -432,6 +469,7 @@ if(isset($_POST['fotoEnviada'])){
                 <textarea name="descripcionXp" id="cajaDeDescrip" rows="5" cols="50"></textarea>
 
                 <input type="submit" name="descripcionEnviada" value="Agregar Descripcion" class='btnAgregarFoto'>
+
             </form>
 
         </dialog>
@@ -471,6 +509,133 @@ if(isset($_POST['fotoEnviada'])){
         dialog.showModal();
 
     }
+
+    const spanResultado = document.querySelector(".resultado");
+
+    function validarFormulario(campos) {
+            let error = [];
+            let textoPattern = /^[A-Za-zÁÉÍÓÚáéíóúÑñ\s]+$/;
+            let textoDescripcionPattern = /^[A-Za-zÁÉÍÓÚáéíóúÑñ0-9\s.,;:()\-"¿?!¡']+$/;
+            let clavePattern = /^(?=.*[A-Z])(?=.*\d)(?=.*[!@#$%^&*])[A-Za-z\d!@#$%^&*]{6,}$/;
+
+            const {
+                nombre,
+                apellido,
+                cedula,
+                telefono,
+                email,
+                fechaNacimiento,
+                clave,
+                repetirClave,
+                direccion,
+                estudios,
+                rolMedico,
+                especialidad
+            } = campos;
+
+            if(nombre.length < 2 || nombre.length > 40 || !textoPattern.test(nombre)){
+                return [true, "El nombre solo debe contener letras y tener mínimo 2 caracteres."];
+            } else if(apellido.length < 2 || apellido.length > 40 || !textoPattern.test(apellido)){
+                return [true, "El apellido solo debe contener letras y tener mínimo 2 caracteres."];
+            } else if(cedula && (!/^\d+$/.test(cedula) || cedula.length < 7 || cedula.length > 9 || cedula.startsWith('0'))){
+                return [true, "La cédula no es válida. Debe tener entre 7 y 9 dígitos y no comenzar con 0."];
+            }else if(!/^\d{7}$/.test(telefono)){
+                return [true, "El número debe tener exactamente 7 dígitos."];
+            } else if(email.length < 5 || email.length > 40 || 
+                    email.indexOf("@") === -1 || 
+                    email.indexOf(".") === -1 || 
+                    email.match(/[@.]{2,}/) || 
+                    /^[.@-]|[.@-]$/.test(email) || 
+                    (email.match(/@/g) || []).length !== 1 || 
+                    !/^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/.test(email)){
+                return [true, "Email no válido."];
+            } else if (!fechaNacimiento) {
+                return [true, "Debes ingresar tu fecha de nacimiento."];
+            }
+
+            const fechaHoy = new Date();
+            const fechaNac = new Date(fechaNacimiento);
+            const fechaMinima = new Date('1915-01-01');
+
+            if (fechaNac < fechaMinima) {
+                return [true, "La fecha de nacimiento no puede ser anterior a 1915."];
+            }
+
+            let edad = fechaHoy.getFullYear() - fechaNac.getFullYear();
+            const mes = fechaHoy.getMonth() - fechaNac.getMonth();
+            if (mes < 0 || (mes === 0 && fechaHoy.getDate() < fechaNac.getDate())) {
+                edad--;
+            }
+
+            if (edad < 18) {
+                return [true, "Debes tener al menos 18 años para registrarte."];
+            }
+
+            if (campos.clave !== "") {
+                if (!clavePattern.test(campos.clave)) {
+                    error[0] = true;
+                    error[1] = "La nueva contraseña debe tener al menos 6 caracteres, una mayúscula, un número y un símbolo.";
+                    return error;
+                }
+            }   
+
+            if (repetirClave != null && repetirClave !== clave){
+                error[0] = true;
+                error[1] = "Las contraseñas no coinciden.";
+                return error;
+            }
+
+            if(direccion.length < 2 || direccion.length > 255 || !textoDescripcionPattern.test(direccion)){
+                return [true, "La direccion solo debe contener letras y tener mínimo 2 caracteres."];
+            } else if(estudios.length < 2 || estudios.length > 125 || !textoDescripcionPattern.test(estudios)){
+                return [true, "la universidad de Egreso solo debe contener letras y tener mínimo 2 caracteres."];
+            }
+
+            if (!campos.rolMedico) {
+                return [true, "Debes seleccionar un rol de médico."];
+            } else if (!campos.especialidad) {
+                return [true, "Debes seleccionar una especialidad."];
+            }   
+
+            return [false, ""];
+    }
+
+    const botonEditar = document.getElementById("botonRegistroMed"); // botón del formulario de edición
+    botonEditar.addEventListener("click", function(e) {
+        const campos = {
+            nombre: document.getElementById("nombreMed").value.trim(),
+            apellido: document.getElementById("apellidoMed").value.trim(),
+            telefono: document.getElementById("telefonoMed").value.trim(),
+            email: document.getElementById("correoMed").value.trim(),
+            fechaNacimiento: document.getElementById("fechaNac").value,
+            clave: document.getElementById("claveMed").value,
+            direccion:  document.getElementById("direccionEdit").value,
+            estudios: document.getElementById("universidad").value,
+            rolMedico: document.getElementById("selectTipodeMedicoEdit").value,
+            especialidad: document.getElementById("esp").value
+        };
+
+        const camposConCedula = { ...campos, cedula: null};
+
+        const error = validarFormulario(campos);
+        if (error[0]) {
+            e.preventDefault();
+            spanResultado.innerHTML = error[1];
+            spanResultado.classList.add("red");
+            spanResultado.classList.remove("green");
+        } else {
+            spanResultado.innerHTML = "Te has registrado correctamente";
+            spanResultado.classList.add("green");
+            spanResultado.classList.remove("red");
+
+            const formEdit = document.getElementById("formulario_edicion_medicos");
+            const hiddenInputEdit = document.createElement("input");
+            hiddenInputEdit.type = "hidden";
+            hiddenInputEdit.name = "EdicionCompleta";
+            formEdit.appendChild(hiddenInputEdit);
+            formEdit.submit();
+        }
+    });
 
     </script>
     

@@ -128,7 +128,7 @@
                         </div>
                         <div class="medico aggDiaSemana">
                                 <h2>dia disponible</h2>
-                                <select name="dia" id="diaSemana">
+                                <select name="dia" id="diaSemana" require>
                                     <option value="">Seleciona un dia</option>
                                     <option value="1">Lunes</option>
                                     <option value="2">Martes</option>
@@ -136,14 +136,14 @@
                                     <option value="4">Jueves</option>
                                     <option value="5">Viernes</option>
                                     <option value="6">Sabado</option>
-                                    <option value="7">Domingo</option>
+                                    <option value="0">Domingo</option>
                                 </select>
 
                                 
                         </div>
                         <div class="medico aggHoraInicio">
                                 <h2>Ininio de Turno</h2>
-                                <select name="comienzoTurno" id="horaC">
+                                <select name="comienzoTurno" id="horaC" require>
                                 <option value="">Comienzo de turno</option>
                                         <option value="08:00">08:00</option>
                                         <option value="09:00">09:00</option>
@@ -157,7 +157,7 @@
                                 </select>
                         </div>
 
-                        <div class="medico aggHoraFin">
+                        <div class="medico aggHoraFin" require>
                                 <h2>fin de turno</h2>
                                 <select name="finTurno" id="horaF">
                                 <option value="">Final de Turno</option>
@@ -188,7 +188,6 @@
 
                 <table>
                     <thead>
-                        <th>id Horario</th>
                         <th>Nombre Medico</th>
                         <th>Dia Disponible</th>
                         <th>Inicio De turno</th>
@@ -216,7 +215,7 @@
                             ?>
 
                             <tr>
-                                <td> <?php echo $idHorario; ?></td>
+                                
                                 <td><?php echo $nombreMed." ".$apellidoMed; ?></td>
 
                                 <td><?php switch ($diaSemana) {
@@ -353,6 +352,33 @@
 
 
     <script>
+
+            document.getElementById('formHorarios').addEventListener('submit', function (event) {
+                const dia = document.getElementById('diaSemana').value;
+                const horaInicio = document.getElementById('horaC').value;
+                const horaFin = document.getElementById('horaF').value;
+                const mensaje = document.getElementById('mensajeAlert');
+
+                // Limpiar mensaje anterior
+                mensaje.textContent = '';
+
+                if (!dia || !horaInicio || !horaFin) {
+                    event.preventDefault(); // Evita el envío del formulario
+                    mensaje.textContent = 'Por favor, complete todos los campos antes de continuar.';
+                    mensaje.style.color = 'red';
+                    return;
+                }
+
+                // Validación adicional: la hora de fin debe ser mayor a la de inicio
+                if (horaFin <= horaInicio) {
+                    event.preventDefault();
+                    mensaje.textContent = 'La hora de fin debe ser mayor que la hora de inicio.';
+                    mensaje.style.color = 'red';
+                    return;
+                }
+
+            // Si todo está bien, el formulario se envía
+        });
 
         document.getElementById("diaSemana").addEventListener("change", function() {
 

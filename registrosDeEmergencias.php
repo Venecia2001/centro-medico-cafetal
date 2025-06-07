@@ -147,7 +147,7 @@ WHERE em.id_emergencia = ?";
                 <a href="seccionRecepcion.php">Emergencias Medicas</a>
             </li>
 
-            <li class="sidebar__item">
+            <!-- <li class="sidebar__item">
                 <span class="material-symbols-outlined">notifications</span>
                 <a href="registrosDeEmergencias.php">Registros de Emergencias</a>
             </li>
@@ -155,7 +155,7 @@ WHERE em.id_emergencia = ?";
             <li class="sidebar__item">
                 <span class="material-symbols-outlined">notifications</span>
                 <a href="registrosHospitalizacion.php">Hospitalizacion</a>
-            </li>
+            </li> -->
 
             <li class="sidebar__item">
                 <span class="material-symbols-outlined">notifications</span>
@@ -198,187 +198,249 @@ WHERE em.id_emergencia = ?";
 
         <div class="DatosGeneralesEmerg">
 
-            <H2>Datos de la emergencia</H2>
-
-            
-            <p><strong>id Emergencia:</strong> <span id="idEmergencia"><?php echo htmlspecialchars($datosEmergencia['idDeEmergencia']); ?></span></p>
-            <p><strong>Paciente:</strong> <span id="paciente"><?php echo htmlspecialchars($datosEmergencia['nombrePaciente']); ?></span></p>
-            <p><strong>Medico responsable:</strong> <span id="medicoResponsable"><?php echo htmlspecialchars($datosEmergencia['nombreMedico']); ?></span></p>
-            <p><strong>Enfermero:</strong> <span id="enfermero"><?php echo  htmlspecialchars($datosEmergencia['nombreEnfermero']);?></span></p>
-            <p><strong>tipo Emergencia:</strong> <span id="emergenciaTipo"><?php echo htmlspecialchars($datosEmergencia['tipoEmergencia']); ?></span></p>
-            <p><strong>Descripcion</strong> <span id="descripcionMostrar"><?php echo htmlspecialchars($datosEmergencia['descripcion']); ?></span></p>
-            <p ><strong>Diagnóstico:</strong> <span id="mostrarDiagnostico"><?php echo htmlspecialchars($datosEmergencia['diagnostico']); ?></span></p>
-
-            <?php 
-            
-            $consultaHospitalizacion = "SELECT COUNT(*) AS total FROM hospitalizacion WHERE emergencia_medica_id = '$idEmergencia'";
-            $resultado = mysqli_query($conexion, $consultaHospitalizacion);
-
-            if ($resultado) {
-                $fila = mysqli_fetch_assoc($resultado);
-                $hayHospitalizacion = $fila['total'] > 0; // Si el total es mayor a 0, hay hospitalización
-            } else {
-                $hayHospitalizacion = false; // En caso de error en la consulta
-            }
-
-            // Mostrar el botón adecuado según si hay hospitalización o no
-            if ($hayHospitalizacion): ?>
-                <a href="registrosHospitalizacion.php?id=<?php echo $idEmergencia; ?>" class="btnEnlace">Datos de Hospitalización</a>
-            <?php else: ?>
-                <p><strong>Requiere Hospitalización:</strong> 
-                    <span id="hospitalizacionSioNo">
-                        <button id="btnDialogHospitalizacion">Registrar Hospitalización</button>
-                    </span>
-                </p>
-            <?php endif; ?>
-                        
-            <?php
+            <div class='headAreas'>
                 
-                if (isset($_SESSION['errorMensaje'])) {
-                    echo '<div class="mensajeError">' . $_SESSION['errorMensaje'] . '</div>';
-                    unset($_SESSION['errorMensaje']); // Eliminar el mensaje después de mostrarlo
-                }
-            ?>
+                <h2 class='titulosAreas' >Datos de la Emergencia</h2>
+            </div>
 
-            <?php 
-
-                if (isset($_SESSION['mensajeExito'])) {
-                    echo "<div class='mensajeExito'> style='color: green; font-weight: bold;'>" . $_SESSION['mensajeExito'] . "</div>";
-                    unset($_SESSION['mensajeExito']); // Eliminar la variable de sesión después de mostrarla
-                }
-
+            <div class='bodyDeCuadro'>
             
-            ?>
 
+                <p><strong>Id Emergencia:</strong> <span id="idEmergencia"><?php echo htmlspecialchars($datosEmergencia['idDeEmergencia']); ?></span></p>
+                <p><strong>Paciente:</strong> <span id="paciente"><?php echo htmlspecialchars($datosEmergencia['nombrePaciente']); ?></span></p>
+                <p><strong>Medico responsable:</strong> <span id="medicoResponsable"><?php echo htmlspecialchars($datosEmergencia['nombreMedico']); ?></span></p>
+                <p><strong>Enfermero:</strong> <span id="enfermero"><?php echo  htmlspecialchars($datosEmergencia['nombreEnfermero']);?></span></p>
+                <p><strong>Tipo Emergencia:</strong> <span id="emergenciaTipo"><?php echo htmlspecialchars($datosEmergencia['tipoEmergencia']); ?></span></p>
 
-            <p id="pFecha"><strong>Fecha:</strong> <span id="fechaEmergencia"><?php echo htmlspecialchars($datosEmergencia['fechaEmergencia']); ?></span></p>
-            <p id="pGravedad"><strong>Gravedad</strong> <span id="gravedadEmergencia"><?php echo htmlspecialchars($datosEmergencia['gravedad']);?></span></p>
-            <p id="pEstado"><strong>Estado de Emergencia:</strong> <span id="estadoEmerg"><?php echo htmlspecialchars($datosEmergencia['estadoEmergencia']); ?></span></p>
+                <div class='contenedorObservaciones'>
+                    <p><strong>Descripcion</strong> <span id="descripcionMostrar"><?php echo htmlspecialchars($datosEmergencia['descripcion']); ?></span></p>
+                </div>           
 
-            <form id="form_editar_<?php echo $datosEmergencia['idDeEmergencia']; ?>" action="manejo_emergencia/modificarRegistro.php" method="POST" style="display:inline;">
-                <input type="hidden" name="idEditar" value="<?php echo $datosEmergencia['idDeEmergencia']; ?>">
-                <button type="button" class="linkEditar" onclick="enviarFormulario(<?php echo $datosEmergencia['idDeEmergencia']; ?>)">Actualizar Datos</button>
-            </form>
+                    <?php
+                        // Verificar el estado de la emergencia
+                        $estadoEmergencia = $datosEmergencia['estadoEmergencia'];
+                    ?>
 
+                <?php 
+                
+                $consultaHospitalizacion = "SELECT COUNT(*) AS total FROM hospitalizacion WHERE emergencia_medica_id = '$idEmergencia'";
+                $resultado = mysqli_query($conexion, $consultaHospitalizacion);
+
+                if ($resultado) {
+                    $fila = mysqli_fetch_assoc($resultado);
+                    $hayHospitalizacion = $fila['total'] > 0; // Si el total es mayor a 0, hay hospitalización
+                } else {
+                    $hayHospitalizacion = false; // En caso de error en la consulta
+                }
+
+                // Mostrar el botón adecuado según si hay hospitalización o no
+                if ($hayHospitalizacion): ?>
+                    <a href="registrosHospitalizacion.php?id=<?php echo $idEmergencia; ?>" class="btnEnlace">Datos de Hospitalización</a>
+                <?php else: ?>
+
+                    <p><strong>Requiere Hospitalización:</strong> 
+                        <span id="hospitalizacionSioNo">
+                        <?php
+                            if ($estadoEmergencia == 'Finalizado') {
+                                // Si la emergencia está finalizada, mostrar "No"
+                                echo "<strong>No</strong>";
+                            } else {
+                                // Si la emergencia no ha finalizado, mostrar el botón
+                                echo '<button id="btnDialogHospitalizacion">Registrar Hospitalización</button>';
+                            }
+                        ?>
+                        </span>
+                    </p>
+
+                <?php endif; ?>
+
+                 
+                            
+                <?php
+                    
+                    if (isset($_SESSION['errorMensaje'])) {
+                        echo '<div class="mensajeError">' . $_SESSION['errorMensaje'] . '</div>';
+                        unset($_SESSION['errorMensaje']); // Eliminar el mensaje después de mostrarlo
+                    }
+                ?>
+
+                <?php 
+
+                    if (isset($_SESSION['mensajeExito'])) {
+                        echo "<div class='mensajeExito'> style='color: green; font-weight: bold;'>" . $_SESSION['mensajeExito'] . "</div>";
+                        unset($_SESSION['mensajeExito']); // Eliminar la variable de sesión después de mostrarla
+                    }
+
+                
+                ?>
+                <div id="pDiagnostico">
+                    <p><strong>Diagnóstico:</strong> <span id="mostrarDiagnostico"><?php echo htmlspecialchars($datosEmergencia['diagnostico']); ?></span></p>
+
+                </div>
+                <p id="pFecha"><strong>Fecha:</strong> <span id="fechaEmergencia"><?php echo htmlspecialchars($datosEmergencia['fechaEmergencia']); ?></span></p>
+                <p id="pGravedad"><strong>Gravedad</strong> <span id="gravedadEmergencia"><?php echo htmlspecialchars($datosEmergencia['gravedad']);?></span></p>
+                <p id="pEstado"><strong>Estado de Emergencia:</strong> <span id="estadoEmerg"><?php echo htmlspecialchars($datosEmergencia['estadoEmergencia']); ?></span></p>
+
+                <form id="form_editar_<?php echo $datosEmergencia['idDeEmergencia']; ?>" action="manejo_emergencia/modificarRegistro.php" method="POST" style="display:inline;">
+                    <input type="hidden" name="idEditar" value="<?php echo $datosEmergencia['idDeEmergencia']; ?>">
+                    <button type="button" class="btnActualizar" onclick="enviarFormulario(<?php echo $datosEmergencia['idDeEmergencia']; ?>)">Actualizar Datos</button>
+                </form>
+            </div>
         </div>
 
         <div  class="espaciosDeRegistros">
 
             <div class="areaDeMedicamentos">
 
-                <h2>Medicina</h2>
+                <div class='headAreas'>
+                
+                    <h2 class='titulosAreas'>Medicamentos</h2>
 
-                <?php if (!empty($medicamentos)): ?>
-                <table border="1">
-                        <thead>
-                            <tr>
-                                <th>Medicamento</th>
-                                <th>Presentación</th>
-                                <th>Dosis</th>
-                                <th>Observaciones</th>
-                                <th>Costo Total</th>
-                                <th>Eliminar</th>
-                            </tr>
-                        </thead>
-                        <tbody id="tablaMedicamentos">
-                            <?php
-                            $medicamentosIdUnicos = []; // Almacena solo servicios con IDs únicos
+                </div>
 
-                            // foreach ($medicamentos as $medUni) {
-                            //     if (!in_array($medUni['medicamento_emergencia_id'], array_column($medicamentosIdUnicos, 'medicamento_emergencia_id'))) {
-                            //         $medicamentosIdUnicos[] = $medUni;
-                            //     }
-                            // }
+                <div class='bodyDeCuadro'>
 
-                            foreach ($medicamentos as $medUni) {
-                                // Verifica si el medicamento no está repetido y si es de tipo 'Emergencia'
-                                if (
-                                    !in_array($medUni['medicamento_emergencia_id'], array_column($medicamentosIdUnicos, 'medicamento_emergencia_id')) 
-                                    && $medUni['esenarioAdministracion'] === 'Emergencia'
-                                ) {
-                                    $medicamentosIdUnicos[] = $medUni;
-                                }
-                            }
-
-
-                            ?>
-                            <?php foreach ($medicamentosIdUnicos as $med): ?>
+                    <?php if (!empty($medicamentos)): ?>
+                    <table class='tablasEmergencias'>
+                            <thead>
                                 <tr>
-                                    <td><?php echo htmlspecialchars($med['nombre']); ?></td>
-                                    <td><?php echo htmlspecialchars($med['presentacion']); ?></td>
-                                    <td><?php echo htmlspecialchars($med['dosis']); ?></td>
-                                    <td><?php echo htmlspecialchars($med['observaciones']); ?></td>
-                                    <td><?php echo htmlspecialchars($med['costoTotal']); ?></td>
-                                    <?php echo "<td> 
-                                        
-                                        <form  id='formEliminar' action='manejo_emergencia/registrosHospitalizacion.php' method ='POST'>
-                                            <input type='hidden' name='idEmergencia' value='".$idEmergencia."'>
-                                            <input type='hidden' name='id' value='".$med['medicamento_emergencia_id']."'>
-                                            <button type='submit' name='eliminarMedicamento' class='deleteMed'><span class='material-symbols-outlined'> delete </span></button>
-                                        </form>
-                                    </td>"; ?>
+                                    <th>Medicamento</th>
+                                    <th>Presentación</th>
+                                    <th>Dosis</th>
+                                    <th>Observaciones</th>
+                                    <th>Costo Total</th>
+                                    <th>Eliminar</th>
                                 </tr>
-                            <?php endforeach; ?>
-                        </tbody>
-                    </table>
-                    <?php else: ?>
-                        <p>No se administraron medicamentos.</p>
-                    <?php endif; ?>
+                            </thead>
+                            <tbody id="tablaMedicamentos">
+                                <?php
+                                $medicamentosIdUnicos = []; // Almacena solo servicios con IDs únicos
 
-                    <button id="addMedicina" class="btnNewRegistros">Agregar Medicamento</button>
+                                // foreach ($medicamentos as $medUni) {
+                                //     if (!in_array($medUni['medicamento_emergencia_id'], array_column($medicamentosIdUnicos, 'medicamento_emergencia_id'))) {
+                                //         $medicamentosIdUnicos[] = $medUni;
+                                //     }
+                                // }
 
+                                foreach ($medicamentos as $medUni) {
+                                    // Verifica si el medicamento no está repetido y si es de tipo 'Emergencia'
+                                    if (
+                                        !in_array($medUni['medicamento_emergencia_id'], array_column($medicamentosIdUnicos, 'medicamento_emergencia_id')) 
+                                        && $medUni['esenarioAdministracion'] === 'Emergencia'
+                                    ) {
+                                        $medicamentosIdUnicos[] = $medUni;
+                                    }
+                                }
+
+
+                                ?>
+                                <?php foreach ($medicamentosIdUnicos as $med): ?>
+                                    <tr>
+                                        <td><?php echo htmlspecialchars($med['nombre']); ?></td>
+                                        <td><?php echo htmlspecialchars($med['presentacion']); ?></td>
+                                        <td><?php echo htmlspecialchars($med['dosis']); ?></td>
+                                        <td><?php echo htmlspecialchars($med['observaciones']); ?></td>
+                                        <td><?php echo htmlspecialchars($med['costoTotal']); ?></td>
+                                        <?php echo "<td> 
+                                            
+                                            <form  id='formEliminar' action='manejo_emergencia/registrosHospitalizacion.php' method ='POST'>
+                                                <input type='hidden' name='idEmergencia' value='".$idEmergencia."'>
+                                                <input type='hidden' name='id' value='".$med['medicamento_emergencia_id']."'>
+                                                <button type='submit' name='eliminarMedicamento' class='deleteMed'><span class='material-symbols-outlined'> delete </span></button>
+                                            </form>
+                                        </td>"; ?>
+                                    </tr>
+                                <?php endforeach; ?>
+                            </tbody>
+                        </table>
+                        <?php else: ?>
+                            <p>No se administraron medicamentos.</p>
+                        <?php endif; ?>
+
+                        <?php
+                            if ($estadoEmergencia == 'Finalizado') {
+                                // Si la emergencia está finalizada, mostrar "No"
+                                echo "<strong></strong>";
+                            } else {
+                                // Si la emergencia no ha finalizado, mostrar el botón
+                                echo '<button id="addMedicina" class="btnNewRegistros">Agregar Medicamento</button>';
+                            }
+                        ?>
+
+                        
+                </div>
             </div>
             <div class="areaDeServicios">
                 
-                <h2>Servicios</h2>
-                <?php if (!empty($servicios)): ?>
-                <table border="1">
-                        <thead>
-                            <tr>
-                                <th>id_servicio</th>
-                                <th>Nombre</th>
-                                <th>descripcion</th>
-                                <th>fecha</th>
-                                <th>Costo Total</th>
-                                <th>Eliminar</th>
-                            </tr>
-                        </thead>
-                        <tbody id="tablaMedicamentos">
-                        <?php
-                        $serviciosUnicos = []; // Almacena solo servicios con IDs únicos
 
-                        foreach ($servicios as $servUni) {
-                            if (!in_array($servUni['servicio_emergencia_id'], array_column($serviciosUnicos, 'servicio_emergencia_id'))) {
-                                $serviciosUnicos[] = $servUni;
-                            }
-                        }
-                        ?>
-                            <?php foreach ($serviciosUnicos  as $serv): ?>
+                <div class='headAreas'>
+            
+                    <h2 class='titulosAreas'>Servicios</h2>
+
+                </div>
+
+                <div class='bodyDeCuadro'>
+
+                    <?php if (!empty($servicios)): ?>
+                    <table class='tablasEmergencias'>
+                            <thead>
                                 <tr>
-                                    <td><?php echo htmlspecialchars($serv['id_servicio']); ?></td>
-                                    <td><?php echo htmlspecialchars($serv['nombreServ']); ?></td>
-                                    <td><?php echo htmlspecialchars($serv['descripcion']); ?></td>
-                                    <td><?php echo htmlspecialchars($serv['fecha_servicio']); ?></td>
-                                    <td><?php echo htmlspecialchars($serv['costo']); ?></td>
-                                    <?php echo "<td> 
-                                        
-                                        <form  id='formEliminar' action='manejo_emergencia/registrosHospitalizacion.php' method ='POST'>
-                                            <input type='hidden' name='idEmergencia' value='".$idEmergencia."'>
-                                            <input type='hidden' name='id' value='".$serv['servicio_emergencia_id']."'>
-                                            <button type='submit' name='eliminarServicio' class='deleteMed'><span class='material-symbols-outlined'> delete </span></button>
-                                        </form>
-                                    </td>"; ?>
+                                    <th>id_servicio</th>
+                                    <th>Nombre</th>
+                                    <th>descripcion</th>
+                                    <th>fecha</th>
+                                    <th>Costo Total</th>
+                                    <th>Eliminar</th>
                                 </tr>
-                            <?php endforeach; ?>
-                        </tbody>
-                    </table>
-                    <?php else: ?>
-                        <p>No se incluyo el uso de Servicios</p>
-                    <?php endif; ?>
-                 
-                    <button id="addServicio" class="btnNewRegistros">Agregar Servicio</button>
+                            </thead>
+                            <tbody id="tablaMedicamentos">
+                            <?php
+                            $serviciosUnicos = []; // Almacena solo servicios con IDs únicos
+
+                            foreach ($servicios as $servUni) {
+                                if (!in_array($servUni['servicio_emergencia_id'], array_column($serviciosUnicos, 'servicio_emergencia_id'))) {
+                                    $serviciosUnicos[] = $servUni;
+                                }
+                            }
+                            ?>
+                                <?php foreach ($serviciosUnicos  as $serv): ?>
+                                    <tr>
+                                        <td><?php echo htmlspecialchars($serv['id_servicio']); ?></td>
+                                        <td><?php echo htmlspecialchars($serv['nombreServ']); ?></td>
+                                        <td><?php echo htmlspecialchars($serv['descripcion']); ?></td>
+                                        <td><?php echo htmlspecialchars($serv['fecha_servicio']); ?></td>
+                                        <td><?php echo htmlspecialchars($serv['costo']); ?></td>
+                                        <?php echo "<td> 
+                                            
+                                            <form  id='formEliminar' action='manejo_emergencia/registrosHospitalizacion.php' method ='POST'>
+                                                <input type='hidden' name='idEmergencia' value='".$idEmergencia."'>
+                                                <input type='hidden' name='id' value='".$serv['servicio_emergencia_id']."'>
+                                                <button type='submit' name='eliminarServicio' class='deleteMed'><span class='material-symbols-outlined'> delete </span></button>
+                                            </form>
+                                        </td>"; ?>
+                                    </tr>
+                                <?php endforeach; ?>
+                            </tbody>
+                        </table>
+                        <?php else: ?>
+                            <p>No se incluyo el uso de Servicios</p>
+                        <?php endif; ?>
+
+                        <?php
+                            if ($estadoEmergencia == 'Finalizado') {
+                                // Si la emergencia está finalizada, mostrar "No"
+                                echo "<strong></strong>";
+                            } else {
+                                // Si la emergencia no ha finalizado, mostrar el botón
+                                echo '<button id="addServicio" class="btnNewRegistros">Agregar Servicio</button>';
+                            }
+                        ?>
+                    
+                        
                 
                 </div>
+                
+            </div>
 
         </div>
         
@@ -389,7 +451,6 @@ WHERE em.id_emergencia = ?";
     <dialog id="DialogNewMedicamentos" class="dialogRegistrosNew">
 
             <div class="headerModel"> 
-                <h2>Registro</h2>
                 <form method="dialog">
                 <button class="ModalClose"> X</button>
                 </form>
@@ -473,7 +534,6 @@ WHERE em.id_emergencia = ?";
     <dialog id="DialogNewServicio" class="dialogRegistrosNew">
 
             <div class="headerModel"> 
-                <h2>Registro Nuevo Servicio</h2>
                 <form method="dialog">
                 <button class="ModalClose"> X</button>
                 </form>
@@ -524,7 +584,6 @@ WHERE em.id_emergencia = ?";
     <dialog id="DialogActualizarEmerg" class="dialogRegistrosNew">
 
             <div class="headerModel"> 
-                <h2>Modificar registro</h2>
                 <form method="dialog">
                 <button class="ModalClose"> X</button>
                 </form>

@@ -4,13 +4,21 @@ include("../conex_bd.php");
 
 if(isset($_POST['registroCompleto'])){
 
+    $nacionalidad = $_POST['nacionalidadCi'];
     $cedulaMed = $_POST['cedula'];
     $nombreMed = $_POST['nombreM'];
     $apellidoMed = $_POST['apellidoM'];
-    $telefonoM = $_POST['telefonoM'];
     $correoMed = $_POST['correoMed'];
     $ClaveMed = $_POST['ClaveMed'];
     $rolId = $_POST['rolMedico'];
+
+    $tlf = $_POST["telefonoM"];
+    $prefijoTlf = $_POST['prefijoTlf'];
+
+    $prefijo = trim($prefijoTlf);
+    $numero = trim($tlf);
+
+    $telefonoCompleto = $prefijo . $numero;  // Resultado: "04121234567"
 
     $especialidadMed = $_POST['especialidad'];
     $direccionMed = $_POST['direccionMed'];
@@ -23,8 +31,8 @@ if(isset($_POST['registroCompleto'])){
         $conexion->begin_transaction();
     
         // 1. Insertar el nuevo médico en la tabla 'usuarios'
-        $stmt_usuario = $conexion->prepare("INSERT INTO usuarios (id, nombre, apellido, telefono, correo, fecha_nacimiento, contraseña, rol) VALUES (?, ?, ?, ?, ?, ?, ?, ?)");
-        $stmt_usuario->bind_param("issssssi", $cedulaMed, $nombreMed, $apellidoMed, $telefonoM, $correoMed, $fechaNac, $ClaveMed, $rolId);
+        $stmt_usuario = $conexion->prepare("INSERT INTO usuarios (id, nacionalidad, nombre, apellido, telefono, correo, fecha_nacimiento, contraseña, rol) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)");
+        $stmt_usuario->bind_param("isssssssi", $cedulaMed, $nacionalidad, $nombreMed, $apellidoMed, $telefonoCompleto, $correoMed, $fechaNac, $ClaveMed, $rolId);
         $stmt_usuario->execute();
     
         // Obtener el ID del nuevo usuario insertado
@@ -38,7 +46,7 @@ if(isset($_POST['registroCompleto'])){
         // Si todo salió bien, confirmar la transacción
         $conexion->commit();
     
-        echo "Médico registrado exitosamente.";
+        header("location:../controlMedicos.php");
     
     } catch (Exception $e) {
         // Si ocurre un error, deshacer la transacción

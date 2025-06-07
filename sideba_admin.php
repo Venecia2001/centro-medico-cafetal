@@ -20,7 +20,7 @@
         
         <li class="sidebar__item">
             <span class="material-symbols-outlined">notifications</span>
-            <a href="seccionAdmin.php">Notificaciones</a>
+            <a href="seccionAdmin.php">Usuarios</a>
         </li>
 
         <li class="sidebar__item">

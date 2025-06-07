@@ -29,7 +29,7 @@
                 <a href="seccionRecepcion.php">Emergencias Medicas</a>
             </li>
 
-            <li class="sidebar__item">
+            <!-- <li class="sidebar__item">
                 <span class="material-symbols-outlined">notifications</span>
                 <a href="registrosDeEmergencias.php">Registros de Emergencias</a>
             </li>
@@ -37,7 +37,7 @@
             <li class="sidebar__item">
                 <span class="material-symbols-outlined">notifications</span>
                 <a href="registrosHospitalizacion.php">Hospitalizacion</a>
-            </li>
+            </li> -->
 
             <li class="sidebar__item">
                 <span class="material-symbols-outlined">notifications</span>
@@ -46,7 +46,7 @@
 
             <li class="sidebar__item">
                 <span class="material-symbols-outlined">notifications</span>
-                <a href="#">Facturacion</a>
+                <a href="seccionFacturacion.php">Facturacion</a>
             </li>
             <li class="sidebar__item">
                 <span class="material-symbols-outlined">notifications</span>
@@ -78,28 +78,48 @@
 
         <main>
 
-            <h1>Gestion de Medicamentos</h1>
+            <h1 class='tituloSeccion'>Gestion de Medicamentos</h1>
 
-            <button id='btnMedicamento'>Agregar Medicamento</button>
+        <div class='panelDeControlMedicamentos'>
+            
+            <div class='buscadorMedicamento'>
 
-            <table border="1">
+                <form action="manejo_emergencia/verificarPaciente" method="POST" id="searchFormMedicamentos">
+                    <input type="text" name="search" placeholder="Busca el medicamento por su id o nombre" id="searchMEdicamentos" required>
+                    <input type="submit" name="buscar" class='btnRegistro_busq' value="Buscar"> 
+                </form>
+
+            </div>
+
+            <div class='divBtnAgregar'>
+
+            
+                <button id='btnMedicamento'>Agregar Medicamento</button>
+
+            </div>
+           
+
+        </div>
+
+        
+            <table id='tablaMedicamentos' border="1">
             <thead>
-                <th>id_medicamento</th>
+                <th>id medicamento</th>
                 <th>Nombre</th>
                 <th>Presentacion</th>
                 <th>Unidad de Medida</th>
-                <th>Stock_actual </th>
+                <th>Stock Actual </th>
                 <th>Clasificacion</th>
-                <th>Fecha_vencimiento</th>
-                <th>Precio_unitario </th>
-                <th>Contenido_total </th>
-                <th>Precio_caja_frasco </th>
+                <th>Fecha Vencimiento</th>
+                <th>Precio Unitario </th>
+                <th>Contenido total </th>
+                <th>Precio Caja </th>
                 <th>Editar</th>
                 <th>Eliminar</th>
                 <th>Reposición de inventario</th>
             </thead>
 
-            <tbody id='tablaFact'>
+            <tbody id='tablaMedicamentosBody'>
 
             <?php 
             
@@ -127,10 +147,12 @@
                         <!-- Formulario con botón para editar -->
                         <form id="form_editar_<?php echo $datos->medicamento_id; ?>" action="manejo_emergencia/crudMedicamentos.php" method="POST" style="display:inline;">
                             <input type="hidden" name="idEditar" value="<?php echo $datos->medicamento_id; ?>">
-                            <button type="button" class="linkEditar" onclick="enviarFormulario(<?php echo $datos->medicamento_id; ?>)">Editar</button>
+                            <button type="button" class="linkEditar" onclick="enviarFormulario(<?php echo $datos->medicamento_id; ?>)"><span class="material-symbols-outlined">
+edit
+</span></button>
                         </form>
                     </td>
-                    <?php echo "<td>
+                    <?php echo "<td class='tdDelete'>
                         <form id='formEliminar".$datos->medicamento_id."' action='manejo_emergencia/crudMedicamentos.php' method='POST' onsubmit='return confirmarEliminacion()'>
                             <input type='hidden' name='idMedicamento' value='".$datos->medicamento_id."'>
                             <button type='submit' name='eliminar' class='delete'>
@@ -142,7 +164,9 @@
                         <!-- Formulario con botón para editar -->
                         <form id="form_reabastecimiento_<?php echo $datos->medicamento_id; ?>" action="manejo_emergencia/crudMedicamentos.php" method="POST" style="display:inline;">
                             <input type="hidden" name="idParaInventario" value="<?php echo $datos->medicamento_id; ?>">
-                            <button type="button" class="linkEditar" onclick="enviarFormularioInventario(<?php echo $datos->medicamento_id; ?>)">Reabastecimiento
+                            <button type="button" class="linkEditar" onclick="enviarFormularioInventario(<?php echo $datos->medicamento_id; ?>)"><span id='addInventario' class="material-symbols-outlined">
+shopping_cart
+</span>
 
                             </button>
                         </form>
@@ -468,9 +492,91 @@
                 console.error('Error:', error);
             });
         
-        
-        
         }
+
+        var barraBusqueda = document.getElementById('searchMEdicamentos');
+
+        document.getElementById('searchFormMedicamentos').addEventListener('submit', function(event) {
+            event.preventDefault();
+
+            let contenedorMedicamento = document.getElementById('tablaMedicamentosBody');
+
+            var palabraClave = barraBusqueda.value;
+            console.log(palabraClave)
+
+            // Usar fetch para hacer la solicitud
+            fetch('manejo_emergencia/buscarMedicamento.php?palabra_id='+ palabraClave)
+                .then(response => response.json())  // Procesamos la respuesta como JSON
+                .then(data => {
+                        // Limpiamos el select de médicos
+                        contenedorMedicamento.innerHTML = '';
+
+                        // Si hay médicos, los agregamos al select
+                        if (data.success) {
+                            // Crear un primer option para "Seleccionar un médico"
+                            console.log(data);
+
+                        
+                            data.data.forEach(medicamento => {
+                                // Crear una fila de la tabla
+
+                                const fila = document.createElement('tr');
+
+                                fila.innerHTML = `
+                                
+                                    <td> ${medicamento.medicamento_id} </td>
+                                    <td> ${medicamento.nombre} </td>
+                                    <td> ${medicamento.presentacion}</td>
+                                    <td> ${medicamento.unidadMedida} </td>
+                                    <td> ${medicamento.stock} </td>
+                                    <td>${medicamento.clasificacionMed} </td>
+                                    <td >${medicamento.fechaV} </td>
+                                    <td >${medicamento.precioUnitario} </td>
+                                    <td >${medicamento.contenidoTotal} </td>
+                                    <td > ${medicamento.precioCaja} </td>
+                                    <td class='tdEditar'>
+                                        <!-- Formulario con botón para editar -->
+                                        <form id="form_editar_${medicamento.medicamento_id}" action="manejo_emergencia/crudMedicamentos.php" method="POST" style="display:inline;">
+                                            <input type="hidden" name="idEditar" value="${medicamento.medicamento_id}">
+                                            <button type="button" class="linkEditar" onclick="enviarFormulario(${medicamento.medicamento_id})"><span class="material-symbols-outlined">
+edit
+</span></button>
+                                        </form>
+                                    </td>
+                                    <td>
+                                        <form id='formEliminar${medicamento.medicamento_id}' action='manejo_emergencia/crudMedicamentos.php' method='POST' onsubmit='return confirmarEliminacion()'>
+                                            <input type='hidden' name='idMedicamento' value='${medicamento.medicamento_id}'>
+                                            <button type='submit' name='eliminar' class='delete'>
+                                                <span class='material-symbols-outlined'>delete</span>
+                                            </button>
+                                        </form>
+                                    </td>
+                                    <td class='tdEditar'>
+                                        <!-- Formulario con botón para editar -->
+                                        <form id="form_reabastecimiento_${medicamento.medicamento_id}" action="manejo_emergencia/crudMedicamentos.php" method="POST" style="display:inline;">
+                                            <input type="hidden" name="idParaInventario" value="${medicamento.medicamento_id}">
+                                            <button type="button" class="linkEditar" onclick="enviarFormularioInventario(${medicamento.medicamento_id})"><span id='addInventario' class="material-symbols-outlined">
+shopping_cart
+</span>
+
+                                            </button>
+                                        </form>
+                                    </td> 
+                                `;
+
+
+                                contenedorMedicamento.appendChild(fila);
+
+                            });
+                        
+                        } else {
+                            contenedorMedicamento.innerHTML = "<tr><td colspan='14'>No se encontraron datos relacionados.</td></tr>";
+                        }
+                    })
+                    .catch(error => {
+                        console.error("Error al cargar los médicos:", error);
+                    });
+        });
 
         </script>
 

@@ -29,6 +29,7 @@ body{
 
 .resultado{
     text-align: center;
+    font-size: 1.2rem;
     margin: 12px;
     text-wrap: balance;
 }
@@ -38,6 +39,7 @@ body{
 }
 .red{
     color: red;
+    font-size: 1.2rem;
 }
 
 
@@ -58,10 +60,22 @@ body{
 }
 
 #errorMessage{
+     background-color: #f8d7da;       /* Rojo claro */
+    color: #721c24;                  /* Rojo oscuro para el texto */
+    border: 1px solid #f5c6cb;       /* Borde rojo suave */
+    padding: 12px 16px;
+    border-radius: 6px;
+    font-weight: bold;
+    margin: 10px 0;
+    text-align: center;
+    max-width: 424px;
+    margin-left: auto;
+    margin-right: auto;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
     color: red;
     position: absolute;
-    left: 10%;
-    top: 94%;
+    left: 3%;
+    top: 92%;
 }
 
 
@@ -113,5 +127,36 @@ body{
 
 .botonesLogin:hover{
     background: rgba(44, 177, 99, 0.747);
+}
+
+.campoCompuestoCI{
+    width: 100%;
+    display: flex;
+}
+
+#cedula{
+    width: 100%;
+}
+
+#PrefijoTlf{
+    height: 30px;
+    margin-right: 8px;
+    background: #00a3a5;
+  border: none;
+  border-radius: 7px;
+  color: white;
+}
+
+#Telefono{
+    width: 100%;
+}
+
+#nacionalidad{
+    height: 30px;
+    margin-right: 8px;
+    background: #00a3a5 ;
+  border: none;
+  border-radius: 7px;
+  color: white;
 }
 
