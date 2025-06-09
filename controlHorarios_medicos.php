@@ -186,7 +186,7 @@
 
                 </div>
 
-                <table>
+                <table id='tableHorarios'>
                     <thead>
                         <th>Nombre Medico</th>
                         <th>Dia Disponible</th>
@@ -237,7 +237,7 @@
                                             case 6:
                                                 $nombreDia = 'Sábado';
                                                 break;
-                                            case 7: 
+                                            case 0: 
                                                 $nombreDia = 'Domingo';
                                                 break;
                                             default:
@@ -260,7 +260,7 @@
 
                                 <?php echo "<td> 
                                             
-                                            <form  id='formEliminar' action='Crud_Admin/accionesHorarios.php' method ='POST'>
+                                            <form  id='formEliminar' action='Crud_Admin/accionesHorarios.php' method ='POST' onsubmit=\"return confirm('¿Estás seguro de que deseas Eliminar este Horarios?');\">
                                                 <input type='hidden' name='id' value='".$idHorario."'>
                                                 <button type='submit' name='eliminarHorario_medico' class='deleteMed delete'><span class='material-symbols-outlined'> delete </span></button>
                                             </form>
@@ -289,7 +289,7 @@
                     <button class="ModalClose"> X</button>
                 </form>
 
-                <form action="Crud_Admin/resultadoFinalCitas.php" method="POST">
+                <form action="Crud_Admin/resultadoFinalCitas.php" method="POST" id='modificarHorarios'>
 
                     <input type="hidden" name="idHorarios" id="idDeHorarios" value="">
 
@@ -302,7 +302,7 @@
                         <option value="4">Jueves</option>
                         <option value="5">Viernes</option>
                         <option value="6">Sabado</option>
-                        <option value="7">Domingo</option>
+                        <option value="0">Domingo</option>
                     </select><br>
 
                     <label for="">Hora De Inicio</label><br>
@@ -341,7 +341,9 @@
                         <option value="No disponible">No Disponible</option>  
                     </select><br>
 
-                       <input type="submit" id="botonEdit" name="editHorarios_medico" value="Confirmar Cambios" >                 
+                       <input type="submit" id="botonEdit" name="editHorarios_medico" value="Confirmar Cambios" >
+                       
+                       <p id="mensajeAlertEdit"></p>
                 </form>
 
 
@@ -380,45 +382,69 @@
             // Si todo está bien, el formulario se envía
         });
 
-        document.getElementById("diaSemana").addEventListener("change", function() {
+         document.getElementById('modificarHorarios').addEventListener('submit', function (event) {
 
-            idMedico =  document.getElementById("doctor_id").value
-            let diaSeleccionado =  document.getElementById("diaSemana").value;
+                const horaInicio = document.getElementById('horaComienzoEdit').value;
+                const horaFin = document.getElementById('horaFEdit').value;
+                const mensaje = document.getElementById('mensajeAlertEdit');
 
-            console.log(idMedico+" "+diaSeleccionado)
+                // Limpiar mensaje anterior
+                mensaje.textContent = '';
 
-            var datos = new FormData();
-            datos.append('dia', diaSeleccionado);
-            datos.append('id_medico', idMedico);
+                // Validación adicional: la hora de fin debe ser mayor a la de inicio
+                if (horaFin <= horaInicio) {
+                    event.preventDefault();
+                    mensaje.textContent = 'La hora de fin debe ser mayor que la hora de inicio.';
+                    mensaje.style.color = 'red';
+                    return;
+                }
 
-            fetch('Crud_Admin/accionesHorarios.php', {
-                method: 'POST',
+            // Si todo está bien, el formulario se envía
+        });
+
+        function validarDiaSeleccionado(idDiaSelect, idMedicoInput, idMensaje, idBoton, idHorarioHidden = null) {
+            const diaSeleccionado = document.getElementById(idDiaSelect).value;
+            const idMedico = document.getElementById(idMedicoInput).value;
+            const idHorario = idHorarioHidden ? document.getElementById(idHorarioHidden).value : null;
+
+            const datos = new FormData();
+            datos.append("dia", diaSeleccionado);
+            datos.append("id_medico", idMedico);
+            if (idHorario) datos.append("id_horario", idHorario);
+
+            fetch("Crud_Admin/accionesHorarios.php", {
+                method: "POST",
                 body: datos
             })
             .then(response => {
-                if (!response.ok) {
-                    throw new Error('Error en la respuesta del servidor');
-                }
-                return response.json();  // Intentamos convertir la respuesta a JSON
+                if (!response.ok) throw new Error("Error en la respuesta del servidor");
+                return response.json();
             })
             .then(data => {
-                console.log(data);
+                const mensaje = document.getElementById(idMensaje);
+                const boton = document.getElementById(idBoton);
+
                 if (data.validacion) {
-                    document.getElementById("button_horarios").disabled = false;
-                    document.getElementById("button_horarios").classList.remove("disabled-button");
-                    document.getElementById("mensajeAlert").innerHTML = " ";
+                    boton.disabled = false;
+                    boton.classList.remove("disabled-button");
+                    mensaje.textContent = "";
                 } else {
-                    document.getElementById("button_horarios").disabled = true;
-                    document.getElementById("button_horarios").classList.add("disabled-button");
-                    document.getElementById("mensajeAlert").innerHTML = data.mensaje;
-                    console.log(data.mensaje);
+                    boton.disabled = true;
+                    boton.classList.add("disabled-button");
+                    mensaje.textContent = data.mensaje;
+                    mensaje.style.color = "red";
+                    mensaje.style.textAlign = "center";
                 }
             })
-            .catch(error => {
-                console.error('Error:', error);
-            });
+            .catch(error => console.error("Error:", error));
+        }
 
+        document.getElementById("diaSemana").addEventListener("change", function () {
+            validarDiaSeleccionado("diaSemana", "doctor_id", "mensajeAlert", "button_horarios");
+        });
 
+        document.getElementById("diaSemanaEdit").addEventListener("change", function () {
+            validarDiaSeleccionado("diaSemanaEdit", "doctor_id", "mensajeAlertEdit", "botonEdit", "idDeHorarios");
         });
 
         

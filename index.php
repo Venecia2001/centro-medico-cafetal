@@ -906,10 +906,10 @@
                                     dayElem.style.backgroundColor = '#00b4c0'; // Color de fondo para viernes
                                     dayElem.style.color = '#ffffff';           // Color del texto para viernes
                                 } else if (day === 6) {  // Sabado
-                                    dayElem.style.backgroundColor = '#00ffcf'; // Color de fondo para viernes
+                                    dayElem.style.backgroundColor = '#4c1a1a'; // Color de fondo para Sabado
                                     dayElem.style.color = '#ffffff';           // Color del texto para viernes
                                 } else if (day === 0) {  // Domingo
-                                    dayElem.style.backgroundColor = '#39b8df'; // Color de fondo para viernes
+                                    dayElem.style.backgroundColor = '#39b8df'; // Color de fondo para Domingo
                                     dayElem.style.color = '#ffffff';           // Color del texto para viernes
                                 }
                                 

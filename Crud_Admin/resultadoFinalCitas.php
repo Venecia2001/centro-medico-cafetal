@@ -79,8 +79,8 @@
 
         $idDeHorario = $_POST['idHorarios'];
         $diaSelect = $_POST['diaEdit'];
-        $horaInicio = $_POST['finTurnoEdit'];
-        $horaFin = $_POST['disponibilidadEdit'];
+        $horaInicio = $_POST['comienzoTurnoEdit'];
+        $horaFin = $_POST['finTurnoEdit'];
         $disponibilidadSelect = $_POST['disponibilidadEdit'];
 
 

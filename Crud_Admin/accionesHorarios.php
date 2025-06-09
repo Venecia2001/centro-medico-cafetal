@@ -1,5 +1,7 @@
 <?php
 
+header('Content-Type: application/json'); // importante
+
 include("../conex_bd.php");
 
 
@@ -40,16 +42,27 @@ include("../conex_bd.php");
 
 // }    
 
-
-if (!empty($_POST["dia"])) {
-    // Se recibieron los datos correctamente
+if (!empty($_POST["dia"]) && !empty($_POST["id_medico"])) {
     $diaSeleccionado = $_POST['dia'];
     $medicoSeleccionado = $_POST['id_medico'];
+    $idHorario = $_POST['idHorarios'] ?? null; // Vendrá solo si es edición
 
+    if ($idHorario) {
+        // Edición: excluir el horario actual
+        $validacionSql = "SELECT * FROM disponibilidad_horarios 
+                          WHERE medico_relac = $medicoSeleccionado 
+                          AND dia_semana = $diaSeleccionado 
+                          AND id_horario != $idHorario";
+    } else {
+        // Registro nuevo
+        $validacionSql = "SELECT * FROM disponibilidad_horarios 
+                          WHERE medico_relac = $medicoSeleccionado 
+                          AND dia_semana = $diaSeleccionado";
+    }
 
-    // Consulta SQL
-    $validacionSql = "SELECT * FROM disponibilidad_horarios WHERE medico_relac = $medicoSeleccionado AND dia_semana = $diaSeleccionado;";
     $resultValidacion = mysqli_query($conexion, $validacionSql);
+    
+    $response = [];
 
     if ($resultValidacion->num_rows > 0) {
         $response = [
@@ -62,10 +75,12 @@ if (!empty($_POST["dia"])) {
             'mensaje' => "No hay inconvenientes"
         ];
     }
-    
-    echo json_encode($response);  // Asegúrate de que esto sea lo único que se imprime
+
+    echo json_encode($response);
     exit;
 }
+
+
 //else {
 //     $response = [
 //         'validacion' => false,

@@ -161,7 +161,7 @@
                             <div class="divBtnDetalles">
                                 <form  action='Crud_Admin/jsonDetallesCitas.php' id="form_editar_<?php echo $id_citaHistorial; ?>" method="POST" style="display:inline;">
                                         <input type="hidden" name="idHistorialCita" value="<?php echo $id_citaHistorial; ?>">
-                                        <button type="button" class="detallesCita" onclick="enviarFormulario(<?php echo $id_citaHistorial; ?>)">Ver Detalles</button>
+                                        <button type="button" class="detallesCitaHistorial" onclick="enviarFormulario(<?php echo $id_citaHistorial; ?>)">Ver Detalles</button>
                                 
                                 </form>
                             </div>
@@ -357,7 +357,7 @@
                                         <div class="divBtnDetalles">
                                             <form  action='Crud_Admin/jsonDetallesCitas.php' id="form_editar_${historial.id_cita}" method="POST" style="display:inline;">
                                                     <input type="hidden" name="idHistorialCita" value="${historial.id_cita}">
-                                                    <button type="button" class="detallesCita" onclick="enviarFormulario(${historial.id_cita})">Ver Detalles</button>
+                                                    <button type="button" class="detallesCitaHistorial" onclick="enviarFormulario(${historial.id_cita})">Ver Detalles</button>
                                 
                                             </form>
                                         </div>
