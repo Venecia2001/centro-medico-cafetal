@@ -34,11 +34,15 @@
         </li>
         <li class="sidebar__item">
             <span class="material-symbols-outlined">notifications</span>
-            <a href="controlMedicos.php">Medicos</a>
+            <a href="controlMedicos.php">Médicos</a>
         </li>
         <li class="sidebar__item">
             <span class="material-symbols-outlined">notifications</span>
             <a href="controlHorarios.php">Horarios</a>
+        </li>
+        <li class="sidebar__item">
+            <span class="material-symbols-outlined">notifications</span>
+            <a href="control_turnos.php">Turnos Médicos</a>
         </li>
         <li class="sidebar__item">
             <span class="material-symbols-outlined">Settings</span>

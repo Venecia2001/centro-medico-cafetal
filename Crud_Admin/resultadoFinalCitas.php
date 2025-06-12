@@ -56,7 +56,6 @@
     if(isset($_POST['editHorarios'])){
         
         $idDeHorario = $_POST['idHorarios'];
-        $especialidad = $_POST['especialidad'];
         $doctorSelect = $_POST['medicoEdit'];
         $diaSelect = $_POST['diaEdit'];
         $horaInicio = $_POST['comienzoTurnoEdit'];

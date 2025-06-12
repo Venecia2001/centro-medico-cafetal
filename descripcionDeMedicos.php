@@ -211,6 +211,8 @@
                       if(!empty($_SESSION['usuario'])) { ?>
 
                       <input type="hidden" value="<?php echo $_SESSION["id"] ?>" name="nameUser">
+
+                      <input type="hidden" value="<?php echo $_SESSION["rolUser"]; ?>" name="rol_usuario">
                       <?php
                     }
                     ?>

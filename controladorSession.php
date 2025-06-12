@@ -62,6 +62,8 @@ function iniciarSesion($datos) {
     $_SESSION["nombre"]   = $datos["nombre"];
     $_SESSION["apellido"] = $datos["apellido"];
     $_SESSION["id"]       = $datos["id"];
+    $_SESSION["rolUser"] = $datos["rol"];
+    
     $rolUsuario           = $datos["rol"];
 
     switch ($rolUsuario) {

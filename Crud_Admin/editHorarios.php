@@ -7,7 +7,7 @@ if (!empty($_POST["idEditar"])) {
     $idEdit = isset($_POST['idEditar']) ? (int)$_POST['idEditar'] : 0;
 
     // Consulta SQL
-    $getDatos = "SELECT dh.*, us.nombre, us.apellido, us.id, m.id_especialidad FROM disponibilidad_horarios dh 
+    $getDatos = "SELECT dh.*, us.nombre, us.apellido, us.id, m.id_perfil FROM disponibilidad_horarios dh 
                  JOIN medicos m ON dh.medico_relac = m.id_perfil 
                  LEFT JOIN usuarios us ON m.id_medico = us.id 
                  WHERE dh.id_disponibilidad = $idEdit";
@@ -18,8 +18,10 @@ if (!empty($_POST["idEditar"])) {
     if ($resultDatos && $fila = mysqli_fetch_assoc($resultDatos)) {
         // Asignación de los datos
         $idHorario = $fila["id_disponibilidad"];
-        $id_especialidad = $fila['id_especialidad'];
+        $nombreEspecialista = $fila['nombre'];
+        $apellidoEsp = $fila['apellido'];
         $cedulaMedico = $fila['id'];
+        $idPerfilMedico = $fila['id_perfil'];
         $idMedico = $fila['medico_relac'];
         $diaSemana = $fila['dia_semana'];
         $horaInicio = $fila["hora_inicio"];
@@ -29,8 +31,10 @@ if (!empty($_POST["idEditar"])) {
         // Devolver los datos en formato JSON
         echo json_encode(array(
             'id' => $idHorario,
-            'id_esp' => $id_especialidad,
+            'nombreM' => $nombreEspecialista,
+            'apellidoM' => $apellidoEsp,
             'idMedico' => $idMedico,
+            'idPerfilMedico' => $idPerfilMedico,
             'cedulaMedico' => $cedulaMedico,
             'diaSemana' => $diaSemana,
             'horaInicio' => $horaInicio,

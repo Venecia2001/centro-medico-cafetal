@@ -44,55 +44,115 @@ if (!empty($_POST["idEditar"])) {
 }
 
 
+// if(isset($_POST['EdicionCompleta'])){
+
+//     $id_doctor = $_POST["id_doc"];
+//     $nombreMed = $_POST['nombreM'];
+//     $apellidoMed = $_POST['apellidoM'];
+//     $correoMed = $_POST['correoMed'];
+//     $ClaveMed = $_POST['ClaveMed'];
+//     $rolId = $_POST['rolMedico'];
+//     // $idCedula = $_POST['cedula'];
+
+
+//     $tlf = $_POST["telefonoM"];
+//     $prefijoTlf = $_POST['prefijoTlf'];
+
+//         $prefijo = trim($prefijoTlf);
+//         $numero = trim($tlf);
+
+//         $telefonoCompleto = $prefijo . $numero;  // Resultado: "04121234567"
+
+//     $especialidadMed = $_POST['especialidad'];
+//     $direccionMed = $_POST['direccionMed'];
+//     $fechaNac = $_POST['fecha_nac'];
+
+//     try {
+//         // Iniciar una transacción
+//         $conexion->begin_transaction();
+    
+//         // 1. Actualizar los datos del cliente en la tabla 'usuarios'
+//         $stmt_usuario = $conexion->prepare("UPDATE usuarios SET nombre = ?, apellido = ?, telefono = ?, correo = ?, fecha_nacimiento = ?, contraseña = ?, rol = ? WHERE id = ?");
+//         $stmt_usuario->bind_param("sssssssi",$nombreMed, $apellidoMed, $telefonoCompleto, $correoMed, $fechaNac, $ClaveMed, $rolId, $id_doctor);
+//         $stmt_usuario->execute();
+    
+//         // 2. Actualizar los datos específicos del médico en la tabla 'medicos'
+//         $stmt_medico = $conexion->prepare("UPDATE medicos SET id_especialidad = ?, direccion = ? WHERE id_medico = ?");
+//         $stmt_medico->bind_param("isi", $especialidadMed, $direccionMed, $id_doctor);
+//         $stmt_medico->execute();
+    
+//         // Si todo salió bien, confirmar la transacción
+//         $conexion->commit();
+    
+//         header("location:../controlMedicos.php");
+    
+//     } catch (Exception $e) {
+//         // Si ocurre un error, deshacer la transacción
+//         $conexion->rollback();
+//         echo "Error: " . $e->getMessage();
+//     }
+
+
+// }
+
 if(isset($_POST['EdicionCompleta'])){
 
     $id_doctor = $_POST["id_doc"];
     $nombreMed = $_POST['nombreM'];
     $apellidoMed = $_POST['apellidoM'];
     $correoMed = $_POST['correoMed'];
-    $ClaveMed = $_POST['ClaveMed'];
+    $ClaveMed = trim($_POST['ClaveMed']); // Remueve espacios
     $rolId = $_POST['rolMedico'];
-    // $idCedula = $_POST['cedula'];
-
 
     $tlf = $_POST["telefonoM"];
     $prefijoTlf = $_POST['prefijoTlf'];
-
-        $prefijo = trim($prefijoTlf);
-        $numero = trim($tlf);
-
-        $telefonoCompleto = $prefijo . $numero;  // Resultado: "04121234567"
+    $telefonoCompleto = trim($prefijoTlf) . trim($tlf);
 
     $especialidadMed = $_POST['especialidad'];
     $direccionMed = $_POST['direccionMed'];
     $fechaNac = $_POST['fecha_nac'];
 
     try {
-        // Iniciar una transacción
         $conexion->begin_transaction();
-    
-        // 1. Actualizar los datos del cliente en la tabla 'usuarios'
-        $stmt_usuario = $conexion->prepare("UPDATE usuarios SET nombre = ?, apellido = ?, telefono = ?, correo = ?, fecha_nacimiento = ?, contraseña = ?, rol = ? WHERE id = ?");
-        $stmt_usuario->bind_param("sssssssi",$nombreMed, $apellidoMed, $telefonoCompleto, $correoMed, $fechaNac, $ClaveMed, $rolId, $id_doctor);
+
+        // --- Si el campo ClaveMed NO está vacío, actualiza también la contraseña ---
+        if (!empty($ClaveMed)) {
+            // $claveHasheada = password_hash($ClaveMed, PASSWORD_DEFAULT);
+
+            $stmt_usuario = $conexion->prepare("
+                UPDATE usuarios 
+                SET nombre = ?, apellido = ?, telefono = ?, correo = ?, fecha_nacimiento = ?, contraseña = ?, rol = ? 
+                WHERE id = ?
+            ");
+            $stmt_usuario->bind_param("sssssssi", $nombreMed, $apellidoMed, $telefonoCompleto, $correoMed, $fechaNac, $ClaveMed, $rolId, $id_doctor);
+        } else {
+            // No actualizar contraseña
+            $stmt_usuario = $conexion->prepare("
+                UPDATE usuarios 
+                SET nombre = ?, apellido = ?, telefono = ?, correo = ?, fecha_nacimiento = ?, rol = ? 
+                WHERE id = ?
+            ");
+            $stmt_usuario->bind_param("ssssssi", $nombreMed, $apellidoMed, $telefonoCompleto, $correoMed, $fechaNac, $rolId, $id_doctor);
+        }
+
         $stmt_usuario->execute();
-    
-        // 2. Actualizar los datos específicos del médico en la tabla 'medicos'
-        $stmt_medico = $conexion->prepare("UPDATE medicos SET id_especialidad = ?, direccion = ? WHERE id_medico = ?");
+
+        // Actualizar tabla medicos
+        $stmt_medico = $conexion->prepare("
+            UPDATE medicos 
+            SET id_especialidad = ?, direccion = ? 
+            WHERE id_medico = ?
+        ");
         $stmt_medico->bind_param("isi", $especialidadMed, $direccionMed, $id_doctor);
         $stmt_medico->execute();
-    
-        // Si todo salió bien, confirmar la transacción
+
         $conexion->commit();
-    
         header("location:../controlMedicos.php");
-    
+
     } catch (Exception $e) {
-        // Si ocurre un error, deshacer la transacción
         $conexion->rollback();
         echo "Error: " . $e->getMessage();
     }
-
-
 }
 
 if(isset($_POST['eliminar'])){

@@ -80,7 +80,6 @@ if (!empty($_POST["dia"]) && !empty($_POST["id_medico"])) {
     exit;
 }
 
-
 //else {
 //     $response = [
 //         'validacion' => false,
@@ -89,9 +88,6 @@ if (!empty($_POST["dia"]) && !empty($_POST["id_medico"])) {
 //     echo json_encode($response);
 //     exit;
 // }
-
-
-
 
 // if(isset($_POST['registroHoras'])){
 
@@ -115,13 +111,18 @@ if (!empty($_POST["dia"]) && !empty($_POST["id_medico"])) {
 if(isset($_POST['eliminarHorario'])){
 
     $idDelete= $_POST['id'];
+    $rolDeMedico = $_POST['rolUsuario'];
 
     $consulta2 = "DELETE FROM disponibilidad_horarios WHERE id_disponibilidad='$idDelete'";
     $consultaEnd = mysqli_query($conexion, $consulta2);
 
     if($consultaEnd){
 
-        header("location:../controlHorarios.php");
+        if($rolDeMedico == 5){
+            header("location:../control_turnos.php");
+        }else{
+            header("location:../controlHorarios.php");
+        }
     }
 }
 

@@ -351,8 +351,6 @@
         </dialog>
         
     </main>
-
-
     <script>
 
             document.getElementById('formHorarios').addEventListener('submit', function (event) {

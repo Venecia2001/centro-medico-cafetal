@@ -181,6 +181,7 @@ if(isset($_POST["registrar"])){
         $medicos_esp = $_POST["medico_idTrue"];
         $fechas = $_POST["fecha"];
         $horario = $_POST["horaSelecion"];
+        $rolUsuario = $_POST["rol_usuario"];
     
         // Datos de menor si el usuario los proporciona
         $nombreMenor = isset($_POST['nombreMenor']) && $_POST['nombreMenor'] !== '' ? $_POST['nombreMenor'] : NULL;
@@ -209,7 +210,12 @@ if(isset($_POST["registrar"])){
         }
     
         // Redirigir al usuario
-        header("Location: index.php");
+        if($rolUsuario == 2){
+            header("location:seccionMedicos.php");
+        }else{
+            header("Location: index.php");
+        }
+        
         exit();
     }
 

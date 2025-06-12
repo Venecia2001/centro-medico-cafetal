@@ -6,7 +6,7 @@ include("../conex_bd.php");
 
 if(isset($_POST['registroHoras'])){
 
-    $especialidad = $_POST['especialidad'];
+    $rolDeMedico = $_POST['rolMedico'];
     $doctorSelect = $_POST['medico'];
     $diaSelect = $_POST['dia'];
     $horaInico = $_POST['comienzoTurno'];
@@ -16,7 +16,13 @@ if(isset($_POST['registroHoras'])){
     $resultadoSql = mysqli_query($conexion,$consultaCita);
 
     if($resultadoSql) {
-        header("location:../controlHorarios.php");
+
+        if($rolDeMedico == 5){
+            header("location:../control_turnos.php");
+        }else{
+            header("location:../controlHorarios.php");
+        }
+        
     }else{
         ?>
         <h3 class="mensajeFallido">ha ocurrido un error</h3>

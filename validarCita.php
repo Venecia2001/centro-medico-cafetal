@@ -9,7 +9,9 @@ $idMedico = $_POST['idMedico'];
 
 // Creamos un objeto DateTime para analizar la fecha seleccionada
 $fecha = new DateTime($fechaSeleccionada);
-$diaSemana = $fecha->format('N'); // Día de la semana (1 = Lunes, 7 = Domingo)
+// $diaSemana = $fecha->format('N'); // Día de la semana (1 = Lunes, 7 = Domingo)
+
+$diaSemana = $fecha->format('w'); // 0 (domingo) a 6 (sábado)
 
 // Validar si el día de la semana está en los días disponibles
 // if (!in_array($diaSemana, $diasSemana)) {

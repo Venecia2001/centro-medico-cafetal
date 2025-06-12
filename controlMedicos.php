@@ -52,7 +52,7 @@
                             <label for="nombre">Apellido:</label>
                             <input type="text" name="apellidoM" id="apellidoReg" required><br>
 
-                            <label for="Telefono">Telefono</label>
+                            <label for="Telefono">Telefono</label> 
                             <div class='campoCompuestoCI'>
 
                                 <select class='prefijoTelefono' id="PrefijoTlf" name="prefijoTlf" required>
@@ -218,7 +218,7 @@
             <div>
                 <div class="registroMed">
 
-                    <h2 class='tituloFormulario'>Editar Datos</h2>
+                    <h2 class='tituloFormulario'>Editar Datos</h2> 
  
                     <form method="POST" action="Crud_Admin/pruebaEdit.php" class="formularioMed" id='formEditMedico'>
                         <div class="infoBasica">
@@ -253,7 +253,7 @@
                                 <input type="email" name="correoMed" id="correoMed" required><br>
 
                                 <label for="clave">Contraseña:</label>
-                                <input id="claveMed" type="text" name="ClaveMed" placeholder="Solo llena si deseas cambiar la contraseña">
+                                <input id="claveMedEdit" type="text" name="ClaveMed" placeholder="Solo llena si deseas cambiar la contraseña">
 
                                 <input type="hidden" name="rolMedico" value=2>
                         </div>
@@ -356,7 +356,7 @@
                     document.getElementById('PrefijoTlfEdit').value = data.prefijoTlf;
                     document.getElementById('telefonoMed').value = data.telefono;
                     document.getElementById('correoMed').value = data.correo;
-                    // document.getElementById('claveMed').value = data.clave;
+                    // document.getElementById('claveMedEdit').value = data.clave;
                     document.getElementById('direccionM').value = data.direccion;
                     document.getElementById('espEdit').value = data.nombre_esp;
                     document.getElementById('selectTipodeMedicoEdit').value = data.rol;

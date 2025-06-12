@@ -22,9 +22,19 @@
  
             ?>
 
+            <?php 
+          
+              $mensaje ="";
+
+              if (isset($_SESSION['mensaje'])) {
+                $mensaje = $_SESSION['mensaje'];
+                unset($_SESSION['mensaje']); // Eliminar el mensaje después de mostrarlo
+              }
+            ?>
+
         <h1><?php echo $titulo ?></h1>
         <p><?php echo $descripcion ?></p>
-
+        
           <?php
             $ocultarBoton = isset($_SESSION['usuario']) ? "oculto" : "";
           ?>
@@ -43,10 +53,13 @@
         <?php
         }
         ?>
-
     </section>
 
     <img src="uploads/.<?php echo $fotoRelacionada ?>" alt="Imagen de especialidad">
+
+     <?php if (!empty($mensaje)) : ?>
+        <div class="mensaje-exito"><?php echo $mensaje; ?></div>
+      <?php endif; ?>
 
 </div>
 
@@ -262,17 +275,6 @@
       <dialog id="dialogCitasOnline">
 
         <section class="registroDeCita">
-
-          <?php 
-          
-          $mensaje ="";
-
-          if (isset($_SESSION['mensaje'])) {
-            $mensaje = $_SESSION['mensaje'];
-            unset($_SESSION['mensaje']); // Eliminar el mensaje después de mostrarlo
-          }
-
-          ?>
             
             <div class="camposFron">
 
@@ -301,12 +303,14 @@
                       if(!empty($_SESSION['usuario'])) { ?>
 
                       <input type="hidden" value="<?php echo $_SESSION["id"] ?>" name="nameUser">
+
+                      <input type="hidden" value="<?php echo $_SESSION["rolUser"]; ?>" name="rol_usuario">
                       <?php
                     }
                     ?>
 
                     <!-- Mostrar mensaje de éxito o error -->
-                    <?php if (!empty($mensaje)) echo $mensaje; ?>
+                    
 
                     <button type="button" id='btnVerCitaMenor'>Cita a Menor de Edad</button>
 
@@ -319,7 +323,7 @@
                         
                         <label for="nombreMenor">Nombre del Menor:</label>
                         <input type="text" id="nombreMenor" name="nombreMenor" placeholder="Nombre y Apellido del menor">
-                        
+
                         <label for="fechaNacimientoMenor">Fecha de Nacimiento:</label>
                         <input type="date" id="fechaNacimientoMenor" name="fechaNacimientoMenor" max="<?= date('Y-m-d'); ?>">
 
@@ -740,7 +744,7 @@
               console.log("este es la cadena 2"+medicoId)
 
               if (medicoId) {
-                  fetch("verificarFechas.php", {
+                  fetch("verificarFechas.php", { 
                       method: "POST",
                       headers: {
                           "Content-Type": "application/x-www-form-urlencoded"
@@ -763,7 +767,7 @@
                       datos.append('idMedico', medicoId)
 
                       // Realizamos una solicitud AJAX
-                      fetch('validarCita.php', {
+                      fetch('validarCita.php', { 
                           method: 'POST',
                           body: datos
                       })

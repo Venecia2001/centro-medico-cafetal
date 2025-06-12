@@ -15,7 +15,7 @@
 
     <div class="agregarHorarios">
 
-        <h2 class='tituloSeccion'>Horarios Registrados</h2>
+        <h2 class='tituloSeccion'>Turnos Médicos Registrados</h2>
 
         <div class="cuadroBusqueda" id ="titulito">
 
@@ -28,41 +28,39 @@
 
 
 
-        <div class="cabezera">
+        <div class="cabezera"> 
 
             <form action="Crud_Admin/registroHorarios_admin.php" method="post" id="formHorarios">
 
-                <div class="medico aggEsp">
-                    <h2>Especialidad</h2>
-                    <select name="especialidad" id="specialty_id" class="selectForm" require>
-                                    <option value="">Seleccione la especialidad</option>
-                                    <?php
-                                    include "conex_bd.php";
-                                            
-                                    $sql = $conexion->query("SELECT id_especialidad, nombre_esp FROM `especialidades`");
+                <div class="medico aggEsp"> 
 
-                                    while($datos=$sql->fetch_object()){ ?>
-
-                                        <option value="<?php echo $datos->id_especialidad ?>"><?php echo $datos->nombre_esp?></option>
-
-                                    <?php
-                                            $selectEspecialidad = $datos->nombre_esp;
-
-                                        } 
-                                    ?>
-                    </select><br>
-                    <input type="hidden" name='rolMedico' value='2'>
+                    <h2>Informacion</h2>
+                    <p>Para los médicos de guardia se registrar turnos de 24 horas</p>
+                    
                 </div>
 
                 <div class="medico aggNombre">
-                        <h2>Nombre Medico</h2>
-                        <select name="medico" id="doctor_id" class="selectForm" require>
-                            <option value="">Seleccione un médico</option>
-                            
-                        </select><br>
+                        <h2>Médicos de Guardia</h2>
+                    <select name="medico" id="specialty_id" class="selectForm" require>
+                                    <option value="">Seleccione el Médico</option>
+                                    <?php
+                                    include "conex_bd.php";
+                                            
+                                    $sql = $conexion->query("SELECT u.id, u.nombre, u.apellido, m.id_perfil, u.rol FROM usuarios u JOIN medicos m ON m.id_medico = u.id WHERE u.rol = 5;");
 
+                                    while($datos=$sql->fetch_object()){ ?>
 
+                                        <option value="<?php echo $datos->id_perfil ?>"><?php echo $datos->nombre.' '.$datos->apellido?></option>
+
+                                    <?php
+                                            $rolMedico = $datos->rol;
+                                        } 
+                                    ?>
+                    </select><br>
+                    <input type="hidden" name='rolMedico' value='<?php echo $rolMedico ?>'>
                 </div>
+
+               
                 <div class="medico aggDiaSemana">
                         <h2>Dia disponible</h2>
                         <select name="dia" id="diaSemana" class="selectForm" require>
@@ -78,19 +76,13 @@
 
                         
                 </div>
+
+                
                 <div class="medico aggHoraInicio" require>
                         <h2>Ininio de Turno</h2>
                         <select name="comienzoTurno" class="selectForm" id="horaC">
-                        <option value="">Comienzo de turno</option>
-                                <option value="08:00">08:00</option>
-                                <option value="09:00">09:00</option>
-                                <option value="10:00">10:00</option>
-                                <option value="11:00">11:00</option>
-                                <option value="12:00">12:00</option>
-                                <option value="13:00">13:00</option>
-                                <option value="14:00">14:00</option>
-                                <option value="15:00">15:00</option>
-                                <option value="16:00">16:00</option>
+                                <option value="">Comienzo de turno</option>
+                                 <option value="00:00">00:00</option>
                         </select>
                 </div>
 
@@ -98,15 +90,7 @@
                         <h2>fin de turno</h2>
                         <select name="finTurno" id="horaF" class="selectForm" require>
                         <option value="">Final de Turno</option>
-                                <option value="08:00">08:00</option>
-                                <option value="09:00">09:00</option>
-                                <option value="10:00">10:00</option>
-                                <option value="11:00">11:00</option>
-                                <option value="12:00">12:00</option>
-                                <option value="13:00">13:00</option>
-                                <option value="14:00">14:00</option>
-                                <option value="15:00">15:00</option>
-                                <option value="16:00">16:00</option>
+                                <option value="23:59">23:59</option>
                         </select>
                 </div>
 
@@ -116,7 +100,6 @@
                     <p id="mensajeAlert"></p>
                 
                 </div>
-
             </form>
 
         </div>
@@ -124,7 +107,7 @@
         <table id='tablaHorarios'>
             <thead>
                 <th>id Horario</th>
-                <th>Nombres Especialista</th>
+                <th>Nombres Médico</th>
                 <th>Apellido</th>
                 <th>Dia Disponible</th>
                 <th>Inicio De turno</th>
@@ -136,7 +119,7 @@
             <tbody id="cuerpoTabla">
                   <?php 
                   
-                  $getDatos = "SELECT dh.*, us.nombre, us.apellido FROM disponibilidad_horarios dh JOIN medicos m ON dh.medico_relac = m.id_perfil LEFT JOIN usuarios us ON m.id_medico = us.id WHERE us.rol <> 5;";
+                  $getDatos = "SELECT dh.*, us.nombre, us.apellido FROM disponibilidad_horarios dh JOIN medicos m ON dh.medico_relac = m.id_perfil LEFT JOIN usuarios us ON m.id_medico = us.id WHERE us.rol = 5";
                   $resultDatos = mysqli_query($conexion,$getDatos);
                   
                   while($fila = $resultDatos->fetch_array()){
@@ -183,7 +166,7 @@
                                         break;
                             }
 
-                        echo $nombreDia; // Imprimirá "Jueves" ?></td> 
+                        echo $nombreDia; // Imprimirá "Jueves" ?></td>
 
                         <td><?php echo $horaInicio; ?></td>
                         <td><?php echo $horaFin; ?></td>
@@ -200,7 +183,7 @@
                                     
                                     <form  id='formEliminar' action='Crud_Admin/accionesHorarios.php' method ='POST' onsubmit=\"return confirm('¿Estás seguro de que deseas Eliminar este Horarios?');\">
                                         <input type='hidden' name='id' value='".$idHorario."'>
-                                        <input type='hidden' name='rolUsuario' value='2'>
+                                        <input type='hidden' name='rolUsuario' value='".$rolMedico."'>
                                          <button type='submit' name='eliminarHorario' class='deleteMed'><span class='material-symbols-outlined'> delete </span></button>
                                     </form>
                             </td>";?>
@@ -230,19 +213,34 @@
                     <button class="ModalClose"> X</button>
                 </form>
 
-                <form action="Crud_Admin/resultadoFinalCitas.php" method="POST" id='FormEdicionHorarios'>
+                <form action="Crud_Admin/resultadoFinalCitas.php" method="POST">
 
                     <input type="hidden" name="idHorarios" id="idDeHorarios" value="">
 
+                    <label for="">Especialidad</label><br>
+                    <select name="especialidad" id="especialidadEdit"  class="selectForm">
+                                    <option value="">Seleccione la especialidad</option>
+                                    <?php
+                                    include "conex_bd.php";
+                                            
+                                    $sql = $conexion->query("SELECT id_especialidad, nombre_esp FROM `especialidades`");
+
+                                    while($datos=$sql->fetch_object()){ ?>
+
+                                        <option value="<?php echo $datos->id_especialidad ?>"><?php echo $datos->nombre_esp?></option>
+
+                                    <?php
+                                            $rolMedico = $datos->rol;
+                                        } 
+                                    ?>
+                    </select><br>
+                    <input type="hidden" name='rolMedico' value='<?php echo $rolMedico ?>'>
+
                     <label for="">Medico</label><br>
-                    <input type="text"  id="doctor_id_edit" readonly><br>
-
-                    <input type="hidden" name="medicoEdit" id='refMedico' >
-
-                    <!-- <select name="medicoEdit" id="doctor_id_edit" class="selectForm">
+                    <select name="medicoEdit" id="doctor_id_edit" class="selectForm">
                         <option value="">Seleccione un médico</option>
                             
-                    </select><br> -->
+                    </select><br>
                     <label for="">Dia de la Semana</label><br>
                     <select name="diaEdit" id="diaSemanaEdit"  class="selectForm">
                         <option value="">Seleciona un dia</option>
@@ -259,30 +257,15 @@
                     <!-- <span id="mensajeEmer"></span> -->
                     <select name="comienzoTurnoEdit" id="horaComienzoEdit"  class="selectForm">
                         <option value="">Comienzo</option>
-                        <option value="08:00">08:00</option>
-                        <option value="09:00">09:00</option>
-                        <option value="10:00">10:00</option>
-                        <option value="11:00">11:00</option>
-                        <option value="12:00">12:00</option>
-                        <option value="13:00">13:00</option>
-                        <option value="14:00">14:00</option>
-                        <option value="15:00">15:00</option>
-                        <option value="16:00">16:00</option>
+                            <option value="00:00">00:00</option>
+                        </select>
                     </select><br>
 
                     <label for="">Hora de culminacion</label><br>
                     <!-- <span id="mensajeHoraFin"></span> -->
                     <select name="finTurnoEdit" id="horaFEdit" class="selectForm">
                         <option value="">Final de Turno</option>
-                        <option value="08:00">08:00</option>
-                        <option value="09:00">09:00</option>
-                        <option value="10:00">10:00</option>
-                        <option value="11:00">11:00</option>
-                        <option value="12:00">12:00</option>
-                        <option value="13:00">13:00</option>
-                        <option value="14:00">14:00</option>
-                        <option value="15:00">15:00</option>
-                        <option value="16:00">16:00</option>
+                        <option value="16:00">23:59</option>
                     </select><br>
                     <label for="">Disponibilidad de horario</label><br>
                     <select name="disponibilidadEdit" id="dispo_dia"  class="selectForm">
@@ -291,8 +274,7 @@
                         <option value="No disponible">No Disponible</option>  
                     </select><br>
 
-                       <input type="submit" id="botonEdit" name="editHorarios" value="Confirmar Cambios" >
-                        <p id="mensajeAlertEdit"></p>
+                       <input type="submit" id="botonEdit" name="editHorarios" value="Confirmar Cambios" >                 
                 </form>
 
 
@@ -306,77 +288,23 @@
 
     <script>
 
-        document.addEventListener("DOMContentLoaded", function() {
-            // Obtener el campo de especialidades y médicos
-            var specialtySelect = document.getElementById('specialty_id');
-            var doctorSelect = document.getElementById('doctor_id');
-
-            // Cuando se cambia la especialidad
-            specialtySelect.addEventListener('change', function() {
-            var specialty_id = specialtySelect.value;
-
-            // Si se seleccionó una especialidad
-            if (specialty_id) {
-                // Usar fetch para hacer la solicitud
-                fetch('Crud_Admin/obtener_medicosHorarios.php?specialty_id=' + specialty_id)
-                .then(response => response.json())  // Procesamos la respuesta como JSON
-                .then(data => {
-
-                    console.log(data)
-                    // Limpiamos el select de médicos
-                    doctorSelect.innerHTML = '';
-
-                    // Si hay médicos, los agregamos al select
-                    if (data.length > 0) {
-                        // Crear un primer option para "Seleccionar un médico"
-                        var defaultOption = document.createElement('option');
-                        defaultOption.value = '';
-                        defaultOption.textContent = 'Selecciona un médico';
-                        doctorSelect.appendChild(defaultOption);
-
-                        // Crear opciones para cada médico
-                        data.forEach(function(medico) {
-                            var option = document.createElement('option');
-                            option.value = medico.perfilMed;  // El valor será el id del médico
-                            option.textContent = medico.nombre+" "+medico.apellido;  // El texto visible será el nombre del médico
-                            option.id = medico.id_medico
-                            doctorSelect.appendChild(option);
-                        });
-                    } else {
-                        // Si no hay médicos, agregar una opción indicando que no hay disponibles
-                        var noDoctorsOption = document.createElement('option');
-                        noDoctorsOption.value = '';
-                        noDoctorsOption.textContent = 'No hay médicos disponibles';
-                        doctorSelect.appendChild(noDoctorsOption);
-                    }
-                })
-                .catch(error => {
-                    console.error("Error al cargar los médicos:", error);
-                });
-            } else {
-                // Si no se seleccionó especialidad, limpiar el select de médicos
-                doctorSelect.innerHTML = '<option value="">Selecciona un médico</option>';
-            }
-            });
-        });
-
         document.getElementById("button_horario").addEventListener("click", function(e) {
             e.preventDefault(); // Previene el envío del formulario hasta validar
 
-            const especialidad = document.getElementById("specialty_id").value;
-            const medico = document.getElementById("doctor_id").value;
+            const medico = document.getElementById("specialty_id").value;
+            // const medico = document.getElementById("doctor_id").value;
             const dia = document.getElementById("diaSemana").value;
             const comienzoTurno = document.getElementById("horaC").value;
             const finTurno = document.getElementById("horaF").value;
             const mensaje = document.getElementById("mensajeAlert");
 
-            if (!especialidad || !medico || !dia || !comienzoTurno || !finTurno) {
+            if (!medico || !dia || !comienzoTurno || !finTurno) {
                 // mensaje.textContent = "Debes seleccionar todos los campos antes de registrar.";
                 // mensaje.style.color = "red";
                 alert('Debes seleccionar todos los campos antes de registrar.')
             } else {
                 // Validación adicional: inicio debe ser menor que fin
-                if (finTurno <= comienzoTurno) {
+                if (comienzoTurno >= finTurno) {
                     mensaje.textContent = "La hora de inicio debe ser menor que la de fin.";
                     mensaje.style.color = "red";
                     return;
@@ -394,11 +322,10 @@
                 }
         });
 
-
         // misma funcion pero para editar los registros...
 
         var espSelect = document.getElementById('especialidadEdit');
-        // var doctorEdit = document.getElementById('doctor_id_edit');
+        var doctorEdit = document.getElementById('doctor_id_edit');
 
             // Cuando se cambia la especialidad
 
@@ -512,7 +439,6 @@
 
 
         });
-
         function enviarFormulario(id) {
             // Obtener el ID del formulario de edición
             var inputId = document.querySelector(`#form_editar_${id} input[name='idEditar']`).value;
@@ -528,79 +454,123 @@
                 body: `idEditar=${encodeURIComponent(inputId)}`  // El cuerpo de la solicitud con el idEditar
             })
             .then(response => {
-                // Primero verificamos que la respuesta sea exitosa
-                if (!response.ok) {
-                    throw new Error('Error en la solicitud AJAX');
-                }
+            // Primero verificamos que la respuesta sea exitosa
+            if (!response.ok) {
+                throw new Error('Error en la solicitud AJAX');
+            }
 
-                // Leemos la respuesta como JSON solo una vez
-                return response.json(); // Esto consume el cuerpo de la respuesta
-            })
-            .then(data => {
-                // Aquí ya podemos usar los datos correctamente
-                if (data.error) {
-                    alert('Error: ' + data.error);  // Si hay un error, mostrarlo
-                    return;  // Salir de la función si hay error
-                }
+            // Leemos la respuesta como JSON solo una vez
+            return response.json(); // Esto consume el cuerpo de la respuesta
+        })
+        .then(data => {
+            // Aquí ya podemos usar los datos correctamente
+            if (data.error) {
+                alert('Error: ' + data.error);  // Si hay un error, mostrarlo
+                return;  // Salir de la función si hay error
+            }
 
-                // Procesar la respuesta, ahora que tenemos los datos correctamente
-                console.log(data);
-                const dialogEdit = document.getElementById("modalEdit");
-                dialogEdit.showModal(); 
-                // Actualizar los campos con los datos devueltos
-                document.getElementById('idDeHorarios').value = data.id;
-                document.getElementById('refMedico').value = data.idPerfilMedico;
+            // Procesar la respuesta, ahora que tenemos los datos correctamente
+            console.log(data);
+            // Actualizar los campos con los datos devueltos
+            document.getElementById('idDeHorarios').value = data.id;
+            document.getElementById('especialidadEdit').value = data.id_esp;
+            document.getElementById('diaSemanaEdit').value = data.diaSemana;
+            document.getElementById('dispo_dia').value = data.disponibilidad;
 
-                document.getElementById('doctor_id_edit').value = data.nombreM +' '+ data.apellidoM;
-                document.getElementById('diaSemanaEdit').value = data.diaSemana;
-                document.getElementById('dispo_dia').value = data.disponibilidad;
+            // Actualizar el select de médicos
+            actualizarSelectMedicos(data.id_esp, data.idMedico);
 
-                // Actualizar el select de médicos
-                // actualizarSelectMedicos(data.id_esp, data.idMedico);
+            console.log(data.idMedico)
 
-                console.log(data.idMedico)
+            // Actualizar las horas (hora de inicio y fin)
+            document.getElementById('horaComienzoEdit').value = data.horaInicio.split(':').slice(0, 2).join(':');
+            document.getElementById('horaFEdit').value = data.horaFin.split(':').slice(0, 2).join(':');
 
-                // Actualizar las horas (hora de inicio y fin)
-                document.getElementById('horaComienzoEdit').value = data.horaInicio.split(':').slice(0, 2).join(':');
-                document.getElementById('horaFEdit').value = data.horaFin.split(':').slice(0, 2).join(':');
-
-                // Pinta el modal con la información de los datos recibidos
-            
-            })
-            .catch(error => {
-                // Si ocurre un error en cualquier parte del proceso
-                    console.error('Error:', error);
-                    alert('Hubo un error al procesar la solicitud. Inténtalo nuevamente.'); 
-            });
-        }
-
-
-        document.getElementById('FormEdicionHorarios').addEventListener('submit', function (event) {
-                const dia = document.getElementById('diaSemanaEdit').value;
-                const horaInicio = document.getElementById('horaComienzoEdit').value;
-                const horaFin = document.getElementById('horaFEdit').value;
-                const mensaje = document.getElementById('mensajeAlertEdit');
-
-                // Limpiar mensaje anterior
-                mensaje.textContent = '';
-
-                if (!dia || !horaInicio || !horaFin) {
-                    event.preventDefault(); // Evita el envío del formulario
-                    mensaje.textContent = 'Por favor, complete todos los campos antes de continuar.';
-                    mensaje.style.color = 'red';
-                    return;
-                }
-
-                // Validación adicional: la hora de fin debe ser mayor a la de inicio
-                if (horaFin <= horaInicio) {
-                    event.preventDefault();
-                    mensaje.textContent = 'La hora de fin debe ser mayor que la hora de inicio.';
-                    mensaje.style.color = 'red';
-                    return;
-                }
-
-            // Si todo está bien, el formulario se envía
+            // Pinta el modal con la información de los datos recibidos
+        
+        })
+        .catch(error => {
+            // Si ocurre un error en cualquier parte del proceso
+                console.error('Error:', error);
+                alert('Hubo un error al procesar la solicitud. Inténtalo nuevamente.');
         });
+}
+
+function actualizarSelectMedicos(especialidadId, idMedico) {
+    fetch(`Crud_Admin/obtener_medicosHorarios.php?specialty_id=${especialidadId}`)
+        .then(response => response.json())  // Procesamos la respuesta como JSON
+        .then(medicos => {
+            console.log(medicos)
+            const doctorEdit = document.getElementById('doctor_id_edit');  // Suponiendo que el ID es 'doctorEdit'
+            doctorEdit.innerHTML = '';  // Limpiar el select antes de agregar las nuevas opciones
+
+            // Si hay médicos, los agregamos al select
+            if (medicos.length > 0) {
+                let defaultOption = document.createElement('option');
+                defaultOption.value = '';
+                defaultOption.textContent = 'Selecciona un médico';
+                doctorEdit.appendChild(defaultOption);
+
+                medicos.forEach(function(medico) {
+                    let option = document.createElement('option');
+                    option.value = medico.perfilMed;
+                    option.textContent = `${medico.nombre} ${medico.apellido}`;
+                    doctorEdit.appendChild(option);
+                });
+            } else {
+                // Si no hay médicos disponibles
+                let noDoctorsOption = document.createElement('option');
+                noDoctorsOption.value = '';
+                noDoctorsOption.textContent = 'No hay médicos disponibles';
+                doctorEdit.appendChild(noDoctorsOption);
+            }
+
+            console.log(idMedico); // Verifica el valor de idMedico
+
+            // Si se pasó el idMedico, seleccionamos esa opción
+            if (idMedico) {
+                const medicoOption = doctorEdit.querySelector(`option[value='${idMedico}']`);
+                console.log(idMedico); // Verifica el valor de idMedico
+                console.log(medicoOption.value); // Verifica el valor de la opción
+                if (medicoOption) {
+                    medicoOption.selected = true;
+                }
+            }
+
+            const dialogEdit = document.getElementById("modalEdit");
+            dialogEdit.showModal(); 
+            
+        })
+        .catch(error => {
+            console.error('Error al obtener médicos:', error);
+            // Opcionalmente, puedes manejar los errores de la obtención de médicos aquí.
+        });
+}
+
+
+function pintarSelect(idMedico, horaInicio, horaFin, idDisponibilidad) {
+    // Actualiza el campo del formulario con el ID de la disponibilidad
+    document.getElementById('dispo_dia').value = idDisponibilidad;
+
+    // Actualiza el campo para la hora de inicio (sin los segundos)
+    document.getElementById('horaComienzoEdit').value = horaInicio;
+
+    // Actualiza el campo para la hora de fin (sin los segundos)
+    document.getElementById('horaFEdit').value = horaFin;
+
+    // Actualiza el campo del formulario con el ID del médico
+    document.getElementById('doctor_id_edit').value = idMedico;
+
+    // Muestra el modal con la información actualizada
+     // Abre el modal (asegúrate de tener un modal con este ID en tu HTML)
+
+    // Log para depuración (puedes eliminarlo si no lo necesitas)
+    console.log(idMedico);
+    console.log(horaFin);
+}
+
+
+        
 
     </script>
     
