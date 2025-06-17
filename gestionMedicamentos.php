@@ -1,3 +1,5 @@
+<?php session_start(); ?>
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -121,7 +123,7 @@
 
             <tbody id='tablaMedicamentosBody'>
 
-            <?php 
+            <?php
             
             include("conex_bd.php");
 
@@ -183,30 +185,41 @@ shopping_cart
 
             </table>
 
+            <?php if (isset($_SESSION['mensajeExito'])): ?>
+                <div class="alerta-exito">
+                    <?= $_SESSION['mensajeExito'] ?>
+                </div>
+                <?php unset($_SESSION['mensajeExito']); ?>
+            <?php endif; ?>
+
+            <?php if (isset($_SESSION['errorMensaje'])): ?>
+                <div class="alerta-error">
+                    <?php echo $_SESSION['errorMensaje'] ?>
+                </div>
+                <?php unset($_SESSION['errorMensaje']); ?>
+            <?php endif; ?>
+
 
         </main>
 
-        <dialog class="DialogDeEmergencias">
+        <dialog id='idDialogInventario'>
 
             <div class="headerModel"> 
-                <h2>Registrar Medicamento</h2>
-
                 <form method="dialog">
                 <button class="ModalClose"> X</button>
                 </form>
 
             </div>
 
-            <div id="RegistroUsuario">
-
-            <h2>Registrarse</h2>
+            <div class="dialogRegistroMedicamentos">
+                <h2>Registrar Medicamento</h2>
             <form action="manejo_emergencia/crudMedicamentos.php"   method="POST">
 
                 <label for="MedicamentoName">Nombre de Medicamento </label>
-                <input id ="MedicamentoName" type="text" placeholder="Nombre del Medicamento" name="nombreMedicamento">
+                <input id ="MedicamentoName" type="text" placeholder="Nombre del Medicamento" name="nombreMedicamento" required>
 
                 <label for="presentacionMedc">Presentacion</label>
-                <select name="presentacionMedicamento" id="presentacionMedc">
+                <select name="presentacionMedicamento" id="presentacionMedc" class='selectMedicamento' required>
                     <option value="">Selecione Presentacion</option>
                     <option value="Tableta">Tableta</option>
                     <option value="Ampolla">Ampolla</option>
@@ -215,7 +228,7 @@ shopping_cart
         
                 <label for="medicoResponsable">Unidad Medida</label>
 
-                <select name="UnidadMedida" id="unidadMedidaMed">
+                <select name="UnidadMedida" id="unidadMedidaMed" class='selectMedicamento' required>
                     <option value="">Selecione Unidad Medida</option>
                     <option value="mg">Miligramos</option>
                     <option value="g">Gramos</option>
@@ -225,10 +238,10 @@ shopping_cart
                 </select>
                 
                 <label for="stock">Stock Actual</label>
-                <input type="number" id='stock_actual' name='stockMedicamento'>
+                <input type="number" id='stock_actual' name='stockMedicamento' min="0" required>
 
                 <label for="clasificion">Clasificacion de Medicamento</label>
-                <select name="clasificacionMedicametos" id="selectMedicoEmergencia">
+                <select name="clasificacionMedicametos" id="selectMedicoEmergencia" class='selectMedicamento' required>
                     <option value="">Seleciona Clasificacion</option>
                     <option value="Analgésicos">Analgésicos</option>
                     <option value="Antibióticos">Antibióticos</option>
@@ -243,14 +256,16 @@ shopping_cart
 
                 </select><br>
 
+                <?php $hoy = date('Y-m-d'); ?>
+
                 <label for="vencimiento ">fecha_vencimiento </label>
-                <input type="date" id='vencimiento' name='fecha_vencimiento'>
+                <input type="date" id='vencimiento' name='fecha_vencimiento' min="<?= $hoy ?>" required>
 
                 <label for="Contenido">Contenido por Caja/Frasco</label>
-                <input id="Contenido" type="number" placeholder="Contenido"  name="ContenidoCaja_Frasco">
+                <input id="Contenido" type="number" placeholder="Contenido"  name="ContenidoCaja_Frasco" min="0" required>
 
                 <label for="tipoEmergencia">Precio</label>
-                <input id="precio" type="number" placeholder="Precio" name="precio" step="0.01" min="0">
+                <input id="precio" type="number" placeholder="Precio" name="precio" step="0.01" min="0" required>
 
                 <button type="submit" class="botonesLogin" id="btnRegistroMedicamento" name="registroMedicamento" >Registrar Medicamento</button>
             </form>
@@ -264,23 +279,24 @@ shopping_cart
             <div class="formularios">
 
                 <div class="headerModel"> 
-                    <h2>Modificar Medicamento</h2>
                     <form method="dialog">
                     <button class="ModalClose"> X</button>
                     </form>
                 </div>
 
-                <div id="RegistroUsuario">
+                <div class="dialogRegistroMedicamentos">
 
                     <form action="manejo_emergencia/crudMedicamentos.php"   method="POST">
+
+                        <h2>Modificar Medicamento</h2>
 
                         <input type="hidden" id='idMedicamentoEdit' name='idMedicamento'>
 
                         <label for="MedicamentoName">Nombre de Medicamento </label>
-                        <input id ="MedicamentoNameEdit" type="text" placeholder="Nombre del Medicamento" name="nombreMedicamento">
+                        <input id ="MedicamentoNameEdit" type="text" placeholder="Nombre del Medicamento" name="nombreMedicamento" required>
 
                         <label for="presentacionMedc">Presentacion</label>
-                        <select name="presentacionMedicamento" id="presentacionMedcEdit">
+                        <select name="presentacionMedicamento" id="presentacionMedcEdit" class='selectMedicamento' required>
                             <option value="">Selecione Presentacion</option>
                             <option value="Tableta">Tableta</option>
                             <option value="Ampolla">Ampolla</option>
@@ -289,7 +305,7 @@ shopping_cart
                 
                         <label for="medicoResponsable">Unidad Medida</label>
 
-                        <select name="UnidadMedida" id="unidadMedidaMedEdit">
+                        <select name="UnidadMedida" id="unidadMedidaMedEdit" class='selectMedicamento' required>
                             <option value="">Selecione Unidad Medida</option>
                             <option value="mg">Miligramos</option>
                             <option value="g">Gramos</option>
@@ -299,10 +315,10 @@ shopping_cart
                         </select>
                         
                         <label for="stock">Stock Actual</label>
-                        <input type="number" id='stock_actualEdit' name='stockMedicamento'>
+                        <input type="number" id='stock_actualEdit' name='stockMedicamento' min="0" step="0.01" required>
 
                         <label for="clasificion">Clasificacion de Medicamento</label>
-                        <select name="clasificacionMedicametos" id="clasificacionEdit">
+                        <select name="clasificacionMedicametos" id="clasificacionEdit" class='selectMedicamento' required>
                             <option value="">Seleciona Clasificacion</option>
                             <option value="Analgésicos">Analgésicos</option>
                             <option value="Antibióticos">Antibióticos</option>
@@ -317,14 +333,16 @@ shopping_cart
 
                         </select><br>
 
+                        <?php $hoy = date('Y-m-d'); ?>
+
                         <label for="vencimiento ">fecha_vencimiento </label>
-                        <input type="date" id='vencimientoEdit' name='fecha_vencimiento'>
+                        <input type="date" id='vencimientoEdit' name='fecha_vencimiento' min="<?= $hoy ?>" required>
 
                         <label for="Contenido">Contenido por Caja/Frasco</label>
-                        <input id="ContenidoEdit" type="number" placeholder="Contenido"  name="ContenidoCaja_Frasco">
+                        <input id="ContenidoEdit" type="number" placeholder="Contenido"  name="ContenidoCaja_Frasco" min="0" required>
 
                         <label for="tipoEmergencia">Precio</label>
-                        <input id="precioEdit" type="number" placeholder="Precio" name="precio" step="0.01" min="0">
+                        <input id="precioEdit" type="number" placeholder="Precio" name="precio" step="0.01" min="0" required>
 
                         <button type="submit" class="botonesLogin" id="btnEditarMedicamento" name="editarMedicamento" >Editar Medicamento</button>
                     </form>
@@ -339,13 +357,14 @@ shopping_cart
             <div class="formularios">
 
                 <div class="headerModel"> 
-                    <h2>Ingresar Medicamento</h2>
                     <form method="dialog">
                     <button class="ModalClose"> X</button>
                     </form>
                 </div>
 
-                <div id="RegistroUsuario">
+                <div class="dialogRegistroMedicamentos">
+
+                    <h2>Ingresar Medicamento</h2>
 
                     <form action="manejo_emergencia/crudMedicamentos.php"   method="POST">
 
@@ -357,13 +376,13 @@ shopping_cart
                         <input type="hidden" id='tipoMovimiento' value='Entrada' name='movientoInventario'>
 
                         <label for="tipoEmergencia">Precio</label>
-                        <input id="precioInventario" type="number" placeholder="Precio" name="precioInv" step="0.01" min="0">
+                        <input id="precioInventario" type="number" placeholder="Precio" name="precioInv" step="0.01" min="0" required>
 
                         <label for="reabastecimientoInv">Numero de Cajas/frascos</label>
-                        <input id="reabastecimientoInv" type="number" placeholder="Contenido" name="entradaDeMedicamentos">
+                        <input id="reabastecimientoInv" type="number" placeholder="Contenido" name="entradaDeMedicamentos" min="0" required>
 
                         <label for="Comentario">Comentario</label>
-                        <input id="Comentario" type="text" placeholder="Descripcion de operacion" name="comentarioMoviento">
+                        <input id="Comentario" type="text" placeholder="Descripcion de operacion" name="comentarioMoviento" required>
 
                         <button type="submit" class="botonesLogin" id="entradaInventario" name="entradaNewMedicamentos" >Actualizar Medicamento</button>
                     </form>
@@ -386,7 +405,7 @@ shopping_cart
 
         function openFormCita(){
 
-            const formInterno = document.querySelector(".DialogDeEmergencias");
+            const formInterno = document.getElementById("idDialogInventario");
             formInterno.showModal();
             
         }

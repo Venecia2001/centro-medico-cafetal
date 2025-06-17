@@ -188,35 +188,51 @@ if(!empty($_GET["id"])) {
 
             <div class='bodyDeCuadro'>
 
+            
+                <div class='contendorInfo'>
 
-                <p><strong>id Hospitalizacion:</strong> <span id="idDeHosp"><?php echo htmlspecialchars($datosHospitalizacion['idRegistroHosp']); ?></span></p>
-                <p><strong>id Emergencia:</strong> <span id="idEmergencia"><?php echo htmlspecialchars($datosHospitalizacion['idDeEmergencia']); ?></span></p>
 
-                <p><strong>Paciente:</strong> <span id="paciente"><?php echo htmlspecialchars($datosHospitalizacion['nombrePaciente']); ?></span></p>
-                <p><strong>Medico responsable:</strong> <span id="medicoResponsable"><?php echo htmlspecialchars($datosHospitalizacion['nombreMedico']); ?></span></p>
-                <p><strong>Enfermero:</strong> <span id="enfermero"><?php echo  htmlspecialchars($datosHospitalizacion['nombreEnfermero']);?></span></p>
+                    <p><strong>id Hospitalizacion:</strong> <span id="idDeHosp"><?php echo htmlspecialchars($datosHospitalizacion['idRegistroHosp']); ?></span></p>
+                    <p><strong>id Emergencia:</strong> <span id="idEmergencia"><?php echo htmlspecialchars($datosHospitalizacion['idDeEmergencia']); ?></span></p>
 
-                <p><strong>Fecha de Ingreso:</strong> <span id="fechaIngreso"> <?php echo  htmlspecialchars($datosHospitalizacion['fechaIngreso']);?> </span></p>
-                <p><strong>Fecha de Alta</strong> <span id="fechaAlta"> <?php echo !empty($datosHospitalizacion['fechaAltaMedica']) ? htmlspecialchars($datosHospitalizacion['fechaAltaMedica']) : "Pendiente"; ?> </span></p>
-                <p ><strong>Tipo de Habitacion:</strong> <span id="tipoHabitacion"><?php echo  htmlspecialchars($datosHospitalizacion['tipoHabitacion']);?></span></p>
+                    <p><strong>Paciente:</strong> <span id="paciente"><?php echo htmlspecialchars($datosHospitalizacion['nombrePaciente']); ?></span></p>
+                    <p><strong>Medico responsable:</strong> <span id="medicoResponsable"><?php echo htmlspecialchars($datosHospitalizacion['nombreMedico']); ?></span></p>
+                    <p><strong>Enfermero:</strong> <span id="enfermero"><?php echo  htmlspecialchars($datosHospitalizacion['nombreEnfermero']);?></span></p>
 
-                <div class='contenedorObservaciones'>
+                    <p><strong>Fecha de Ingreso:</strong> <span id="fechaIngreso"> <?php echo  htmlspecialchars($datosHospitalizacion['fechaIngreso']);?> </span></p>
+                    <p><strong>Fecha de Alta</strong> <span id="fechaAlta"> <?php echo !empty($datosHospitalizacion['fechaAltaMedica']) ? htmlspecialchars($datosHospitalizacion['fechaAltaMedica']) : "Pendiente"; ?> </span></p>
+                    
 
-                    <p ><strong>observaciones:</strong> <span id="textoObservaciones"> <?php echo !empty($datosHospitalizacion['observacionesHosp']) ? htmlspecialchars($datosHospitalizacion['observacionesHosp']) : "Pendiente"; ?> </span></p>
-
-                </div>
-
+                    
+                
                     <?php
-                        // Verificar el estado de la emergencia
+                        // Verificar el estado de la hospitalización
                         $estadoEmergencia = $datosHospitalizacion['estadoHosp'];
-                    ?>
+                        $deshabilitar = ($estadoEmergencia === 'Finalizado') ? 'disabled title="No se pueden editar registros finalizados."' : '';
+                        ?>
                 
 
-                <button id="actualizarDatosHosp" class="btnNewRegistros">Actualizar Datos</button>
+                    
+                        <button id="actualizarDatosHosp" class="btnNewRegistros" <?php echo $deshabilitar; ?>>
+                            Actualizar Datos
+                        </button>
+                </div>
 
-                <p id="pFechaHosp"><strong>Numero de cama:</strong> <span id="numeroHabitacion"> <?php echo  htmlspecialchars($datosHospitalizacion['numeroDeCama']);?> </span></p>
-                <p id="pGravedadHosp"><strong>Costo por dia</strong> <span id=""> $<?php echo  htmlspecialchars($datosHospitalizacion['costoPorDia']);?></span></p>
-                <p id="pEstadoHosp"><strong>Estado de Hospitalizacion:</strong> <span id="estado"> <?php echo  htmlspecialchars($datosHospitalizacion['estadoHosp']);?> </span></p>
+                <div class='contendorInfo'>
+
+                    <p ><strong>Tipo de Habitacion:</strong> <span id="tipoHabitacion"><?php echo  htmlspecialchars($datosHospitalizacion['tipoHabitacion']);?></span></p>
+
+                    <div class='contenedorObservaciones'>
+
+                        <p ><strong>observaciones:</strong> <span id="textoObservaciones"> <?php echo !empty($datosHospitalizacion['observacionesHosp']) ? htmlspecialchars($datosHospitalizacion['observacionesHosp']) : "Pendiente"; ?> </span></p>
+
+                    </div>
+
+                    <p id="pFechaHosp"><strong>Numero de cama:</strong> <span id="numeroHabitacion"> <?php echo  htmlspecialchars($datosHospitalizacion['numeroDeCama']);?> </span></p>
+                    <p id="pGravedadHosp"><strong>Costo por dia</strong> <span id=""> $<?php echo  htmlspecialchars($datosHospitalizacion['costoPorDia']);?></span></p>
+                    <p id="pEstadoHosp"><strong>Estado de Hospitalizacion:</strong> <span id="estado"> <?php echo  htmlspecialchars($datosHospitalizacion['estadoHosp']);?> </span></p>
+
+                </div>
             </div>
             
         </div>
@@ -229,6 +245,16 @@ if(!empty($_GET["id"])) {
                 <div class='headAreas'>
                 
                     <h2 class='titulosAreas'>Medicamentos</h2>
+
+                     <?php
+                            if ($estadoEmergencia == 'Finalizado') {
+                                // Si la emergencia está finalizada, mostrar "No"
+                                echo '<button id="addMedicina" class="btnNewRegistros" style="display: none;">Agregar Medicamento </button>';
+                            } else {
+                                // Si la emergencia no ha finalizado, mostrar el botón
+                                echo '<button id="addMedicina" class="btnNewRegistros">Agregar Medicamento</button>';
+                            }
+                        ?>
 
                 </div>
 
@@ -273,15 +299,18 @@ if(!empty($_GET["id"])) {
                                         <td><?php echo htmlspecialchars($med['dosis']); ?></td>
                                         <td><?php echo htmlspecialchars($med['observaciones']); ?></td>
                                         <td><?php echo htmlspecialchars($med['costoTotal']); ?></td>
-                                        <?php echo "<td> 
-                                            
-                                            <form  id='formEliminar' action='manejo_emergencia/registrosHospitalizacion.php' method ='POST'>
-                                                <input id ='esenarioAplicacion' type='hidden' name='AdministradoDurante' value='Hospitalizacion'>
-                                                <input type='hidden' name='idEmergencia' value='".$idEmergencia."'>
-                                                <input type='hidden' name='id' value='".$med['medicamento_emergencia_id']."'>
-                                                <button type='submit' name='eliminarMedicamento' class='deleteMed'><span class='material-symbols-outlined'> delete </span></button>
+                                       <td> 
+                                            <form id="formEliminar" action="manejo_emergencia/registrosHospitalizacion.php" method="POST">
+                                                <input id="esenarioAplicacion" type="hidden" name="AdministradoDurante" value="Hospitalizacion">
+                                                <input type="hidden" name="idEmergencia" value="<?php echo $idEmergencia; ?>">
+                                                <input type="hidden" name="id" value="<?php echo $med['medicamento_emergencia_id']; ?>">
+
+                                                <button type="submit" name="eliminarMedicamento" class="deleteMed"
+                                                    <?php echo ($estadoEmergencia === 'Finalizado') ? 'disabled style="opacity: 0.5; cursor: not-allowed;"' : ''; ?>>
+                                                    <span class="material-symbols-outlined">delete</span>
+                                                </button>
                                             </form>
-                                        </td>"; ?>
+                                        </td>
                                     </tr>
                                 <?php endforeach; ?>
                             </tbody>
@@ -289,31 +318,37 @@ if(!empty($_GET["id"])) {
                         <?php else: ?>
                             <p>No se administraron medicamentos.</p>
                         <?php endif; ?>
-
-                        <?php
-                            if ($estadoEmergencia == 'Finalizado') {
-                                // Si la emergencia está finalizada, mostrar "No"
-                                echo "<strong></strong>";
-                            } else {
-                                // Si la emergencia no ha finalizado, mostrar el botón
-                                echo '<button id="addMedicina" class="btnNewRegistros">Agregar Medicamento</button>';
-                            }
-                        ?>
-
-                        
                 </div>
             </div>
+
             <div class="areaDeServicios">
                 
                 <div class='headAreas'>
                 
                     <h2 class='titulosAreas'>Servicios</h2>
 
+                        <?php
+                            if ($estadoEmergencia == 'Finalizado') {
+                                // Si la emergencia está finalizada, mostrar "No"
+                                echo '<button id="addServicio" class="btnNewRegistros" style="display: none;">Agregar Servicio</button>';
+                            } else {
+                                // Si la emergencia no ha finalizado, mostrar el botón
+                                echo '<button id="addServicio" class="btnNewRegistros">Agregar Servicio</button>';
+                            }
+                        ?>
+
                 </div>
 
                 <div class='bodyDeCuadro'>
+                    <?php 
+                    $selectServicios = "SELECT sm.*, s.nombre_servicio FROM servicios_emergencia sm 
+                                        LEFT JOIN servicios s ON sm.servicio_id = s.id_servicio 
+                                        WHERE sm.administrado_durante = 'Hospitalizacion' AND emergencia_medica_id = $idEmergencia";
+                    $resultSelect = mysqli_query($conexion, $selectServicios);
+                    ?>
 
-                    <table class='tablasEmergencias' >
+                    <?php if (mysqli_num_rows($resultSelect) > 0): ?>
+                        <table class='tablasEmergencias'>
                             <thead>
                                 <tr>
                                     <th>id_servicio</th>
@@ -325,57 +360,41 @@ if(!empty($_GET["id"])) {
                                 </tr>
                             </thead>
                             <tbody id="tablaMedicamentos">
-
-                                <?php 
-                                
-                                $selectServicios = "SELECT sm.*, s.nombre_servicio FROM servicios_emergencia sm LEFT JOIN servicios s ON sm.servicio_id = s.id_servicio WHERE sm.administrado_durante = 'Hospitalizacion' AND emergencia_medica_id = $idEmergencia";
-                                $resultSelect = mysqli_query($conexion,$selectServicios);
-
-                                while ($fila = $resultSelect->fetch_assoc()) {
-
+                                <?php while ($fila = $resultSelect->fetch_assoc()): 
                                     $id_servicio_unico = $fila['servicio_emergencia_id'];
                                     $id_servicio = $fila['servicio_id'];
                                     $nombreServicio = $fila['nombre_servicio'];
                                     $descripcion = $fila['descripcion'];
                                     $costo = $fila['costo'];
                                     $fecha_servicio = $fila['fecha_servicio'];
-                                    ?>
-
+                                ?>
                                     <tr>
                                         <td><?php echo $id_servicio ?></td>
                                         <td><?php echo $nombreServicio ?></td>
                                         <td><?php echo $descripcion ?></td>
                                         <td><?php echo $fecha_servicio ?></td>
                                         <td><?php echo $costo ?></td>
-                                        <?php echo "<td> 
-                                            
-                                            <form  id='formEliminar' action='manejo_emergencia/registrosHospitalizacion.php' method ='POST'>
-                                                <input id ='esenarioAplicacion' type='hidden' name='AdministradoDurante' value='Hospitalizacion'>
-                                                <input type='hidden' name='idEmergencia' value='".$idEmergencia."'>
-                                                <input type='hidden' name='id' value='".$id_servicio_unico."'>
-                                                <button type='submit' name='eliminarServicio' class='deleteMed'><span class='material-symbols-outlined'> delete </span></button>
+                                        <td> 
+                                            <form id='formEliminar' action='manejo_emergencia/registrosHospitalizacion.php' method='POST'>
+                                                <input type='hidden' name='AdministradoDurante' value='Hospitalizacion'>
+                                                <input type='hidden' name='idEmergencia' value='<?php echo $idEmergencia; ?>'>
+                                                <input type='hidden' name='id' value='<?php echo $id_servicio_unico; ?>'>
+                                                <button type='submit' name='eliminarServicio' class='deleteMed'
+                                                    <?php echo ($estadoEmergencia === 'Finalizado') ? "disabled style='opacity: 0.5; cursor: not-allowed;'" : ""; ?>>
+                                                    <span class='material-symbols-outlined'>delete</span>
+                                                </button>
                                             </form>
-                                        </td>"; ?>
+                                        </td>
                                     </tr>
-                                    <?php
-                                }
-                                ?>
-
-                    
+                                <?php endwhile; ?>
                             </tbody>
-                    </table>
+                        </table>
+                    <?php else: ?>
+                        <p>No se solicitaron servicios.</p>
+                    <?php endif; ?>
+                </div>
 
-                        <?php
-                            if ($estadoEmergencia == 'Finalizado') {
-                                // Si la emergencia está finalizada, mostrar "No"
-                                echo "<strong></strong>";
-                            } else {
-                                // Si la emergencia no ha finalizado, mostrar el botón
-                                echo '<button id="addServicio" class="btnNewRegistros">Agregar Servicio</button> </div>';
-                            }
-                        ?>
-
-                    
+                
             </div>
         
 
@@ -402,7 +421,7 @@ if(!empty($_GET["id"])) {
                         <input id ="esenarioAplicacion" type="hidden" name="AdministradoDurante" value="Hospitalizacion">
 
                         <label for="nombre">categoria de medicamento</label>
-                        <select name="NombreCtegoria" id="categoriaMedicamento">
+                        <select name="NombreCtegoria" id="categoriaMedicamento" class="selectMedicamento" required>
                             <option value="">Elija la categoria</option>
                             <?php 
                             
@@ -420,7 +439,7 @@ if(!empty($_GET["id"])) {
                         </select><br>
 
                         <label for="nombre">Medicamento Administrado</label>
-                        <select name="idMedicamento" id="selectMedicamento">
+                        <select name="idMedicamento" id="selectMedicamento" class="selectMedicamento" required>
                             <option value="">Elija el medicamento</option>
                             <?php 
                             
@@ -440,10 +459,10 @@ if(!empty($_GET["id"])) {
 
 
                         <label for="dosis">Dosis</label>
-                        <input id="dosis" type="number" placeholder="Dosis Administrada" class="dosis" name="dosisAdministrada"><br>
+                        <input id="dosis" type="number" placeholder="Dosis Administrada" class="dosis" name="dosisAdministrada" min="0" required><br>
 
                         <label for="Presentacion">Presentacion de Medicamento</label>
-                        <select name="presentacionMed" id="presentacion">
+                        <select name="presentacionMed" id="presentacion" id="categoriaMedicamento" class="selectMedicamento" required>
                                 <option value="">Presentacion</option>
                                 <option value="Tableta">Tableta</option>
                                 <option value="Ampolla">Ampolla</option>
@@ -456,13 +475,10 @@ if(!empty($_GET["id"])) {
                         </select><br>
 
                         <label for="observaciones">Observaciones</label>
-                        <input id="observaciones" type="text" placeholder="observaciones" name="observaciones">
+                        <input id="observaciones" type="text" placeholder="observaciones" name="observaciones" required>
 
-                        <button type="submit" class="botonRegistro" id="botonRegistrarMed" name="registroDeMedicamento">Registrar</button>
+                        <button type="submit" class="botonRegistroDual" id="botonRegistrarMed" name="registroDeMedicamento">Registrar</button>
                     </form>
-
-                <span class="resultado"> todos los campos son requedidos</span>
-
             </div>
 
         </dialog>
@@ -480,12 +496,12 @@ if(!empty($_GET["id"])) {
                     <h2>Ingresar Servicio</h2>
                     <form action="manejo_emergencia/registrosDatos.php"  method="post">
 
-                        <input id ="idEmergencia" type="hidden" name="idEmergencia" value="<?php echo $idEmergencia  ?>">
+                        <input id ="idEmergencia" type="hidden" name="idEmergencia" value="<?php echo $idEmergencia ?>">
 
                         <input id ="esenarioAplicacion" type="hidden" name="AdministradoDurante" value="Hospitalizacion">
 
                         <label for="nombre">Servicio Prestado</label>
-                        <select name="idServicio" id="selectServ">
+                        <select name="idServicio" id="selectServ" class='selectMedicamento' required>
                             <option value="">Seleccione el servicio</option>
                             <?php 
                             
@@ -509,12 +525,12 @@ if(!empty($_GET["id"])) {
                         </select><br>
 
                         <label for="dosis">Descripcion</label>
-                        <input id="descripcion" type="text" placeholder="Descripcion" class="descripciones" name="descripcionServicio"><br>
+                        <input id="descripcion" type="text" placeholder="Descripcion" class="descripciones" name="descripcionServicio" required><br>
 
                         <label for="fechaDeregisto">Fecha y Hora</label>
-                        <input id="Fecha" type="datetime-local" name="fechaDeRegisto"><br>
+                        <input id="Fecha" type="datetime-local" name="fechaDeRegisto" required><br>
 
-                        <button type="submit" class="botonRegistro" id="botonRegistrarMed" name="registroDeServicio">Registrar</button>
+                        <button type="submit" class="botonRegistroDual" id="botonRegistrarMed" name="registroDeServicio">Registrar</button>
                     </form>
 
                 </div>
@@ -526,31 +542,35 @@ if(!empty($_GET["id"])) {
 
             <div class="headerModel"> 
                 <form method="dialog">
-                <button class="ModalClose"> X</button>
+                <button class="ModalClose">X</button>
                 </form>
             </div>
 
         <div id="RegistroUsuarioNew">
 
             <h2>Actualizar Datos Hospitalizacion</h2>
-                <form action="manejo_emergencia/modificarRegistro.php"  method="post">
+                <form action="manejo_emergencia/modificarRegistro.php"  method="post" id='formDatosHospitalizacion'>
 
-                    <input id ="idEmergencia" type="hidden" name="idEmergencia" value="<?php echo $idEmergencia  ?>">
+                    <input id ="idEmergencia"  type="hidden" name="idEmergencia" value="<?php echo $idEmergencia?>">
+
+                    <input type="hidden" id="fechaIngresoEdit" value="<?php echo date('Y-m-d\TH:i', strtotime($datosHospitalizacion['fechaIngreso'])); ?>">
 
                     <label for="diagnostico">Observaciones</label>
-                    <input type="text" id="observacionesHosp" placeholder="Observaciones" name ="observacionesDeHosp">
+                    <input type="text" id="observacionesHosp" class='requerido' placeholder="Observaciones" name ="observacionesDeHosp">
 
                     <label for="FechaAlta">Fecha De Alta</label>
-                    <input id="FechaAlta" type="datetime-local" name="fechaAltaMedica"><br>
+                    <input id="FechaAltaEdit" class='requerido' type="datetime-local" name="fechaAltaMedica"><br>
 
                     <label for="estadoDeHospitalizacion">Estado de Hospitalizacion</label>
-                    <select name="estadoActualHosp" id="estadoDeHospitalizacion">
+                    <select name="estadoActualHosp" id="estadoDeHospitalizacion" class='selectMedicamento requerido' >
+                        <option value=" ">Selecciona Estado</option>
                         <option value="En proceso">En Proceso</option>
                         <option value="Finalizado">Finalizado</option>
                     </select>
-                    <p>Nota: Al momento de seleccionar la emergencia como finaliza se genera la factura correspodiente automaticamente </p>
+                    <p>Nota: Una vez que se marca la hospitalización como finalizada, la factura correspondiente se genera automáticamente. </p>
 
-                    <button type="submit" class="botonRegistro" id="botonRegistrarMed" name="ActualizarHosp">Actualizar Datos</button>
+                    <button type="submit" class="botonRegistroDual" id="botonRegistrarMed" name="ActualizarHosp">Actualizar Datos</button>
+                    <p id="mensajeError" class="mensaje-error" style="color:red;"></p>
                 </form>
 
         </div>
@@ -560,6 +580,62 @@ if(!empty($_GET["id"])) {
 
 
     <script>
+
+            document.addEventListener("DOMContentLoaded", function () {
+                const form = document.getElementById("formDatosHospitalizacion");
+                const mensajeError = document.getElementById("mensajeError");
+
+                form.addEventListener("submit", function (e) {
+                    mensajeError.textContent = ""; // Limpiar mensajes anteriores
+
+                    const camposRequeridos = form.querySelectorAll(".requerido");
+                    const fechaAlta = document.getElementById("FechaAltaEdit").value;
+                    const fechaIngreso = document.getElementById("fechaIngresoEdit").value;
+
+                    let camposIncompletos = false;
+
+                    camposRequeridos.forEach(function (campo) {
+                        if (!campo.value.trim()) {
+                            camposIncompletos = true;
+                            campo.classList.add("campo-invalido");
+                        } else {
+                            campo.classList.remove("campo-invalido");
+                        }
+                    });
+
+                    if (camposIncompletos) {
+                        mensajeError.textContent = "Por favor completa todos los campos requeridos.";
+                        e.preventDefault();
+                        return;
+                    }
+
+                    if (!fechaAlta) {
+                        mensajeError.textContent = "Por favor ingresa la fecha de alta.";
+                        e.preventDefault();
+                        return;
+                    }
+
+                    if (new Date(fechaAlta) < new Date(fechaIngreso)) {
+                        mensajeError.textContent = "La fecha de alta no puede ser anterior a la fecha de ingreso.";
+                        e.preventDefault();
+                        return;
+                    }
+
+                    const ahora = new Date();
+                    const fechaMaxima = new Date();
+                    fechaMaxima.setDate(ahora.getDate() + 1);
+                    fechaMaxima.setHours(0, 0, 0, 0);
+
+                    const fechaAltaDate = new Date(fechaAlta);
+
+                    if (fechaAltaDate > fechaMaxima) {
+                        mensajeError.textContent = "La fecha de alta no puede estar más allá del día siguiente.";
+                        e.preventDefault();
+                        return;
+                    }
+                });
+            });
+
 
             document.addEventListener("DOMContentLoaded", function() {
                 // Obtener el campo de especialidades y médicos
@@ -615,7 +691,11 @@ if(!empty($_GET["id"])) {
 
 
         const btnNuevoMedicamento = document.getElementById("addMedicina");
-            btnNuevoMedicamento.addEventListener("click", openNewMedicameto)
+                if (btnNuevoMedicamento !== null) {
+                
+                    btnNuevoMedicamento.addEventListener("click", openNewMedicameto)
+
+                }
 
             function openNewMedicameto(){
 
@@ -643,6 +723,8 @@ if(!empty($_GET["id"])) {
                 let textoActual = document.getElementById("textoObservaciones").innerText;
 
                 document.getElementById("observacionesHosp").value = textoActual;
+
+
 
                 const dialog = document.getElementById("DialogActualizarEmerg");
                 dialog.showModal(); 

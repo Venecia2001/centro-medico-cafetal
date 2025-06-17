@@ -1,5 +1,5 @@
 <?php
-include("../conex_bd.php"); // Asegúrate de incluir la conexión a la base de datos
+include("../conex_bd.php");
 
 if (isset($_GET['id_emergencia'])) {
     $id_emergencia = $_GET['id_emergencia'];

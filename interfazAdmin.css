@@ -947,7 +947,7 @@ dialog::backdrop {
 
 #modalEdit {
   width: 35%;
-  background: rgb(45, 45, 45);
+  background: rgb(63, 63, 63);
   height: 575px;
   border: none;
   border-radius: 8px;
@@ -1171,6 +1171,7 @@ dialog::backdrop {
 
 #mensajeAlertEdit {
   text-align: center;
+  margin-top: 44px;
 }
 
 /* SECCION INICIO: VISTA DE CADA AREA DE INTERES  */

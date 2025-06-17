@@ -55,7 +55,7 @@
                 </div>
 
                 <div class="medico aggNombre">
-                        <h2>Nombre Medico</h2>
+                        <h2>Nombre de Médico</h2>
                         <select name="medico" id="doctor_id" class="selectForm" require>
                             <option value="">Seleccione un médico</option>
                             
@@ -220,9 +220,9 @@
         </table>
 
 
-        <dialog id="modalEdit" class = "dialogEsp">
+        <dialog id="modalEdit">
 
-            <h3>Formulario para Modificar</h3>
+            <h3 class ='tituloFormulario'>Formulario para Modificar</h3>
 
             <div class="formEditar">
 
@@ -234,8 +234,8 @@
 
                     <input type="hidden" name="idHorarios" id="idDeHorarios" value="">
 
-                    <label for="">Medico</label><br>
-                    <input type="text"  id="doctor_id_edit" readonly><br>
+                    <label for="">Nombre de Médico</label><br>
+                    <input type="text"  id="doctor_id_edit" readonly><br><br>
 
                     <input type="hidden" name="medicoEdit" id='refMedico' >
 

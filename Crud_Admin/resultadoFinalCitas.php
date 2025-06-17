@@ -55,6 +55,7 @@
 
     if(isset($_POST['editHorarios'])){
         
+        $rolMedico = $_POST['rolMedico'];
         $idDeHorario = $_POST['idHorarios'];
         $doctorSelect = $_POST['medicoEdit'];
         $diaSelect = $_POST['diaEdit'];
@@ -68,7 +69,11 @@
 
         if($resultModificar){
 
-            header("location:../controlHorarios.php");
+            if($rolMedico == 5){
+            header("location:../control_turnos.php");
+            }else{
+                header("location:../controlHorarios.php");
+            }
 
         }
         

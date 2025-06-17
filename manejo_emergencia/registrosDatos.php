@@ -135,22 +135,28 @@ if(isset($_POST["registroDeServicio"])){
 if(isset($_POST["newPacienteTemp"])){
 
     $cedulaTemp = $_POST["CedulaI"];
+     $prefijoCI = $_POST['nacionalidadCi'];
     $nombreTemp = $_POST["newNombre"];
     $apellidoTemp = $_POST["newApellido"];
-    $edad = $_POST["edad"];
-    $telefonoTemp = $_POST["newTelefono"];
     $direccionTemp = $_POST["newdireccion"];
+    $fechaNac = $_POST['fechaNac'];
+
+    $tlf = $_POST["newTelefono"];
+    $prefijoTlf = $_POST['prefijoTlf'];
+
+    $prefijo = trim($prefijoTlf);
+    $numero = trim($tlf);
+
+    $telefonoCompleto = $prefijo . $numero;  // Resultado: "04121234567"
 
     $nombreLower = strtolower($nombreTemp);  // Convierte el nombre a minúsculas
     $apellidoLower = strtolower($apellidoTemp);  // Convierte el apellido a minúsculas
 
-    $consulta = "INSERT INTO paciente_temp(codigo_CI, nombre, apellido, edad, contactoDeEmergencias,direccion) VALUES ('$cedulaTemp','$nombreLower','$apellidoLower','$edad','$telefonoTemp','$direccionTemp')";
+    $consulta = "INSERT INTO paciente_temp(nacionalidad, codigo_CI, nombre, apellido, fecha_nacimiento_temp, contactoDeEmergencias,direccion) VALUES ('$prefijoCI', '$cedulaTemp','$nombreLower','$apellidoLower','$fechaNac','$telefonoCompleto','$direccionTemp')";
     $resultadoTable = mysqli_query($conexion,$consulta);
 
     if($resultadoTable) {
-        ?>
-            <h3 id ="notice">Se realizo else registro corectamente</h3>
-        <?php
+        header("location:../seccionRecepcion.php");
     }else{
         ?>
             <h3 class="mensajeFallido">ha ocurrido un error</h3>
@@ -190,12 +196,12 @@ if(isset($_POST["idEmergencia"])){
 
 
         $idEmergenciaHosp = $_POST["idEmergencia"];
-        $fechaDeIngreso = $_POST["fechaInicioHosp"];
+        // $fechaDeIngreso = $_POST["fechaInicioHosp"];
         
         $numeroCama = $_POST["numeroCama"];
         $observaciones = $_POST["observacionesDeHosp"];
 
-        $registroHosp = "INSERT INTO hospitalizacion(emergencia_medica_id, fecha_ingreso, tipo_habitacion, numero_cama, observaciones_hosp) VALUES ('$idEmergenciaHosp','$fechaDeIngreso','$tipoDeHabit','$numeroCama','$observaciones')";
+        $registroHosp = "INSERT INTO hospitalizacion(emergencia_medica_id, tipo_habitacion, numero_cama, observaciones_hosp) VALUES ('$idEmergenciaHosp','$tipoDeHabit','$numeroCama','$observaciones')";
         $resultadoRegistro = mysqli_query($conexion,$registroHosp);
 
         if ($resultadoRegistro) {
@@ -217,7 +223,7 @@ if(isset($_POST["idEmergencia"])){
 }
 
 
-if(isset($_POST["registrarEmergencia"])){
+if(isset($_POST["medicoResponsable"])){
 
     $id_paciente = !empty($_POST['idPaciente']) ? $_POST['idPaciente'] : NULL;  // Si está vacío, se asigna NULL
     $id_paciente_temp = !empty($_POST['idPacienteTemp']) ? $_POST['idPacienteTemp'] : NULL;  // Si está vacío, se asigna NULL
@@ -227,9 +233,9 @@ if(isset($_POST["registrarEmergencia"])){
 
     $tipoEmergencia = $_POST["tipoEmerg"];
     $descripcionEmerg = $_POST["DescripcionEmerg"];
-    $fechaEmergencia = $_POST["fecha_emerg"];
+    // $fechaEmergencia = $_POST["fecha_emerg"];
     $gravedadEmergencia = $_POST["gravedadEmergencia"];
-    $diagnosticoEmerg = $_POST["diagnostico_emerg"];
+    // $diagnosticoEmerg = $_POST["diagnostico_emerg"];
     $estadoEmergencia = $_POST["estadoEmerg"];
 
     // Validar si ambos campos están vacíos
@@ -245,8 +251,8 @@ if(isset($_POST["registrarEmergencia"])){
     // Si la validación es exitosa, proceder con la inserción
     try {
     // Preparar la consulta SQL
-        $sql = "INSERT INTO `emergencias_medicas`(`id_paciente`, `id_paciente_temp`, `medico_responsable`, `Id_enfermero`, `tipo_emergencia`, `descripcion`, `fecha_emergencia`, `gravedad`, `diagnostico`, `estado_emergencia`)
-                VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
+        $sql = "INSERT INTO `emergencias_medicas`(`id_paciente`, `id_paciente_temp`, `medico_responsable`, `Id_enfermero`, `tipo_emergencia`, `descripcion`, `gravedad`, `estado_emergencia`)
+                VALUES (?, ?, ?, ?, ?, ?, ?, ?)";
 
         // Preparar la sentencia
         $stmt = $conexion->prepare($sql);
@@ -256,7 +262,7 @@ if(isset($_POST["registrarEmergencia"])){
         }
 
         // Vincular los parámetros
-        $stmt->bind_param("iiiissssss", $id_paciente, $id_paciente_temp, $idmedicoResponsable, $enfermero_id, $tipoEmergencia, $descripcionEmerg, $fechaEmergencia, $gravedadEmergencia, $diagnosticoEmerg, $estadoEmergencia);
+        $stmt->bind_param("iiiissss", $id_paciente, $id_paciente_temp, $idmedicoResponsable, $enfermero_id, $tipoEmergencia, $descripcionEmerg, $gravedadEmergencia, $estadoEmergencia);
         
         // Ejecutar la consulta
         $stmt->execute();

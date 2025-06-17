@@ -28,7 +28,7 @@ if(!empty($_POST["idEmergencia"])) {
     echo json_encode([]); // En caso de error, devolver un array vacío
 }
 
-if (isset($_POST["ActualizarEmergencia"])) {
+if (isset($_POST["estadoActual"])) {
    
     $idEmergenciaMedica = mysqli_real_escape_string($conexion, $_POST["idEmergencia"]);
     $diagnostico = mysqli_real_escape_string($conexion, $_POST["posibleDiagnostico"]);
@@ -52,7 +52,7 @@ if (isset($_POST["ActualizarEmergencia"])) {
         exit();
     } catch (mysqli_sql_exception $e) {
         // Guardar error en la sesión
-        $_SESSION['errorMensaje'] = "⚠️ Error: en la Actualizacion " . $e->getMessage();
+        $_SESSION['errorMensaje'] = "⚠️ Ocurrió un error al finalizar la emergencia médica. No es posible generar la factura debido a que existe una Hospitalizacion asociada en proceso.";
         
         // Redirigir de vuelta a registrosDeEmergencias.php manteniendo el ID
         header("Location: ../registrosDeEmergencias.php?id=" . $idEmergenciaMedica);

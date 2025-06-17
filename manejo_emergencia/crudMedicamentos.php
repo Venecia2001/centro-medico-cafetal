@@ -1,5 +1,7 @@
 <?php
 
+session_start(); // Iniciar sesión para almacenar errores entre recargas
+
 include("../conex_bd.php");
 
 // Verificar si el formulario ha sido enviado
@@ -27,7 +29,9 @@ if (isset($_POST['registroMedicamento'])) {
 
         // Ejecutar la consulta
         if (mysqli_query($conexion, $consulta)) {
-            echo "Medicamento registrado exitosamente.";
+
+            header("location:../gestionMedicamentos.php");
+
         } else {
             echo "Error al registrar el medicamento: " . mysqli_error($conexion);
         }
@@ -104,19 +108,52 @@ if(isset($_POST['editarMedicamento'])){
     }
 }
 
+// if(isset($_POST['eliminar'])){
+
+//     $id = $_POST["idMedicamento"];
+    
+//     $consulta2 = "DELETE FROM medicamentos WHERE medicamento_id='$id'";
+//     $consultaEnd = mysqli_query($conexion, $consulta2);
+
+//     if($consultaEnd){
+
+//         header("location:../gestionMedicamentos.php");
+
+//     }
+// }
+
 if(isset($_POST['eliminar'])){
 
     $id = $_POST["idMedicamento"];
-    
-    $consulta2 = "DELETE FROM medicamentos WHERE medicamento_id='$id'";
-    $consultaEnd = mysqli_query($conexion, $consulta2);
 
-    if($consultaEnd){
+    // 1. Verificamos si el medicamento está siendo usado en medicamentos_emergencia
+    $query = "SELECT COUNT(*) FROM medicamentos_emergencia WHERE medicamento_id = $id";
+    $resultado = mysqli_query($conexion, $query);
+    $enUso = mysqli_fetch_row($resultado)[0];
 
-        header("location:../gestionMedicamentos.php");
-
+    if ($enUso > 0) {
+        // 2. Si está en uso, se bloquea la eliminación y se muestra mensaje
+        $_SESSION['errorMensaje'] = "⚠️ No se puede eliminar: el medicamento está asignado a una emergencia.";
+         header("location:../gestionMedicamentos.php");
+        exit();
     }
+
+    // 3. Si no está en uso, se procede con la eliminación
+    $eliminar = "DELETE FROM medicamentos WHERE medicamento_id = $id";
+    $resultadoEliminar = mysqli_query($conexion, $eliminar);
+
+    if ($resultadoEliminar) {
+        $_SESSION['mensajeExito'] = "✅ Medicamento eliminado correctamente.";
+    } else {
+        $_SESSION['errorMensaje'] = "⚠️ Error al eliminar el medicamento.";
+    }
+    
+    header("location:../gestionMedicamentos.php");
+    exit();
 }
+
+
+
 
 
 if(isset($_POST['entradaNewMedicamentos'])){

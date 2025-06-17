@@ -1,818 +1,859 @@
-*{
-    box-sizing: border-box;
+* {
+  box-sizing: border-box;
 }
 
-body,div,ul,li,a,h1,h2.h3,h4{
-    margin: 0;
-    padding: 0;
+body,
+div,
+ul,
+li,
+a,
+h1,
+h2.h3,
+h4 {
+  margin: 0;
+  padding: 0;
 }
 
-body{
-    --bg-gradient: linear-gradient(45deg, #13fff5, #2540d09e);
-    --sidebar-color: #2e2e2e;
-    --dark-color: #00ffcf;
-    --text-color: #313131;
-    background: var(--bg-gradient);
-    min-height: 100vh;
-    margin: 0;
+body {
+  --bg-gradient: linear-gradient(45deg, #13fff5, #2540d09e);
+  --sidebar-color: #2e2e2e;
+  --dark-color: #00ffcf;
+  --text-color: #313131;
+  background: var(--bg-gradient);
+  min-height: 100vh;
+  margin: 0;
 }
 
-.sidebar{
-    background-color: var(--sidebar-color);
-    position: fixed;
-    height: 100dvh;
-    width: clamp(220px, 20vw, 230px);
-    font-size: clamp(1rem, 2.2vw, 2rem);
-    display: flex;
-    flex-direction: column;
-    justify-content: space-between;
-    padding: 30px 0 30x 6px;
-    z-index: 20;
-    box-shadow: 0px 7px 8px 2px black;
+.sidebar {
+  background-color: var(--sidebar-color);
+  position: fixed;
+  height: 100dvh;
+  width: clamp(220px, 20vw, 230px);
+  font-size: clamp(1rem, 2.2vw, 2rem);
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  padding: 30px 0 30x 6px;
+  z-index: 20;
+  box-shadow: 0px 7px 8px 2px black;
 }
 
-.sidebar__nav{
-    flex: 1;
-    display: flex;
+.sidebar__nav {
+  flex: 1;
+  display: flex;
 }
 
-.sidebar__nav ul{
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    width: 100%;
+.sidebar__nav ul {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  width: 100%;
 }
 
-.sidebar__item{
-    list-style: none;
-    display: flex;
-    align-items: center;
-    text-transform: uppercase;
-    font-size: .9rem;
-    padding-right: 6px;
-    color: var(--dark-color) !important ;
-    margin-bottom: 15px;
-    border-radius: 36px 0 0 36px;
-    position: relative;
+.sidebar__item {
+  list-style: none;
+  display: flex;
+  align-items: center;
+  text-transform: uppercase;
+  font-size: 0.9rem;
+  padding-right: 6px;
+  color: var(--dark-color) !important ;
+  margin-bottom: 15px;
+  border-radius: 36px 0 0 36px;
+  position: relative;
 }
 
-.sedebar__iten span{
-    padding: 12px;
-    font-size: 2rem;
+.sedebar__iten span {
+  padding: 12px;
+  font-size: 2rem;
 }
 
-.sidebar__item:hover{
-    background-color: var(--bg-color);
-    color: var(--sidebar_color);
+.sidebar__item:hover {
+  background-color: var(--bg-color);
+  color: var(--sidebar_color);
 }
 
-.sidebar__item a{
-    color: inherit;
-    text-decoration: none;
+.sidebar__item a {
+  color: inherit;
+  text-decoration: none;
 }
-
-
 
 .sidebar__item:hover::before,
-.sidebar__item:hover::after{
-    content: "";
-    position: absolute;
-    right: 0;
-    width: 18px;
-    height: 18px;
-    background-color: transparent;
-} 
-
-.sidebar__item:hover::before{
-    top: -18px;
-    border-bottom-right-radius: 25px;
-    box-shadow: 4px 4px 0 4px var(--bg-color);
+.sidebar__item:hover::after {
+  content: "";
+  position: absolute;
+  right: 0;
+  width: 18px;
+  height: 18px;
+  background-color: transparent;
 }
 
-.sidebar__item:hover::after{
-    bottom: -18px;
-    border-top-right-radius: 25px;
-    box-shadow: 4px -4px 0 4px var(--bg-color);
+.sidebar__item:hover::before {
+  top: -18px;
+  border-bottom-right-radius: 25px;
+  box-shadow: 4px 4px 0 4px var(--bg-color);
 }
 
-.sidebar__picture{
-    margin-left: 1.5rem;
-    margin-top: 15px;
-    position: relative;
-    z-index: 10;
+.sidebar__item:hover::after {
+  bottom: -18px;
+  border-top-right-radius: 25px;
+  box-shadow: 4px -4px 0 4px var(--bg-color);
+}
+
+.sidebar__picture {
+  margin-left: 1.5rem;
+  margin-top: 15px;
+  position: relative;
+  z-index: 10;
 }
 
 /* seccion de perfil */
 
-.sidebar__profile img{
-    border-radius: 50%;
-    width: 3rem;
+.sidebar__profile img {
+  border-radius: 50%;
+  width: 3rem;
 }
 
-.item__profile .profile-option{
-    font-size: .9rem ;
-    color: var(--text-color);
-    padding: 0 12px 0 9px;
-    color: inherit;
+.item__profile .profile-option {
+  font-size: 0.9rem;
+  color: var(--text-color);
+  padding: 0 12px 0 9px;
+  color: inherit;
 }
 
-.item__profile{
-    margin: 12px;
-    width: fit-content;
-    color: var(--text-color);
-    padding: 3px;
-    
+.item__profile {
+  margin: 12px;
+  width: fit-content;
+  color: var(--text-color);
+  padding: 3px;
 }
 
-.item__profile:hover{
-    width: fit-content;
-    border-radius: 25px;
-    background-color: var(--bg-color);
-
+.item__profile:hover {
+  width: fit-content;
+  border-radius: 25px;
+  background-color: var(--bg-color);
 }
 
-.item__profile:hover img{
-    opacity: .7;    
-
+.item__profile:hover img {
+  opacity: 0.7;
 }
 
-.item__profile::before, .item--profile::after {
-    display: none;
+.item__profile::before,
+.item--profile::after {
+  display: none;
 }
 
-
-input[type="checkbox"]{
-    display: none;
+input[type="checkbox"] {
+  display: none;
 }
 
-.sidebar__form{
-    position: absolute;
-    z-index: 20;
-    right: -1rem;
-    top: 30px;
+.sidebar__form {
+  position: absolute;
+  z-index: 20;
+  right: -1rem;
+  top: 30px;
 }
 
-.sidebar__form label{
-    position: relative;
-    background:  var(--bg-gradient);
-    color: white;
-    font-size: 1.8rem;
-    border-radius: 50%;
-    padding: .4rem;
-
+.sidebar__form label {
+  position: relative;
+  background: var(--bg-gradient);
+  color: white;
+  font-size: 1.8rem;
+  border-radius: 50%;
+  padding: 0.4rem;
 }
 
-.sidebar__form .open-button{
-    display: none;
-    background-color: rgb(94, 69, 38);
+.sidebar__form .open-button {
+  display: none;
+  background-color: rgb(94, 69, 38);
 }
 
 /* ------------------------------------- */
 
 .sidebar label::before,
-.sidebar label::after{
-    content: "";
-    background-color: var(--bg-color);
-    position: absolute;
-    width: 13px;
-    height: 25px;
-    background-color: transparent;
+.sidebar label::after {
+  content: "";
+  background-color: var(--bg-color);
+  position: absolute;
+  width: 13px;
+  height: 25px;
+  background-color: transparent;
 }
 
-.sidebar label::before{
-    top: -25px;
-    left: 19px;
-    border-bottom-right-radius: 25px;
-    box-shadow: 4px 4px 0 4px var(--bg-color);
+.sidebar label::before {
+  top: -25px;
+  left: 19px;
+  border-bottom-right-radius: 25px;
+  box-shadow: 4px 4px 0 4px var(--bg-color);
 }
 
-
-.sidebar label::after{
-    bottom: -25px;
-    left: 19px;
-    border-top-right-radius: 25px;
-    box-shadow: 4px -4px 0 4px var(--bg-color);
+.sidebar label::after {
+  bottom: -25px;
+  left: 19px;
+  border-top-right-radius: 25px;
+  box-shadow: 4px -4px 0 4px var(--bg-color);
 }
 
-input[type="checkbox"]:checked ~ label{
-    color: var(--text-color);
-    background-color: var(--bg-color);
+input[type="checkbox"]:checked ~ label {
+  color: var(--text-color);
+  background-color: var(--bg-color);
 }
 
 input[type="checkbox"]:checked ~ label::after,
-input[type="checkbox"]:checked ~ label::before{
-    display: none;
+input[type="checkbox"]:checked ~ label::before {
+  display: none;
 }
 
-.sidebar:has(input[type="checkbox"]:checked){
-    width: fit-content;
+.sidebar:has(input[type="checkbox"]:checked) {
+  width: fit-content;
 }
 
-.sidebar:has(input[type="checkbox"]:checked) .sidebar__form label{
-    display: none;
+.sidebar:has(input[type="checkbox"]:checked) .sidebar__form label {
+  display: none;
 }
 
-.sidebar:has(input[type="checkbox"]:checked) .sidebar__form .open-button{
-    display: block;
+.sidebar:has(input[type="checkbox"]:checked) .sidebar__form .open-button {
+  display: block;
 }
 
-
-.sidebar:has(input[type="checkbox"]:checked) .sidebar__form{
-    top: 8rem;
-    width: fit-content;
+.sidebar:has(input[type="checkbox"]:checked) .sidebar__form {
+  top: 8rem;
+  width: fit-content;
 }
 
-.sidebar:has(input[type="checkbox"]:checked) .sidebar__picture img{
-    max-width: 4rem;
-    margin-right: 0;
-    padding-left: 0;
+.sidebar:has(input[type="checkbox"]:checked) .sidebar__picture img {
+  max-width: 4rem;
+  margin-right: 0;
+  padding-left: 0;
 }
 
 .sidebar:has(input[type="checkbox"]:checked) picture {
-    width: fit-content;
-    margin-left: .75;
+  width: fit-content;
+  margin-left: 0.75;
 }
 
-.sidebar:has(input[type="checkbox"]:checked) :is(.sidebar__item a, .profile-option) {
-    display: none;
+.sidebar:has(input[type="checkbox"]:checked)
+  :is(.sidebar__item a, .profile-option) {
+  display: none;
 }
 
-#cerrarSesion{
-    color: 00ffcf;
+#cerrarSesion {
+  color: 00ffcf;
 }
 
-main{
-    width: 1200px;
-    min-height: 90vh;
-    padding: 20px;
-    margin: auto;
-    display: flex;
-    flex-direction: column;
-    justify-content: space-evenly;
+main {
+  width: 1100px;
+  min-height: 90vh;
+  padding: 20px;
+  margin: auto;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-evenly;
 }
 
-.cuadroGrande{
-    width: 100%;
-    min-height: 220px;
-    display: flex;
-    /* margin-bottom: 25px; */
-    gap: 15px;
+.cuadroGrande {
+  width: 100%;
+  min-height: 220px;
+  display: flex;
+  /* margin-bottom: 25px; */
+  gap: 15px;
 }
 
-#divPacienteTemp{
-    display: none;
-    width: 90%;
-    margin: auto;
-    text-align: center;
+#divPacienteTemp {
+  display: none;
+  width: 90%;
+  margin: auto;
+  text-align: center;
 }
 
-#cajaDeTexto{
-    width: 90%;
-    margin: auto;
-    margin-bottom: 20px;
-    margin-top: 20px;
-    color: white;
-    text-align: center;
+#cajaDeTexto {
+  width: 90%;
+  margin: auto;
+  margin-bottom: 20px;
+  margin-top: 20px;
+  color: white;
+  text-align: center;
 }
 
-
-#mensajeVerificarPaciente{
-    font-size: 1.1rem;
+#mensajeVerificarPaciente {
+  font-size: 1.1rem;
 }
 
-.btnRegistro_busq{
-    width: 30%;
-    height: 35px;
-    border: none;
-    border-radius: 7px;
-    background-color: #292929;
-    color: white;
-    margin-left: 10px;
-    margin-bottom: 10px;
+.btnRegistro_busq {
+  width: 30%;
+  height: 35px;
+  border: none;
+  border-radius: 7px;
+  background-color: #009fb9;
+  color: white;
+  margin-left: 10px;
+  margin-bottom: 10px;
 }
 
-.btnRegistro_busq:hover{
-    background-color: #424242;
+.btnRegistro_busq:hover {
+  background-color: #02b1cc;
 }
 
-.cuadroConDiv{
-    display: flex;
-    flex-direction: column;
+.cuadroConDiv {
+  display: flex;
+  flex-direction: column;
 }
 
-.cuadroEmergencias{
-    width: 100%;
-    min-height: 90vh;
-    padding: 20px;
-    background-color: #3131310d;
+.cuadroEmergencias {
+  width: 100%;
+  min-height: 90vh;
+  padding: 20px;
+  background-color: #3131310d;
 }
-.cuadroRegistroTemoral{
-    width: 50%;
-    display: flex;
-    min-height: 190px;
-    border-radius: 15px;
-    gap: 5px;
-}
-
-.espacioInt{
-    width: 50%;
-    border: 1px solid rgb(0, 126, 140);
-    min-height: 190px;
-    border-radius: 15px;
-
+.cuadroRegistroTemoral {
+  width: 50%;
+  display: flex;
+  min-height: 190px;
+  border-radius: 15px;
+  gap: 5px;
 }
 
-.divDeBusqueda{
-    width: 50%;
-    min-height: 200px;
-    border: 1px solid rgb(0, 126, 140);
-    color: white;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    border-radius: 15px;
-
+.espacioInt {
+  width: 50%;
+  border: 1px solid rgb(0, 126, 140);
+  min-height: 190px;
+  border-radius: 15px;
 }
 
-.clasecabezera{
-    width: 100%;
-    padding: 12px;
-    height: 50px;
-    background: #0091a9;
-    color: white;
-    display: flex;
-    align-items: center;
-    margin-bottom: 20px;
-    border-top-left-radius: 15px;
+.divDeBusqueda {
+  width: 50%;
+  min-height: 200px;
+  border: 1px solid rgb(0, 126, 140);
+  color: white;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  border-radius: 15px;
+}
+
+.clasecabezera {
+  width: 100%;
+  padding: 12px;
+  height: 50px;
+  background: #0091a9;
+  color: white;
+  display: flex;
+  align-items: center;
+  margin-bottom: 20px;
+  border-top-left-radius: 15px;
   border-top-right-radius: 15px;
-
 }
 
-.bodyDisponibilidad{
-    padding: 8px;
-    width: 100%;
+.bodyDisponibilidad {
+  padding: 8px;
+  width: 100%;
 }
 
-.cajaBoton{
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    height: 115px;
-
+.cajaBoton {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 115px;
 }
 
-#datosHospitalizacion{
-    width: 100%;
-    text-align: center;
-    color: white;
+#datosHospitalizacion {
+  width: 100%;
+  text-align: center;
+  color: white;
 }
 
-#datosHospitalizacion td{
-    border-bottom: 1px solid rgb(0, 126, 138);
+#datosHospitalizacion td {
+  border-bottom: 1px solid rgb(0, 126, 138);
 }
 
-
-.cuadroEmergencias{
-
-    display: flex;
+.cuadroEmergencias {
+  display: flex;
 }
 
-.reportesEmergencias{
-    display: flex;
-    flex-direction: row;
-    flex-wrap: wrap;
-    justify-content: flex-start;
-    align-items: flex-start;
-    margin: auto;
-    width: 85%;
+.reportesEmergencias {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  justify-content: flex-start;
+  align-items: flex-start;
+  margin: auto;
+  width: 85%;
 }
 
-.divDeBusqueda form{
-    width: 90%;
-    margin-left: 8px;
-    display: flex;
+.divDeBusqueda form {
+  width: 90%;
+  margin-left: 8px;
+  display: flex;
 }
 
-#search{
-    width: 90%;
-    padding: 7px;
-    border-radius: 7px;
+#search {
+  width: 90%;
+  padding: 7px;
+  border-radius: 7px;
 }
 
-.cajaDeBotones{
-    display: flex;
-    justify-content: center;
+.cajaDeBotones {
+  display: flex;
+  justify-content: center;
 }
 
-.btnEnlace{
-    background-color: #008670;
-    color: white;
-    padding: 7px;
-    border-radius: 8px;
-    text-decoration: none;
-    margin: 5px;
-    text-align: center;
-    border: 2px solid rgb(0, 184, 178);
+.btnEnlace {
+  background-color: #008670;
+  color: white;
+  padding: 7px;
+  border-radius: 8px;
+  text-decoration: none;
+  text-align: center;
+  border: 2px solid rgb(0, 184, 178);
+  width: 50%;
 }
 
-.btnEnlace:hover{
-    background-color: #00a88c;
+.btnEnlace:hover {
+  background-color: #00a88c;
 }
 
-
-
-.cabezeraNewEmergencia{
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
+.cabezeraNewEmergencia {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
 }
 
-.cabezeraNewEmergencia h2{
-    color: white;
-    font-size: 28px;
+.cabezeraNewEmergencia h2 {
+  color: white;
+  font-size: 28px;
 }
 
-#btnEmergencia{
-    width: 75%;
-    min-height: 60px;
-    background-color: #009da5;
-    color: white;
-    border: none;
-    border-radius: 20px;
-    font-size: 20px;
+#btnEmergencia {
+  width: 75%;
+  min-height: 60px;
+  background-color: #009da5;
+  color: white;
+  border: none;
+  border-radius: 20px;
+  font-size: 20px;
 }
 
-#btnEmergencia:hover{
-    background-color: #00c8c1;
-    
+#btnEmergencia:hover {
+  background-color: #00c8c1;
 }
 
-.divBusquedaYfitros{
-    width: 100%;
-    height: 65px;
-    padding: 4px;
-    display: flex;
-    align-items: center;
-    border-radius: 15px;
-    gap: 10px;
+.divBusquedaYfitros {
+  width: 100%;
+  height: 65px;
+  padding: 4px;
+  display: flex;
+  align-items: center;
+  border-radius: 15px;
+  gap: 10px;
 }
 
-.divBusqueda{
-    width: 50%;
-    height: 95%;
-    padding: 5px;
-    display: flex;
-    align-items: center;
-    color: white;
-    border: 1px solid rgb(0, 126, 140);
-    border-radius: 15px;
+.divBusqueda {
+  width: 50%;
+  height: 95%;
+  padding: 5px;
+  display: flex;
+  align-items: center;
+  color: white;
+  border: 1px solid rgb(0, 126, 140);
+  border-radius: 15px;
 }
 
-.divBusqueda form{
-    width: 95%;
-     display: flex;
+.divBusqueda form {
+  width: 95%;
+  display: flex;
 }
 
-.divBusqueda input{
-    width: 90%;
-    padding: 7px;
-    border-radius: 7px;
-    margin-right: 15px;
-    margin-left: 15px;
+.divBusqueda input {
+  width: 90%;
+  padding: 7px;
+  border-radius: 7px;
+  margin-right: 15px;
+  margin-left: 15px;
 }
 
-#btnBuscarEmerg{
-    width: 28%;
-    border: none;
-    background-color: #0091a9;
-    color: white;
+#btnBuscarEmerg {
+  width: 28%;
+  border: none;
+  background-color: #0091a9;
+  color: white;
 }
 
-#btnBuscarEmerg:hover{
-    background-color: #00acca;
-    color: white;
+#btnBuscarEmerg:hover {
+  background-color: #00acca;
+  color: white;
 }
 
-
-.divFiltro{
-    width: 50%;
-    height: 95%;
-    color: white;
-    display: flex;
-    align-items: center; 
-    position: relative;
-    border: 1px solid rgb(0, 126, 140);
-    border-radius: 15px;
+.divFiltro {
+  width: 50%;
+  height: 95%;
+  color: white;
+  display: flex;
+  align-items: center;
+  position: relative;
+  border: 1px solid rgb(0, 126, 140);
+  border-radius: 15px;
 }
 
 /* --------------------------DIALOG----------------------------- */
 
-.DialogDeEmergencias{
-    min-height: 700px;
-    width: 40%;
-    background-color: #2b2b2b;
-    border: none;
-    border-radius: 15px;
-    color: white;
-    /* display: flex;
+.DialogDeEmergencias {
+  min-height: 520px;
+  width: 50%;
+  background-color: #2b2b2b;
+  border: none;
+  border-radius: 15px;
+  color: white;
+  /* display: flex;
     flex-direction: column; */
 }
 
-.headerModel{
-    display: flex;
-    width: 100%;
-    justify-content: space-between
-
+.headerModel {
+  display: flex;
+  width: 100%;
+  justify-content: space-between;
 }
 
-#RegistroUsuario{
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    width: 99%;
-    min-height: 600px;
-    background-color: #1ba9a996;
-    padding: 10px;
-    font-size: 1.2rem;
-    color: white;
-    border-radius: 15px;
-    margin-bottom: 25px;
-    box-shadow: 0px 0px 10px teal;
-    margin: auto;
-
+#RegistroUsuario {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 99%;
+  min-height: 440px;
+  background-image: linear-gradient(18deg, #00987c, #00edefc7);
+  padding: 10px;
+  font-size: 1.2rem;
+  color: white;
+  border-radius: 15px;
+  margin-bottom: 25px;
+  box-shadow: 0px 0px 10px teal;
+  margin: auto;
 }
 
-#RegistroUsuario form{
-    display: flex;
-    flex-direction: column;
-    font-size: 1.2rem;
-    margin-top: 30px;
-    width: 80%;
+#RegistroUsuario form {
+  display: flex;
+  flex-direction: row;
+  font-size: 1.2rem;
+  margin-top: 30px;
+  width: 95%;
+  gap: 10px;
 }
 
-#RegistroUsuario input{
-    margin-bottom: 10px;
-    border: none;
-    border-bottom: 1px solid rgb(255, 255, 255);
-    background: transparent;
-    height: 20px;
-    margin-top: 3px;
-    border-radius: 3px;
-    color: white;
+.divInt {
+  display: flex;
+  flex-direction: column;
+  padding: 8px;
+  width: 50%;
+  position: relative;
 }
 
-#RegistroUsuario label{
-    color: white;
+#RegistroUsuario input {
+  margin-bottom: 10px;
+  border: none;
+  border-bottom: 1px solid rgb(255, 255, 255);
+  background: transparent;
+  height: 20px;
+  margin-top: 3px;
+  border-radius: 3px;
+  color: white;
 }
 
-#RegistroUsuario select{
-    color: white;
-    border: none;
-    border-radius: 7px;
-    background-color: #404040c9;
-    padding: 6px;
-    margin-bottom: 12px;
+#RegistroUsuario label {
+  color: white;
 }
 
-.botonesLogin{
-    width: 90%;
-    height: 35px;
-    border: none;
-    border-radius: 7px;
-    background-color: #292929;
-    color: white;
-    margin-left: 30px;
+#RegistroUsuario select {
+  margin-bottom: 18px;
+  padding: 7px;
+  width: 100%;
+  background-color: #f9f9f9;
+  color: #404040;
+  border-radius: 7px;
+  border: none;
+  font-size: 0.9rem;
 }
 
-.botonesLogin:hover{
-    background-color: #353535;
-
+.botonesLogin {
+  width: 90%;
+  height: 35px;
+  border: none;
+  border-radius: 7px;
+  background-color: #00caa5;
+  color: white;
+  margin-left: 30px;
+  font-size: 1.2rem;
+  margin-top: 15px;
 }
 
+.botonesLogin:hover {
+  background-color: #00ecc1;
+}
 
 /*----------------------DIAlOG NEW RESGISTRO---------------------------------------- */
 
-.DialogNewRegistros{
-    min-height: 600px;
-    width: 40%;
-    border: none;
-    border-radius: 15px;
-    color:white;
-    background-color: rgb(44, 44, 44)
+.DialogNewRegistros {
+  min-height: 600px;
+  width: 40%;
+  border: none;
+  border-radius: 15px;
+  color: white;
+  background-color: rgb(44, 44, 44);
 }
 
-.headerModel{
-    display: flex;
-    width: 100%;
-    justify-content: space-between
-
+.headerModel {
+  display: flex;
+  width: 100%;
+  justify-content: space-between;
 }
 
-#RegistroUsuarioNew{
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    width: 95%;
-    min-height: 680px;
-    background-color: #1ba9a996;
-    padding: 10px;
-    font-size: 1.2rem;
-    color: white;
-    border: 1px solid rgb(255, 3, 3);
-    border-radius: 15px;
-    margin-bottom: 25px;
-    box-shadow: 0px 0px 10px teal;
-    margin: auto;
-
+#RegistroUsuarioNew {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 95%;
+  min-height: 680px;
+  background-image: linear-gradient(18deg, #00987c, #00edefc7);
+  padding: 10px;
+  font-size: 1.2rem;
+  color: white;
+  border: 1px solid rgb(255, 3, 3);
+  border-radius: 15px;
+  margin-bottom: 25px;
+  box-shadow: 0px 0px 10px teal;
+  margin: auto;
+  position: relative;
 }
 
-#RegistroUsuarioNew form{
-    display: flex;
-    flex-direction: column;
-    font-size: 1.2rem;
-    margin-top: 30px;
-    width: 80%;
+#tituloPacienteTemp {
+  position: absolute;
 }
 
-#RegistroUsuarioNew input{
-    margin-bottom: 35px;
-    border: none;
-    border-bottom: 1px solid rgb(255, 255, 255);
-    background: transparent;
-    height: 20px;
-    margin-top: 3px;
-    border-radius: 3px;
-    color: white;
+#RegistroUsuarioNew form {
+  display: flex;
+  flex-direction: column;
+  font-size: 1.2rem;
+  margin-top: 30px;
+  width: 80%;
 }
 
-#RegistroUsuarioNew label{
-    color: white;
+#RegistroUsuarioNew input {
+  margin-bottom: 25px;
+  border: none;
+  border-bottom: 1px solid rgb(255, 255, 255);
+  background: transparent;
+  height: 20px;
+  margin-top: 3px;
+  border-radius: 3px;
+  color: white;
 }
 
+#RegistroUsuarioNew label {
+  color: white;
+}
+
+.campoCompuestoCI {
+  width: 100%;
+  display: flex;
+  margin-top: 10px;
+}
+
+#nacionalidad {
+  height: 30px;
+  width: 35px;
+  margin-left: 1px;
+  background-color: rgb(231, 231, 231);
+  border: none;
+  border-radius: 7px;
+  color: rgb(44, 44, 44);
+}
+
+#cedula {
+  width: 95%;
+}
+
+#telefono {
+  width: 95% !important;
+}
+
+.prefijoTelefono {
+  height: 30px;
+  width: 55px !important;
+  margin-left: 1px;
+  background-color: rgb(231, 231, 231);
+  border: none;
+  border-radius: 7px;
+  color: rgb(44, 44, 44);
+}
+
+#btnRegistrarEmergencia {
+  /* background-color: pink; */
+  position: absolute;
+  bottom: 25px;
+}
 /* -------------------------------------------------------------------------------------------------- */
 /* 
 ----------------------------------------DIALOG DETALLES DE EMERGENCIAS--------------------------------- */
 
-#dialogDetallesEmerg{
-    min-height: 800px;
-    width: 80%;
-    background-color: #001a38;
-    color: white;
+#dialogDetallesEmerg {
+  min-height: 800px;
+  width: 80%;
+  background-color: #001a38;
+  color: white;
 }
 
-.datosEmergencias{
-    display: flex;
-    flex-direction: row;
+.datosEmergencias {
+  display: flex;
+  flex-direction: row;
 }
 
-.seccionDatosEmerg{
-    width: 50%;
-    min-height: 780px;
-    background-color: rgb(39, 39, 39);
+.seccionDatosEmerg {
+  width: 50%;
+  min-height: 780px;
+  background-color: rgb(39, 39, 39);
 }
 
-.seccionMedicamentosAdministrados{
-    width: 50%;
-    min-height: 780px;
-    background-color: dimgrey;
+.seccionMedicamentosAdministrados {
+  width: 50%;
+  min-height: 780px;
+  background-color: dimgrey;
 }
 
-.formularios{
-    width: 95%;
-    min-height: 400px;
-    margin: auto;
-    background: #323232;
-    color: white;
+.formularios {
+  width: 95%;
+  min-height: 400px;
+  margin: auto;
+  background: #323232;
+  color: white;
 }
 
-#DialogMovimientoInventario{
-    width: 40%;
-    min-height: 400px;
-    background: #323232;
-    border: none;
-    border-radius: 15px;
-
+#DialogMovimientoInventario {
+  width: 35%;
+  min-height: 400px;
+  background: #323232;
+  border: none;
+  border-radius: 15px;
 }
-
-
 
 /* -------------------------------------------------------------------------------------------------------- */
 
-.reporteEmerg{
-    width: calc(30.33% - 20px);
-    min-height: 420px;
-    border: 1px solid rgb(30, 210, 176);
-    color: white;
-    margin: 15px;
-    border-radius: 15px;
-    background: #3c3c3c;
-    box-shadow: 4px 5px 8px darkslategray;
+.reporteEmerg {
+  width: calc(30.33% - 20px);
+  min-height: 420px;
+  /* border: 1px solid rgb(94, 94, 94); */
+  color: #414141;
+  margin: 15px;
+  border-radius: 15px;
+  background: #f7f7f7;
+  box-shadow: 4px 5px 8px darkslategray;
 }
 
-.headReporte{
-    width: 100%;
-    height: 50px;
-    display: flex;
-    align-items:center ;
-    background-color: #008670;
-    color: white;
-    padding: 7px;
-    border-top-right-radius: 15px;
-    border-top-left-radius: 15px;
+.headReporte {
+  width: 100%;
+  height: 50px;
+  display: flex;
+  align-items: center;
+  background-color: #008670;
+  color: white;
+  padding: 7px;
+  border-top-right-radius: 15px;
+  border-top-left-radius: 15px;
 }
 
-.bodyReporte{
-    padding: 8px;
+.headReporte h2 {
+  font-size: 1.3rem;
 }
 
+.bodyReporte {
+  padding: 8px;
+}
 
 /* ----------------------------------------------------Seccion Medicamentos ------------------------------------- */
 
-.panelDeControlMedicamentos{
-    display: flex;
-    align-items: center;
-    width: 100%;
-    height: 70px;
-    background-color: cornflowerblue;
-    border-radius: 7px;
+.panelDeControlMedicamentos {
+  display: flex;
+  align-items: center;
+  width: 100%;
+  height: 70px;
+  background-color: cornflowerblue;
+  border-radius: 7px;
 }
 
-.buscadorMedicamento{
-    width: 50%;
+.buscadorMedicamento {
+  width: 50%;
 }
 
-#searchFormMedicamentos{
-    display: flex;
-    width: 100%;
+#searchFormMedicamentos {
+  display: flex;
+  width: 100%;
 }
 
-#searchMEdicamentos{
-    width: 70%;
-    height: 35px;
-    border-radius: 7px;
-    border: none;
-    padding: 5px;
-    margin-left: 12px ;
+#searchMEdicamentos {
+  width: 70%;
+  height: 35px;
+  border-radius: 7px;
+  border: none;
+  padding: 5px;
+  margin-left: 12px;
 }
 
-.divBtnAgregar{
-    width: 50%;
-    height: 100%;
-    position: relative;
+.divBtnAgregar {
+  width: 50%;
+  height: 100%;
+  position: relative;
 }
 
-#btnMedicamento{
-    position: absolute;
-    right: 1%;
-    top: 15px;
-    height: 40px;
-    width: 40%;
-    background-color: #0091a9;
-    color: white;
-    font-weight: 700;
-    border: none;
-    border-radius: 7px;
+#btnMedicamento {
+  position: absolute;
+  right: 1%;
+  top: 15px;
+  height: 40px;
+  width: 40%;
+  background-color: #0091a9;
+  color: white;
+  font-weight: 700;
+  border: none;
+  border-radius: 7px;
 }
 
-.tituloSeccion{
-    font-size: 2.5rem;
-    color: white;
-    margin-left: 15px;
-    margin-bottom: 20px;
-    text-align: center;
-    text-shadow: 1px 2px 1px rgb(46, 45, 45);
+.tituloSeccion {
+  font-size: 2.5rem;
+  color: white;
+  margin-left: 15px;
+  margin-bottom: 20px;
+  text-align: center;
+  text-shadow: 1px 2px 1px rgb(46, 45, 45);
 }
 
-#btnMedicamento:hover{
-    background-color: #00b6b0;
+#btnMedicamento:hover {
+  background-color: #00b6b0;
 }
 
-#tablaMedicamentos{
-    width: 100%;
-    border-collapse: collapse;
-    margin: 10px 0;
-    color: rgb(255, 255, 255);
+#tablaMedicamentos {
+  width: 100%;
+  border-collapse: collapse;
+  margin: 10px 0;
+  color: rgb(255, 255, 255);
 }
 
-#tablaMedicamentos th, td{
-    padding: 6px;
-    text-align: left;
-    /* border: 1px solid #ddd; */
-    text-align: center;
+#tablaMedicamentos th,
+td {
+  padding: 6px;
+  text-align: left;
+  /* border: 1px solid #ddd; */
+  text-align: center;
 }
 
-#tablaMedicamentos th{
-    background-color: #009590;
-    font-weight: bold;
-    font-size: 1rem;
+#tablaMedicamentos th {
+  background-color: #009590;
+  font-weight: bold;
+  font-size: 1rem;
 }
 
 #tablaMedicamentos tbody tr:nth-child(even) {
-    background-color: #555555;
+  background-color: #555555;
 }
 
 #tablaMedicamentos tbody tr:nth-child(odd) {
-    background-color: #454545;
+  background-color: #454545;
 }
 
 /* .tdEditar{
@@ -821,274 +862,268 @@ main{
     justify-content: center;
 } */
 
-.linkEditar{
-    background-color: transparent;
-    border: none;
-    color: white;
+.linkEditar {
+  background-color: transparent;
+  border: none;
+  color: white;
 }
 
-.linkEditar:hover{
-    color: rgb(255, 251, 0);
+.linkEditar:hover {
+  color: rgb(255, 251, 0);
 }
 
-.delete{
-     background-color: transparent;
-    border: none;
-    color: white; 
+.delete {
+  background-color: transparent;
+  border: none;
+  color: white;
 }
 
-.delete:hover{
-    color: rgba(219, 0, 0, 0.695); 
+.delete:hover {
+  color: rgba(219, 0, 0, 0.695);
 }
 
-#addInventario:hover{
-    color: rgb(0, 145, 0);
+#addInventario:hover {
+  color: rgb(0, 145, 0);
 }
-
-
-
-
 
 /* -------------------------------------------------SECCIONFACTURACION---------------------------------------- */
-#logo{
-    position: absolute;
-    left: 85px;
-    display: flex;
-    flex-direction: row;
-    align-items: center;
+#logo {
+  position: absolute;
+  left: 85px;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
 }
 
-.logotipo{
-    width: 105px;
-    margin-right: 10px;
-    margin-left: -75px;
+.logotipo {
+  width: 105px;
+  margin-right: 10px;
+  margin-left: -75px;
 }
 
-#tituloPrincipal{
-    display: inline-block;
-    font-size: 1.5rem;
-    font-family: "Lobster", sans-serif;
-    text-shadow: 1px 2px 1px rgb(46, 45, 45);
-    color:rgb(255, 255, 255);
-    font-weight: 800;
+#tituloPrincipal {
+  display: inline-block;
+  font-size: 1.5rem;
+  font-family: "Lobster", sans-serif;
+  text-shadow: 1px 2px 1px rgb(46, 45, 45);
+  color: rgb(255, 255, 255);
+  font-weight: 800;
 }
 
-#tituloReporte{
-    position: absolute;
-    left: 40%;
-    color: white;
+#tituloReporte {
+  position: absolute;
+  left: 40%;
+  color: white;
 }
 
-#fechaF{
-    position: absolute;
-    right: 10%;
-    color: white;
+#fechaF {
+  position: absolute;
+  right: 10%;
+  color: white;
 }
 
-.estadoFacYpdf{
-    display: flex;
+.estadoFacYpdf {
+  display: flex;
 }
 
-.estadoFacYpdf button{
-   margin-left: 15px;
+.estadoFacYpdf button {
+  margin-left: 15px;
 }
 
-.ModalClose{
-    margin: 0;
-    position: absolute;
-    top: 0;
-    right: 0;
-    background:red;
-    color: white;
-    border: none;
-    height: 40px;
-    width: 40px;
-    font-size: 1rem;
-    border-radius: 8px;
+.ModalClose {
+  margin: 0;
+  position: absolute;
+  top: 0;
+  right: 0;
+  background: red;
+  color: white;
+  border: none;
+  height: 40px;
+  width: 40px;
+  font-size: 1rem;
+  border-radius: 8px;
 }
 
-#contenedorCentral{
-    width: 80%;
-    min-height: 90vh;
-    padding: 0;
-    background-color: transparent;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
+#contenedorCentral {
+  width: 80%;
+  min-height: 90vh;
+  padding: 0;
+  background-color: transparent;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
 }
 
-.panelDeBusqueda{
-    width: 100%;
-    height: 100px;
-    margin-top: 20px;
-    background-color: #5690f9;
-    text-align: center;
-    display: flex;
-    border-radius: 15px;
+.panelDeBusqueda {
+  width: 100%;
+  height: 100px;
+  margin-top: 20px;
+  background-color: #5690f9;
+  text-align: center;
+  display: flex;
+  border-radius: 15px;
 }
 
-.divBuscar{
-    width: 50%;
-    display: flex;
-    align-items: center;
-
+.divBuscar {
+  width: 50%;
+  display: flex;
+  align-items: center;
 }
 
-#searchFormFact{
-    display: flex;
-    width: 100%;
+#searchFormFact {
+  display: flex;
+  width: 100%;
 }
 
-#searchFacturas{
-    width: 80%;
-    margin-right: 12px;
-    margin-left: 5px;
-    padding: 6px;
-    border-radius: 7px;
+#searchFacturas {
+  width: 80%;
+  margin-right: 12px;
+  margin-left: 5px;
+  padding: 6px;
+  border-radius: 7px;
 }
 
-#btmBuscarFactura{
-    width: 20%;
-    height: 35px;
-    border: none;
-    border-radius: 7px;
-    background-color: #24b8c0;
-    color: white;
+#btmBuscarFactura {
+  width: 20%;
+  height: 35px;
+  border: none;
+  border-radius: 7px;
+  background-color: #24b8c0;
+  color: white;
 }
 
-#btmBuscarFactura:hover{
-    background-color: #1acbd4;
+#btmBuscarFactura:hover {
+  background-color: #1acbd4;
 }
 
-.filtrosFacturas{
-    width: 50%;
-    display: flex;
-    align-items: center;
-    position: relative;
-    color: white;
+.filtrosFacturas {
+  width: 50%;
+  display: flex;
+  align-items: center;
+  position: relative;
+  color: white;
 }
 
-.filtrosFacturas select{
-    position: absolute;
-    right: 2%;
-    top: 35px;
-    width: 60%;
-    padding: 8px;
-    background-color: #2e2e2e;
-    border: 1px solid teal;
-    color: white;
-    border-radius: 7px;
-
+.filtrosFacturas select {
+  position: absolute;
+  right: 2%;
+  top: 35px;
+  width: 60%;
+  padding: 8px;
+  background-color: #2e2e2e;
+  border: 1px solid teal;
+  color: white;
+  border-radius: 7px;
 }
 
-.espacioDeFacturas{
-    width: 100%;
-    min-height: 300px;
-    margin-top: 5px;
-    padding: 5px;
-    background-color: rgba(0, 160, 160, 0.244);
-    color: white;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
+.espacioDeFacturas {
+  width: 100%;
+  min-height: 300px;
+  margin-top: 5px;
+  padding: 5px;
+  background-color: rgba(0, 160, 160, 0.244);
+  color: white;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
 }
 
-#seleccionarEmergencias{
-    margin-left: 20px;
-    padding: 7px;
-    background-color: #454545;
-    color: white;
-    border: none;
-    border-radius: 7px;
+#seleccionarEmergencias {
+  margin-left: 115px;
+  padding: 6px;
+  background-color: #f9f9f9;
+  color: #404040;
+  font-size: 1.1rem;
+  border-radius: 7px;
+  border: none;
 }
 
-#formulario_filtro label{
-    margin-left: 90px;
+#formulario_filtro label {
+  margin-left: 90px;
 }
 
-#dialogDetallesFacturas{
-    width: 60%;
-    min-height: 90vh;
-    background-color: #2929297c;
-    border: none;
+#dialogDetallesFacturas {
+  width: 60%;
+  min-height: 90vh;
+  background-color: #2929297c;
+  border: none;
 }
 
-dialog::backdrop{
-    background: #0a0a0a86;
+dialog::backdrop {
+  background: #0a0a0a86;
 }
 
-
-.contenidoFactura{
-    width: 95%;
-    height: 90%;
-    background-color: #ffffff;
-    margin: auto;
-    color: white;
-    /* padding: 8px; */
-    box-sizing: border-box;
+.contenidoFactura {
+  width: 95%;
+  height: 90%;
+  background-color: #ffffff;
+  margin: auto;
+  color: white;
+  /* padding: 8px; */
+  box-sizing: border-box;
 }
 
-.seccionesFactura{
-    background: #ffffff;
-    color: black;
-    width: 100%;
-    height: 33%;
+.seccionesFactura {
+  background: #ffffff;
+  color: black;
+  width: 100%;
+  height: 33%;
 }
 
-#datosGenerales{
-    display: flex;
-    flex-direction: column;
-    color: black;
+#datosGenerales {
+  display: flex;
+  flex-direction: column;
+  color: black;
 }
 
-#datosEmergencia_hosp{
-    padding: 12px;
-    min-height: 350px;
+#datosEmergencia_hosp {
+  padding: 12px;
+  min-height: 350px;
 }
 
-#datosDesglosadosEmergencia{
-    padding: 12px;
+#datosDesglosadosEmergencia {
+  padding: 12px;
 }
 
-.cabezeraFactura{
-    position: relative;
-    width: 100%;
-    height: 100px;
-    background-color: rgb(0 131 123);
-    display: flex;
-    justify-content: space-around;
+.cabezeraFactura {
+  position: relative;
+  width: 100%;
+  height: 100px;
+  background-color: rgb(0 131 123);
+  display: flex;
+  justify-content: space-around;
 }
 
-.datosPaciente{
-    width: 100%;
-    height: 100%;
-    display: flex;
-    background-color: whitesmoke;
+.datosPaciente {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  background-color: whitesmoke;
 }
 
-.nobresResponsables{
-    width: 50%;
-    height: 100%;
-    /* border: 1px solid #202020; */
-    padding: 8px;
-    box-sizing: border-box;
+.nobresResponsables {
+  width: 50%;
+  height: 100%;
+  /* border: 1px solid #202020; */
+  padding: 8px;
+  box-sizing: border-box;
 }
 
-.theadHosp{
-    display: none;
+.theadHosp {
+  display: none;
 }
 
-.segurosResponsables{
-    width: 50%;
-    height: 100%;
-    padding: 8px;
-    /* border: 1px solid #202020; */
+.segurosResponsables {
+  width: 50%;
+  height: 100%;
+  padding: 8px;
+  /* border: 1px solid #202020; */
 }
 
-#datosEmergencia_hosp table{
-    width: 80%; /* Ajusta el ancho según sea necesario */
-    border-collapse: collapse;
-    margin-bottom: 10px; /* Espaciado entre tablas */
+#datosEmergencia_hosp table {
+  width: 80%; /* Ajusta el ancho según sea necesario */
+  border-collapse: collapse;
+  margin-bottom: 10px; /* Espaciado entre tablas */
 }
 
 /* #datosEmergencia_hosp th, td {
@@ -1102,126 +1137,139 @@ th:nth-child(2), td:nth-child(2) { width: 40%; }
 th:nth-child(3), td:nth-child(3) { width: 20%; }
 th:nth-child(4), td:nth-child(4) { width: 20%; } */
 
-
-#desgloseMedicamentos{
-    width: 80%;
-    text-align: center;
+#desgloseMedicamentos {
+  width: 80%;
+  text-align: center;
 }
 
-#costo_total_med{
-    text-align: right;
+#costo_total_med {
+  text-align: right;
 }
 
-#costo_total_dias{
-    text-align: right;
+#costo_total_dias {
+  text-align: right;
 }
 
-#costo_total_hosp{
-    text-align: right;
+#costo_total_hosp {
+  text-align: right;
 }
 
-#sumaTotal{
-    text-align: right;
+#sumaTotal {
+  text-align: right;
 }
 
-.costosSer{
-    text-align: right;
+.costosSer {
+  text-align: right;
 }
 
-#sumaTotal{
-    border-top: 1px solid;
+#sumaTotal {
+  border-top: 1px solid;
 }
-
 
 /* --------------------------------------------------REGISTROS DE MEDICAMENTOS Y SERVICIOS EN LA EMERGENCIA--------------------------------------------------- */
 
-#contenedorCentralRegistros{
-    width: 70%;
-    min-height: 90vh;
-    padding: 0;
-    background-color: transparent;
-    color: white;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
+#contenedorCentralRegistros {
+  width: 65%;
+  min-height: 90vh;
+  padding: 0;
+  background-color: transparent;
+  color: white;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
 }
 
-.DatosGeneralesEmerg{
-    width: 100%;
-    min-height: 500px;
-    background-color: cornflowerblue;
-    font-size: 1.3rem;
-    position: relative;
-    margin-top: 20px;
-    margin-bottom: 20px;
-    border-radius: 15px;
+.DatosGeneralesEmerg {
+  width: 100%;
+  min-height: 500px;
+  background-color: rgba(100, 148, 237, 0.452);
+  font-size: 1.3rem;
+  position: relative;
+  margin-top: 20px;
+  margin-bottom: 20px;
+  border-radius: 15px;
 }
 
-#pDiagnostico{
-    width: 300px;
-    position: absolute;
-    right: 55px;
-    top: 210px;
+#selecRegistro {
+  padding: 6px;
+  background-color: #f9f9f9;
+  color: #404040;
+  font-size: 1.1rem;
+  border-radius: 7px;
+  margin-bottom: 15px;
+  border: none;
 }
 
-#pFecha{
-    position: absolute;
-    right: 115px;
-    top: 75px;
+#selectHabitacion {
+  padding: 5px;
+  background-color: #f9f9f9;
+  color: #404040;
+  font-size: 1.1rem;
+  border-radius: 7px;
+  margin-bottom: 15px;
+  border: none;
 }
 
-#pFechaHosp{
-    position: absolute;
-    right: 170px;
-    top: 15px;
+/* #pDiagnostico {
+  width: 300px;
+  position: absolute;
+  right: 55px;
+  top: 210px;
 }
 
-#pGravedad{
-    position: absolute;
-    right: 181px;
-    top: 125px;
+#pFecha {
+  position: absolute;
+  right: 115px;
+  top: 75px;
 }
 
-#pGravedadHosp{
-    position: absolute;
-    right: 170px;
-    top: 55px;
+#pFechaHosp {
+  position: absolute;
+  right: 170px;
+  top: 15px;
 }
 
-#pEstado{
-    position: absolute;
-    right: 55px;
-    top: 168px;
+#pGravedad {
+  position: absolute;
+  right: 181px;
+  top: 125px;
 }
 
-#pEstadoHosp{
-    position: absolute;
-    right: 20px;
-    top: 105px;
+#pGravedadHosp {
+  position: absolute;
+  right: 170px;
+  top: 55px;
 }
 
+#pEstado {
+  position: absolute;
+  right: 55px;
+  top: 168px;
+}
 
-#btnDialogHospitalizacion{
+#pEstadoHosp {
+  position: absolute;
+  right: 20px;
+  top: 105px;
+} */
 
-    height: 35px;
+#btnDialogHospitalizacion {
+  height: 35px;
   width: 190px;
   color: white;
-  background-color: #393939;
+  background-color: #00adb5;
   border: none;
   border-radius: 8px;
   font-weight: 700;
   margin-left: 12px;
-
 }
 
-#btnDialogHospitalizacion:hover{
-
-  background-color: #6a6a6a;
-  
+#btnDialogHospitalizacion:hover {
+  background-color: #0cbfc9;
 }
 
-.btnActualizar{
-    width: 25%;
+.btnActualizar {
+  width: 50%;
   height: 40px;
   background-color: #01a27c;
   color: white;
@@ -1231,106 +1279,137 @@ th:nth-child(4), td:nth-child(4) { width: 20%; } */
   border-radius: 7px;
   margin: auto;
   position: absolute;
-  left: 50%;
-  bottom: -30px;
-    transform: translateX(-50%);
+  /* left: 50%; */
+  bottom: 1px;
+  transform: translateX(-50%);
 }
 
-.btnActualizar:hover{
-
-  background-color: #00f4bb;
-  
+.btnActualizar:hover {
+  background-color: #00c193;
 }
 
-
-
-
-.espaciosDeRegistros{
-    width: 100%;
-    min-height:320px;
-    display: flex;
-    color: white;
-    gap: 10px;
-    margin-bottom: 25px;
+.desabilitarBtn {
+  opacity: 0.5;
+  background-color: rgb(118, 118, 118);
 }
 
-.areaDeMedicamentos{
-    width: 50%;
-    background-color: cornflowerblue;
-    border-radius: 15px;
-    border: 1px solid rgb(0, 184, 178);
-    display: flex;
-    flex-direction: column;
+.espaciosDeRegistros {
+  width: 100%;
+  min-height: 320px;
+  display: flex;
+  color: white;
+  gap: 10px;
+  margin-bottom: 25px;
+  display: flex;
+  flex-direction: column;
 }
 
-.headAreas{
-    width: 100%;
-    height: 60px;
-    padding: 5px;
-    background-color: #159797;
-    border-top-left-radius: 15px;
-    border-top-right-radius: 15px;
-    display: flex;
-    align-items: center;
+.areaDeMedicamentos {
+  width: 100%;
+  background-color: rgba(100, 148, 237, 0.452);
+  border-radius: 15px;
+  border: 1px solid rgb(0, 184, 178);
+  display: flex;
+  flex-direction: column;
 }
 
-.titulosAreas{
-    font-size: 1.7rem;
-    color: white;
-    margin-left: 20px;
-    text-shadow: 1px 2px 1px rgb(46, 45, 45);
+.headAreas {
+  width: 100%;
+  height: 60px;
+  padding: 5px;
+  background-color: #0091a9;
+  border-top-left-radius: 15px;
+  border-top-right-radius: 15px;
+  display: flex;
+  align-items: center;
+  position: relative;
 }
 
-.bodyDeCuadro{
-    padding: 12px;
-    position: relative;
+.titulosAreas {
+  font-size: 1.7rem;
+  color: white;
+  margin-left: 20px;
+  text-shadow: 1px 2px 1px rgb(46, 45, 45);
 }
 
-
-.tablasEmergencias{
-    width: 100%;
-    border-collapse: collapse;
-    margin: 10px 0;
-    color: rgb(255, 255, 255);
-    font-size: .9rem;
+.bodyDeCuadro {
+  padding: 12px;
+  position: relative;
+  display: flex;
+  /* min-height: 500px; */
+  border-bottom-right-radius: 15px;
+  border-bottom-left-radius: 15px;
 }
 
-.tablasEmergencias th, td{
-    padding: 2px;
-    text-align: left;
-    /* border: 1px solid #ddd; */
-    text-align: center;
+.contendorInfo {
+  width: 50%;
+  /* background-color: #008670; */
+  display: flex;
+  flex-direction: column;
+  padding: 8px;
+  min-height: 500px;
+  position: relative;
 }
 
-.tablasEmergencias th{
-    background-color: #009590;
-    font-weight: bold;
-    font-size: 1rem;
+.contendorInfo p {
+  margin-bottom: 10px;
+}
+
+.tablasEmergencias {
+  width: 100%;
+  border-collapse: collapse;
+  margin: 10px 0;
+  color: rgb(200, 200, 200);
+  font-size: 0.9rem;
+}
+
+.tablasEmergencias th,
+td {
+  padding: 2px;
+  text-align: left;
+  /* border: 1px solid #ddd; */
+  text-align: center;
+}
+
+.tablasEmergencias th {
+  background-color: #009590;
+  font-weight: bold;
+  font-size: 1rem;
+  padding: 7px;
+  color: white;
 }
 
 .tablasEmergencias tbody tr:nth-child(even) {
-    background-color: #393939;
+  background-color: #b3eaf1; /* azul claro */
 }
 
 .tablasEmergencias tbody tr:nth-child(odd) {
-    background-color: #636363;
+  background-color: #ffffff;
 }
 
-.areaDeServicios{
-    width: 50%;
-    background-color: cornflowerblue;
-    border-radius: 15px;
-    border: 1px solid rgb(0, 184, 178);
-    display: flex;
-    flex-direction: column;
+.tablasEmergencias tr {
+  color: #373737;
 }
 
-.deleteMed{
-    background-color: transparent;
-    border: none;
-    color: white;
-    margin-left: 8px;
-    cursor: pointer;
+.areaDeServicios {
+  width: 100%;
+  background-color: rgba(100, 148, 237, 0.452);
+  border-radius: 15px;
+  border: 1px solid rgb(0, 184, 178);
+  display: flex;
+  flex-direction: column;
+}
+
+.bodyDeCuadro {
+  background-color: rgba(100, 148, 237, 0.452);
+}
+
+.deleteMed {
+  background-color: transparent;
+  border: none;
+  color: rgb(171, 33, 33);
+  margin-left: 8px;
+  cursor: pointer;
 }
 
 /* #addMedicina{
@@ -1340,36 +1419,90 @@ th:nth-child(4), td:nth-child(4) { width: 20%; } */
     margin: auto;
 } */
 
+button:disabled {
+  opacity: 0.5; /* Lo hace ver más claro */
+  pointer-events: none; /* Previene cualquier interacción */
+}
+
+#actualizarDatosHosp {
+  width: 50%;
+  height: 40px;
+  background-color: #01a27c;
+  color: white;
+  font-weight: 700;
+  font-size: 1.1rem;
+  border: none;
+  border-radius: 7px;
+  margin: auto;
+  position: absolute;
+  left: 95%;
+  bottom: -450px;
+  transform: translateX(-50%);
+  z-index: 20;
+}
+
+#actualizarDatosHosp:hover {
+  background-color: #00ca9b;
+}
+
+.botonRegistroDual {
+  width: 85%;
+  height: 40px;
+  background-color: #00c177;
+  color: #ffffff;
+  font-size: 1.1rem;
+  border: none;
+  border-radius: 7px;
+  margin: auto;
+  /* position: absolute;
+  left: 95%;
+  bottom: -450px;
+  transform: translateX(-50%);
+  z-index: 20; */
+}
+
+.botonRegistroDual:hover {
+  background-color: #00ce7f;
+}
 /* ------------------------------------DIALOG REGISTRO MEDICAMETOS----------------------------- */
 
-.dialogRegistrosNew{
-    min-height: 620px;
-    width: 40%;
-    background-color: #292929;
-    color: white;
-    border: none;
-    border-radius: 15px;
+.dialogRegistrosNew {
+  min-height: 620px;
+  width: 40%;
+  background-color: #292929;
+  color: white;
+  border: none;
+  border-radius: 15px;
 }
 
-#RegistroUsuarioNew{
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    width: 95%;
-    min-height: 540px;
-    padding: 10px;
-    font-size: 1.2rem;
-    color: white;
-    border: 1px solid rgb(29, 129, 42);
-    border-radius: 15px;
-    margin-bottom: 25px;
-    box-shadow: 0px 0px 10px teal;
-    margin-top: 20px;
+/* #estadoDeHospitalizacion {
+  padding: 8px;
+  background-color: #f9f9f9;
+  color: #404040;
+  font-size: 1.1rem;
+  border-radius: 7px;
+  margin-bottom: 15px;
+  border: none;
+} */
 
+#RegistroUsuarioNew {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 95%;
+  min-height: 540px;
+  padding: 10px;
+  font-size: 1.2rem;
+  color: white;
+  border: 1px solid rgb(29, 129, 42);
+  border-radius: 15px;
+  margin-bottom: 25px;
+  box-shadow: 0px 0px 10px teal;
+  margin-top: 20px;
 }
 
-.btnNewRegistros{
-    background-color: #00b58b;
+.btnNewRegistros {
+  background-color: #00b58b;
   color: #f2f2f2;
   display: inline;
   width: 175px;
@@ -1378,34 +1511,122 @@ th:nth-child(4), td:nth-child(4) { width: 20%; } */
   border-radius: 8px;
   font-weight: 700;
   margin-top: 15px;
+  position: absolute;
+  right: 10px;
+  top: -4px;
 }
 
-.btnNewRegistros:hover{
-    background-color: #00dca9;
+.btnNewRegistros:hover {
+  background-color: #00dca9;
 }
-
-
 
 .mensajeError {
-    color: red;
-    font-weight: bold;
-    padding: 8px;
-    background-color: #f8d7da;
-    border: 1px solid #721c24;
-    border-radius: 5px;
-    margin: 8px 0;
+  color: red;
+  font-weight: bold;
+  padding: 8px;
+  background-color: #ffeff1d1;
+  border: 1px solid #721c24;
+  border-radius: 5px;
+  margin: 2px 0;
+  width: 851px;
+  position: absolute;
+  bottom: 8px;
+  left: 15%;
+  z-index: 30;
+  text-align: center;
 }
 
-.mensajeExito{
-    color: rgba(0, 184, 76, 0.664);
-    font-weight: bold;
-    padding: 8px;
-    background-color: #008670;
-    border: 1px solid #006168;
-    border-radius: 5px;
-    margin: 8px 0;
+.mensajeExito {
+  color: rgba(0, 184, 76, 0.664);
+  font-weight: bold;
+  padding: 8px;
+  background-color: #008670;
+  border: 1px solid #006168;
+  border-radius: 5px;
+  margin: 8px 0;
 }
 
-.contenedorObservaciones{
-    width: 355px;
+.contenedorObservaciones {
+  width: 355px;
+}
+
+.selectMedicamento {
+  margin-bottom: 18px;
+  padding: 7px;
+  width: 100%;
+  background-color: #f9f9f9;
+  color: #404040;
+  border-radius: 7px;
+  border: none;
+  font-size: 0.9rem;
+}
+
+/* 
+------------------------------------------------------------ DIALOG GESTION INVENTARIO ----------------------------------- */
+
+#idDialogInventario {
+  width: 35% !important;
+  background-color: #313131;
+  border: none;
+  border-radius: 15px;
+}
+
+.dialogRegistroMedicamentos {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 95%;
+  min-height: 540px;
+  padding: 10px;
+  font-size: 1.2rem;
+  color: white;
+  border: 1px solid rgb(29, 129, 42);
+  background-image: linear-gradient(18deg, #00987c, #00edefc7);
+  border-radius: 15px;
+  margin-bottom: 25px;
+  box-shadow: 0px 0px 10px teal;
+  margin: auto;
+  margin-top: 20px;
+  padding-bottom: 20px;
+}
+
+.dialogRegistroMedicamentos form {
+  display: flex;
+  flex-direction: column;
+  width: 80%;
+}
+
+.dialogRegistroMedicamentos form input {
+  margin-bottom: 10px;
+  border: none;
+  border-bottom-width: medium;
+  border-bottom-style: none;
+  border-bottom-color: currentcolor;
+  border-bottom: 1px solid rgb(255, 255, 255);
+  background: transparent;
+  height: 20px;
+  margin-top: 3px;
+  border-radius: 3px;
+  color: white;
+}
+
+#DialogEdicion {
+  width: 35%;
+}
+
+.alerta-exito {
+  background-color: #d4edda;
+  color: #155724;
+  padding: 10px;
+  margin-bottom: 10px;
+  border-radius: 5px;
+  text-align: center;
+}
+.alerta-error {
+  background-color: #f8d7da;
+  color: #721c24;
+  padding: 10px;
+  margin-bottom: 10px;
+  border-radius: 5px;
+  text-align: center;
 }

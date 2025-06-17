@@ -107,7 +107,7 @@
                         <label for="Apellido">Apellido</label>
                         <input id="ApellidoR" type="text" placeholder="Apellido" class="ApellidoClase" name="apellido">
 
-                        <label for="Cedula">Cedula</label>
+                        <label for="Cedula">Cédula</label>
                         <div class='campoCompuestoCI'>
 
                             <select id="nacionalidad" name="nacionalidadCi" required>
@@ -115,11 +115,11 @@
                                 <option value="E">E</option>
                             </select>
 
-                            <input id="cedulaReg" type="text" placeholder="Cedula" class="nombreClase" name="cedulaUser">
+                            <input id="cedulaReg" type="text" placeholder="Cédula" class="nombreClase" name="cedulaUser">
 
                         </div>
 
-                        <label for="Telefono">Telefono</label>
+                        <label for="Telefono">Teléfono </label>
                             <div class='campoCompuestoCI'>
 
                                 <select class='prefijoTelefono' id="PrefijoTlf" name="prefijoTlf" required>
@@ -192,7 +192,7 @@
                             <label for="Apellido">Apellido</label>
                             <input id="apellido" type="text" placeholder="Apellido" class="apellido" name="newApellido" value="">
 
-                            <label for="Telefono">Telefono</label>
+                            <label for="Telefono">Teléfono </label>
                             <div class='campoCompuestoCI'>
 
                                 <select class='prefijoTelefono' id="PrefijoTlfEdit" name="prefijoTlf" required>
@@ -510,7 +510,7 @@
         } else if(cedula && (!/^\d+$/.test(cedula) || cedula.length < 7 || cedula.length > 9 || cedula.startsWith('0'))){
             return [true, "La cédula no es válida. Debe tener entre 7 y 9 dígitos y no comenzar con 0."];
         } else if(!/^\d{7}$/.test(telefono)){
-            return [true, "El número debe tener exactamente 7 dígitos."];
+            return [true, "El número de teléfono  debe tener exactamente 11 dígitos, incluyendo su prefijo determinado"];
         } else if(email.length < 5 || email.length > 40 || 
                   email.indexOf("@") === -1 || 
                   email.indexOf(".") === -1 || 

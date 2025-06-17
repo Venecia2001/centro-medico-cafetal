@@ -276,92 +276,100 @@
                 </form>
             </div>
 
-            <div id="RegistroUsuario">
-            <form action="manejo_emergencia/registrosDatos.php"   method="POST">
-                <label for="cedulaPaciente">Cedula Paciente(registrado)</label>
-                <input id ="idPaciente" type="number" placeholder="Cedula Paciente Registrado" class="idPaciente" name="idPaciente">
+            <div id="RegistroUsuario"> 
+            <form action="manejo_emergencia/registrosDatos.php"   method="POST" id='fromRegistroEmerg'>
 
-                <label for="nombre">Cedula Paciente(No registrado)</label>
-                <input id ="idPacienteTemp" type="number" placeholder="Cedula Paciente Temporal"  name="idPacienteTemp">
+                <div class='divInt formLelt'>
+                    <label for="cedulaPaciente">Cédula  Paciente(registrado)</label>
+                    <input id ="idPaciente" type="number" placeholder="Cedula Paciente Registrado" class="idPaciente" name="idPaciente"><br><br>
 
-                <label for="medicoResponsable">Medico Responsable</label>
-                <select name="medicoResponsable" id="selectMedicoEmergencia">
-                    <option value="">Seleciona Medico</option>
-                    <?php 
+                    <label for="nombre">Cédula Paciente(No registrado)</label>
+                    <input id ="idPacienteTemp" type="number" placeholder="Cedula Paciente Temporal"  name="idPacienteTemp"><br><br>
 
-                    
-                    include("conex_bd.php");
-                    
-                    $consultaMedicosEmerg = "SELECT * FROM usuarios WHERE rol = 5";
-                    $resultMeicosEmergencias = mysqli_query($conexion, $consultaMedicosEmerg);
+                    <label for="medicoResponsable">Médicos Disponibles</label>
+                    <select name="medicoResponsable" id="selectMedicoEmergencia" required>
+                        <option value="">Seleciona Medico</option>
+                        <?php 
+                            include("conex_bd.php");
 
-                    if($resultMeicosEmergencias){
-                    
-                        while($datos=$resultMeicosEmergencias->fetch_array()){
-                            $id_medicoEmerg= $datos["id"];
-                            $nombreMedico= $datos["nombre"];
-                            $apellidoMedico= $datos["apellido"];
-                        ?>
-                        <option value="<?php echo $id_medicoEmerg?>"> <?php echo $nombreMedico." ".$apellidoMedico ?> </option>
-                         
-                         <?php   
+                            $fechaSeleccionada = date('Y-m-d'); // Esto devuelve la fecha de hoy, ejemplo: 2025-06-12
+                            $diaSemana = date('w', strtotime($fechaSeleccionada)); // 0 (domingo) a 6 (sábado)
+
+                            $consultaMedicosDisponibles = "
+                            SELECT u.id, u.nombre, u.apellido FROM disponibilidad_horarios d JOIN medicos m ON d.medico_relac = m.id_perfil JOIN usuarios u ON m.id_medico = u.id WHERE u.rol = 5 AND d.dia_semana = $diaSemana GROUP BY u.id
+                            ";
+
+                            $resultMedicosDisponibles = mysqli_query($conexion, $consultaMedicosDisponibles);
+
+                            if($resultMedicosDisponibles){
+                                while($datos = $resultMedicosDisponibles->fetch_array()){
+                                    $id_medico = $datos["id"];
+                                    $nombre = $datos["nombre"];
+                                    $apellido = $datos["apellido"];
+                                    ?>
+                                    <option value="<?php echo $id_medico ?>"> <?php echo $nombre . " " . $apellido ?> </option>
+                                    <?php
+                                }
+                            }
+                            ?>
+
+                    </select><br>
+
+                    <label for="enfermeros">Enfermeros</label>
+                    <select name="EnfermeroResponsable" id="selectEnfermeroEmergencia" required >
+                        <option value="">Seleciona Enfermero</option>
+                        <?php 
+
+                        $consultaEnfermeros = "SELECT * FROM personal_salud WHERE rol_personal = 'enfermero'";
+                        $resulEfermerosEmergencias = mysqli_query($conexion, $consultaEnfermeros);
+
+                        if($resulEfermerosEmergencias){
+                        
+                            while($datos=$resulEfermerosEmergencias->fetch_array()){
+                                $id_EnfermeroEmerg= $datos["cedula_personal_salud"];
+                                $nombreEnfermero= $datos["nombre"];
+                                $apellidoEnfermero= $datos["apellido"];
+                            ?>
+                            <option value="<?php echo $id_EnfermeroEmerg?>"> <?php echo $nombreEnfermero." ".$apellidoEnfermero ?> </option>
+                            
+                            <?php   
+                            }
                         }
-                    }
-                    ?>
-
-                </select><br>
-
-                <label for="enfermeros">Enfermeros</label>
-                <select name="EnfermeroResponsable" id="selectEnfermeroEmergencia">
-                    <option value="">Seleciona Enfermero</option>
-                    <?php 
-
-                    $consultaEnfermeros = "SELECT * FROM personal_salud WHERE rol_personal = 'enfermero'";
-                    $resulEfermerosEmergencias = mysqli_query($conexion, $consultaEnfermeros);
-
-                    if($resulEfermerosEmergencias){
-                    
-                        while($datos=$resulEfermerosEmergencias->fetch_array()){
-                            $id_EnfermeroEmerg= $datos["cedula_personal_salud"];
-                            $nombreEnfermero= $datos["nombre"];
-                            $apellidoEnfermero= $datos["apellido"];
                         ?>
-                        <option value="<?php echo $id_EnfermeroEmerg?>"> <?php echo $nombreEnfermero." ".$apellidoEnfermero ?> </option>
-                         
-                         <?php   
-                        }
-                    }
-                    ?>
 
-                </select><br>
+                    </select><br>
+
+                    <label for="gravedad">Gravedad</label>
+                    <select name="gravedadEmergencia" id="gravedad" required>
+                        <option value="leve">Leve</option>
+                        <option value="moderada">Moderada</option>
+                        <option value="grave">Grave</option>
+                    </select>
 
 
-                <label for="tipoEmergencia">Tipo de Emergencia</label>
-                <input id="tipoEmergencia" type="text" placeholder="tipo de Emergencia" name="tipoEmerg">
+                </div>
+                <div class='divInt formRight'>
 
-                <label for="tipoEmergencia">Descripcion de Emergencia</label>
-                <input id="Descripcion" type="text" placeholder="Descripcion de Emergencia"  name="DescripcionEmerg">
+                    <label for="tipoEmergencia">Tipo de Emergencia</label>
+                    <input id="tipoEmergencia" type="text" placeholder="tipo de Emergencia" name="tipoEmerg">
 
-                <label for="fecha">Fecha de Emergencia</label>
-                <input id="fecha" type="datetime-local" placeholder="Telefono" name="fecha_emerg">
+                    <label for="tipoEmergencia">Descripcion de Emergencia</label>
+                    <input id="Descripcion" type="text" placeholder="Descripcion de Emergencia"  name="DescripcionEmerg">
+<!-- 
+                    <label for="fecha">Fecha de Emergencia</label>
+                    <input id="fecha" type="datetime-local" placeholder="Telefono" name="fecha_emerg"> -->
 
-                <label for="gravedad">Gravedad</label>
-                <select name="gravedadEmergencia" id="gravedad">
-                    <option value="leve">Leve</option>
-                    <option value="moderada">Moderada</option>
-                    <option value="grave">Grave</option>
-                </select>
+                    <label for="estatus">Estado de Emergencia</label>
+                    <select name="estadoEmerg" id="estatus" required>
+                        <option value="">Seleccione Estado</option>
+                        <option value="En proceso">En proceso</option>
+                        <option value="Resuelta" disabled>Resuelta</option>
+                    </select>
 
-                <label for="diagnostico">Diagnostico</label>
-                <input id="diagnostico" type="text" placeholder="diagnostico" name="diagnostico_emerg">
+                    <button type="submit" class="botonesLogin" id="btnRegistrarEmergencia" name="registrarEmergencia" >Registrar Emergencia</button>
 
-                <label for="estatus">Estado de Emergencia</label>
-                <select name="estadoEmerg" id="estatus">
-                    <option value="En proceso">En proceso</option>
-                    <option value="Resuelta">Resuelta</option>
-                </select>
-
-                <button type="submit" class="botonesLogin" id="btnRegistrarEmergencia" name="registrarEmergencia" >Registrar Emergencia</button>
+                    <div id="errores" style="color: red; margin-bottom: 10px;"></div>
+                </div>
             </form>
 
             </div>
@@ -371,7 +379,6 @@
         <dialog class="DialogNewRegistros" >
 
             <div class="headerModel"> 
-                <h2>Registro Nuevo Paciente</h2>
                 <form method="dialog">
                 <button class="ModalClose"> X</button>
                 </form>
@@ -379,28 +386,52 @@
 
                 <div id="RegistroUsuarioNew">
 
-                    <h2>Ingresar Medico</h2>
-                        <form action="manejo_emergencia/registrosDatos.php"  method="post">
+                    <h2> <h2 id='tituloPacienteTemp'> Registrar Nuevo Paciente</h2></h2>
+                        <form action="manejo_emergencia/registrosDatos.php"  method="post" id='fromPacienteTemp'>
 
-                            <label for="nombre">Cedula</label>
-                            <input id ="cedula" type="text" placeholder="cedula de Identidad" class="nombreClase"  name="CedulaI" value="">
+                            <label for="nombre">Cédula</label>
+                            <div class='campoCompuestoCI'>
 
+                                <select id="nacionalidad" name="nacionalidadCi" required>
+                                    <option value="V">V</option>
+                                    <option value="E">E</option>
+                                </select>
+
+                                <input id ="cedula" type="text" placeholder="Cédula de Identidad" class="nombreClase"  name="CedulaI" value="">
+
+                            </div>
+                            
                             <label for="nombre">Nombre</label>
                             <input id ="nombre" type="text" placeholder="Nombre" class="nombreClase"  name="newNombre" value="">
 
                             <label for="Apellido">Apellido</label>
                             <input id="apellido" type="text" placeholder="Apellido" class="apellido" name="newApellido" value="">
 
-                            <label for="Edad">Edad</label>
-                            <input id="Edad" type="number" placeholder="Edad " name="edad" value="" >
+                            <label for="Edad">Fecha de Nacimiento</label>
+                            <input id="nacimientoFecha" type="date" placeholder="" name="fechaNac" value="" >
 
                             <label for="Telefono">Contacto de Emergencia </label>
-                            <input id="telefono" type="text" placeholder="Telefono" name="newTelefono" value="">
+                            <div class='campoCompuestoCI'>
+
+                                <select class='prefijoTelefono' id="PrefijoTlfEdit" name="prefijoTlf" required>
+                                    <option value="0412">0412</option>
+                                    <option value="0414">0414</option>
+                                    <option value="0416">0416</option>
+                                    <option value="0422">0422</option>
+                                    <option value="0424">0424</option>
+                                    <option value="0426">0426</option>
+                                </select>
+
+                                <input id="telefono" type="text" placeholder="1234567" name="newTelefono">
+                            </div>
 
                             <label for="direccion">Direccion</label>
                             <input id="direccion" type="text" placeholder="direccion" name="newdireccion" value="" >
 
                             <button type="submit" class="botonesLogin" id="botonRegistrarse" name="newPacienteTemp">Guardar</button>
+
+                            <div id="resultadoRegistro" style="color: red; margin-bottom: 10px;"></div>
+
                         </form>
 
                 </div>
@@ -469,6 +500,150 @@
 
 
     <script>
+
+
+        function validarFormulario(campos) {
+            let error = [];
+            let textoPattern = /^[A-Za-zÁÉÍÓÚáéíóúÑñ\s]+$/;
+            let textoDescripcionPattern = /^[A-Za-zÁÉÍÓÚáéíóúÑñ0-9\s.,;:()\-"¿?!¡']+$/;
+
+            const {
+                nombre,
+                apellido,
+                cedula,
+                telefono,
+                fechaNacimiento,
+                direccion
+            } = campos;
+
+            if(nombre.length < 2 || nombre.length > 40 || !textoPattern.test(nombre)){
+                return [true, "El nombre solo debe contener letras y tener mínimo 2 caracteres."];
+            } else if(apellido.length < 2 || apellido.length > 40 || !textoPattern.test(apellido)){
+                return [true, "El apellido solo debe contener letras y tener mínimo 2 caracteres."];
+            } else if(cedula && (!/^\d+$/.test(cedula) || cedula.length < 7 || cedula.length > 9 || cedula.startsWith('0'))){
+                return [true, "La cédula no es válida. Debe tener entre 7 y 9 dígitos y no comenzar con 0."];
+            }else if(!/^\d{7}$/.test(telefono)){
+                return [true, "El número de teléfono  debe tener exactamente 11 dígitos, incluyendo su prefijo determinado"];
+            } else if (!fechaNacimiento) {
+                return [true, "Debes ingresar tu fecha de nacimiento."];
+            }
+
+            const fechaHoy = new Date();
+            const fechaNac = new Date(fechaNacimiento);
+            const fechaMinima = new Date('1915-01-01');
+
+            if (fechaNac < fechaMinima) {
+                return [true, "La fecha de nacimiento no puede ser anterior a 1915."];
+            }
+            
+            
+            if (direccion.length < 2 || direccion.length > 255 || !textoDescripcionPattern.test(direccion)){
+                return [true, "La direccion solo debe contener letras y tener mínimo 2 caracteres."];
+            }
+
+            return [false, ""];
+        }
+
+        const botonRegistrar = document.getElementById("botonRegistrarse");
+        const spanResultado = document.getElementById("resultadoRegistro");
+
+        botonRegistrar.addEventListener("click", (e) => {
+                e.preventDefault();
+
+                const campos = {
+                    nombre: document.getElementById("nombre").value.trim(),
+                    apellido: document.getElementById("apellido").value.trim(),
+                    cedula: document.getElementById("cedula").value.trim(),
+                    telefono: document.getElementById("telefono").value.trim(),
+                    fechaNacimiento: document.getElementById("nacimientoFecha").value,
+                    direccion: document.getElementById("direccion").value
+                };
+
+                const error = validarFormulario(campos);
+                if (error[0]) {
+                    spanResultado.innerHTML = error[1];
+                    spanResultado.classList.add("red");
+                    spanResultado.classList.remove("green");
+                } else {
+                    spanResultado.innerHTML = "Te has registrado correctamente";
+                    spanResultado.classList.add("green");
+                    spanResultado.classList.remove("red");
+
+                    const form = document.getElementById("fromPacienteTemp");
+                    const hiddenInput = document.createElement("input");
+                    hiddenInput.type = "hidden";
+                    hiddenInput.name = "newPacienteTemp";
+                    form.appendChild(hiddenInput);
+                    form.submit();
+                }
+        });
+
+
+
+        document.getElementById("fromRegistroEmerg").addEventListener("submit", function(e) {
+            e.preventDefault(); // detenemos envío por defecto
+            const erroresDiv = document.getElementById("errores");
+            erroresDiv.innerHTML = ""; // Limpiar errores previos
+
+            const cedulaRegistrado = document.getElementById("idPaciente").value.trim();
+            const cedulaTemporal = document.getElementById("idPacienteTemp").value.trim();
+            const medico = document.getElementById("selectMedicoEmergencia").value;
+            const enfermero = document.getElementById("selectEnfermeroEmergencia").value;
+            const tipo = document.getElementById("tipoEmergencia").value.trim();
+            const descripcion = document.getElementById("Descripcion").value.trim();
+            const gravedad = document.getElementById("gravedad").value;
+            const estatus = document.getElementById("estatus").value;
+
+            // Validar cédulas
+            if (cedulaRegistrado === "" && cedulaTemporal === "") {
+                erroresDiv.innerText = "Debe ingresar la cédula del paciente registrado o del paciente no registrado.";
+                return;
+            }
+
+            if (
+                medico === "" ||
+                enfermero === "" ||
+                tipo === "" ||
+                descripcion === "" ||
+                gravedad === "" ||
+                estatus === ""
+            ) {
+                erroresDiv.innerText = "Todos los campos son obligatorios.";
+                return;
+            }
+
+            // Si el paciente es registrado, consultar si está en BD
+            if (cedulaRegistrado !== "") {
+                fetch("manejo_emergencia/verificarCedula.php?cedula=" + cedulaRegistrado)
+                    .then(response => response.json())
+                    .then(data => {
+                        if (data.encontrado) {
+                            document.getElementById("fromRegistroEmerg").submit(); // Enviar si todo está bien
+                        } else {
+                            erroresDiv.innerText = "La cédula ingresada no está registrada en el sistema.";
+                        }
+                    })
+                    .catch(error => {
+                        erroresDiv.innerText = "Error al verificar la cédula. Intente más tarde.";
+                        console.error(error);
+                    });
+            } else if (cedulaTemporal !== "") {
+                // Si es paciente temporal, no hay verificación
+                    fetch("manejo_emergencia/verificarCedulaTemporal.php?cedula=" + cedulaTemporal)
+                        .then(response => response.json())
+                        .then(data => {
+                            if (data.encontrado) {
+                                document.getElementById("fromRegistroEmerg").submit(); // Enviar si todo está bien
+                            } else {
+                                erroresDiv.innerText = "La cédula ingresada no está registrada en el sistema.";
+                            }
+                    })
+                    .catch(error => {
+                        erroresDiv.innerText = "Error al verificar la cédula. Intente más tarde.";
+                        console.error(error);
+                    });
+            }
+        });
 
         const bottonEmergencia = document.getElementById("btnEmergencia")
         bottonEmergencia.addEventListener("click", openModal)
@@ -588,7 +763,7 @@
                         // });
                   
                     } else {
-                        mensajeVerificacion.innerHTML = "El paciente no se cuentra rgistrado, debe registrarlo temporalmente en la plataforma para asocialo a una nueva emergencia.";
+                        mensajeVerificacion.innerHTML = "El paciente no se cuentra registrado, debe registrarlo temporalmente en la plataforma para asocialo a una nueva emergencia.";
 
                         divPacienteTemp.style.display = 'block';
                         

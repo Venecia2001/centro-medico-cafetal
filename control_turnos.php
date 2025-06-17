@@ -54,10 +54,12 @@
 
                                     <?php
                                             $rolMedico = $datos->rol;
+                                            $idMedicoPerfil = $datos->id_perfil;
                                         } 
                                     ?>
                     </select><br>
                     <input type="hidden" name='rolMedico' value='<?php echo $rolMedico ?>'>
+                    <input type="hidden" name='' id='idPerfilMedico' value='<?php echo $idMedicoPerfil  ?>'>
                 </div>
 
                
@@ -203,9 +205,9 @@
         </table>
 
 
-        <dialog id="modalEdit" class = "dialogEsp">
+       <dialog id="modalEdit">
 
-            <h3>Formulario para Modificar</h3>
+            <h3 class ='tituloFormulario'>Formulario para Modificar</h3>
 
             <div class="formEditar">
 
@@ -213,34 +215,21 @@
                     <button class="ModalClose"> X</button>
                 </form>
 
-                <form action="Crud_Admin/resultadoFinalCitas.php" method="POST">
+                <form action="Crud_Admin/resultadoFinalCitas.php" method="POST" id='FormEdicionHorarios'>
 
                     <input type="hidden" name="idHorarios" id="idDeHorarios" value="">
 
-                    <label for="">Especialidad</label><br>
-                    <select name="especialidad" id="especialidadEdit"  class="selectForm">
-                                    <option value="">Seleccione la especialidad</option>
-                                    <?php
-                                    include "conex_bd.php";
-                                            
-                                    $sql = $conexion->query("SELECT id_especialidad, nombre_esp FROM `especialidades`");
-
-                                    while($datos=$sql->fetch_object()){ ?>
-
-                                        <option value="<?php echo $datos->id_especialidad ?>"><?php echo $datos->nombre_esp?></option>
-
-                                    <?php
-                                            $rolMedico = $datos->rol;
-                                        } 
-                                    ?>
-                    </select><br>
                     <input type="hidden" name='rolMedico' value='<?php echo $rolMedico ?>'>
 
-                    <label for="">Medico</label><br>
-                    <select name="medicoEdit" id="doctor_id_edit" class="selectForm">
+                    <label for="">Nombre de Médico</label><br>
+                    <input type="text"  id="doctor_id_edit" readonly><br><br>
+
+                    <input type="hidden" name="medicoEdit" id='refMedico' >
+
+                    <!-- <select name="medicoEdit" id="doctor_id_edit" class="selectForm">
                         <option value="">Seleccione un médico</option>
                             
-                    </select><br>
+                    </select><br> -->
                     <label for="">Dia de la Semana</label><br>
                     <select name="diaEdit" id="diaSemanaEdit"  class="selectForm">
                         <option value="">Seleciona un dia</option>
@@ -256,16 +245,15 @@
                     <label for="">Hora De Inicio</label><br>
                     <!-- <span id="mensajeEmer"></span> -->
                     <select name="comienzoTurnoEdit" id="horaComienzoEdit"  class="selectForm">
-                        <option value="">Comienzo</option>
-                            <option value="00:00">00:00</option>
-                        </select>
+                        <option value="">Comienzo de Turno </option>
+                        <option value="00:00">00:00</option>
                     </select><br>
 
                     <label for="">Hora de culminacion</label><br>
                     <!-- <span id="mensajeHoraFin"></span> -->
                     <select name="finTurnoEdit" id="horaFEdit" class="selectForm">
                         <option value="">Final de Turno</option>
-                        <option value="16:00">23:59</option>
+                        <option value="23:59">23:59</option>
                     </select><br>
                     <label for="">Disponibilidad de horario</label><br>
                     <select name="disponibilidadEdit" id="dispo_dia"  class="selectForm">
@@ -274,7 +262,8 @@
                         <option value="No disponible">No Disponible</option>  
                     </select><br>
 
-                       <input type="submit" id="botonEdit" name="editHorarios" value="Confirmar Cambios" >                 
+                       <input type="submit" id="botonEdit" name="editHorarios" value="Confirmar Cambios" >
+                        <p id="mensajeAlertEdit"></p>
                 </form>
 
 
@@ -401,9 +390,9 @@
         });
 
 
-        document.getElementById("diaSemana").addEventListener("change", function() {
+        document.getElementById("diaSemana").addEventListener("change", function() { 
 
-            let idMedico =  document.getElementById("doctor_id").value
+            let idMedico =  document.getElementById("idPerfilMedico").value
             let diaSeleccionado =  document.getElementById("diaSemana").value;
 
             console.log(idMedico+" "+diaSeleccionado)
@@ -439,6 +428,7 @@
 
 
         });
+
         function enviarFormulario(id) {
             // Obtener el ID del formulario de edición
             var inputId = document.querySelector(`#form_editar_${id} input[name='idEditar']`).value;
@@ -454,120 +444,80 @@
                 body: `idEditar=${encodeURIComponent(inputId)}`  // El cuerpo de la solicitud con el idEditar
             })
             .then(response => {
-            // Primero verificamos que la respuesta sea exitosa
-            if (!response.ok) {
-                throw new Error('Error en la solicitud AJAX');
-            }
-
-            // Leemos la respuesta como JSON solo una vez
-            return response.json(); // Esto consume el cuerpo de la respuesta
-        })
-        .then(data => {
-            // Aquí ya podemos usar los datos correctamente
-            if (data.error) {
-                alert('Error: ' + data.error);  // Si hay un error, mostrarlo
-                return;  // Salir de la función si hay error
-            }
-
-            // Procesar la respuesta, ahora que tenemos los datos correctamente
-            console.log(data);
-            // Actualizar los campos con los datos devueltos
-            document.getElementById('idDeHorarios').value = data.id;
-            document.getElementById('especialidadEdit').value = data.id_esp;
-            document.getElementById('diaSemanaEdit').value = data.diaSemana;
-            document.getElementById('dispo_dia').value = data.disponibilidad;
-
-            // Actualizar el select de médicos
-            actualizarSelectMedicos(data.id_esp, data.idMedico);
-
-            console.log(data.idMedico)
-
-            // Actualizar las horas (hora de inicio y fin)
-            document.getElementById('horaComienzoEdit').value = data.horaInicio.split(':').slice(0, 2).join(':');
-            document.getElementById('horaFEdit').value = data.horaFin.split(':').slice(0, 2).join(':');
-
-            // Pinta el modal con la información de los datos recibidos
-        
-        })
-        .catch(error => {
-            // Si ocurre un error en cualquier parte del proceso
-                console.error('Error:', error);
-                alert('Hubo un error al procesar la solicitud. Inténtalo nuevamente.');
-        });
-}
-
-function actualizarSelectMedicos(especialidadId, idMedico) {
-    fetch(`Crud_Admin/obtener_medicosHorarios.php?specialty_id=${especialidadId}`)
-        .then(response => response.json())  // Procesamos la respuesta como JSON
-        .then(medicos => {
-            console.log(medicos)
-            const doctorEdit = document.getElementById('doctor_id_edit');  // Suponiendo que el ID es 'doctorEdit'
-            doctorEdit.innerHTML = '';  // Limpiar el select antes de agregar las nuevas opciones
-
-            // Si hay médicos, los agregamos al select
-            if (medicos.length > 0) {
-                let defaultOption = document.createElement('option');
-                defaultOption.value = '';
-                defaultOption.textContent = 'Selecciona un médico';
-                doctorEdit.appendChild(defaultOption);
-
-                medicos.forEach(function(medico) {
-                    let option = document.createElement('option');
-                    option.value = medico.perfilMed;
-                    option.textContent = `${medico.nombre} ${medico.apellido}`;
-                    doctorEdit.appendChild(option);
-                });
-            } else {
-                // Si no hay médicos disponibles
-                let noDoctorsOption = document.createElement('option');
-                noDoctorsOption.value = '';
-                noDoctorsOption.textContent = 'No hay médicos disponibles';
-                doctorEdit.appendChild(noDoctorsOption);
-            }
-
-            console.log(idMedico); // Verifica el valor de idMedico
-
-            // Si se pasó el idMedico, seleccionamos esa opción
-            if (idMedico) {
-                const medicoOption = doctorEdit.querySelector(`option[value='${idMedico}']`);
-                console.log(idMedico); // Verifica el valor de idMedico
-                console.log(medicoOption.value); // Verifica el valor de la opción
-                if (medicoOption) {
-                    medicoOption.selected = true;
+                // Primero verificamos que la respuesta sea exitosa
+                if (!response.ok) {
+                    throw new Error('Error en la solicitud AJAX');
                 }
-            }
 
-            const dialogEdit = document.getElementById("modalEdit");
-            dialogEdit.showModal(); 
+                // Leemos la respuesta como JSON solo una vez
+                return response.json(); // Esto consume el cuerpo de la respuesta
+            })
+            .then(data => {
+                // Aquí ya podemos usar los datos correctamente
+                if (data.error) {
+                    alert('Error: ' + data.error);  // Si hay un error, mostrarlo
+                    return;  // Salir de la función si hay error
+                }
+
+                // Procesar la respuesta, ahora que tenemos los datos correctamente
+                console.log(data);
+                const dialogEdit = document.getElementById("modalEdit");
+                dialogEdit.showModal(); 
+                // Actualizar los campos con los datos devueltos
+                document.getElementById('idDeHorarios').value = data.id;
+                document.getElementById('refMedico').value = data.idPerfilMedico;
+
+                document.getElementById('doctor_id_edit').value = data.nombreM +' '+ data.apellidoM;
+                document.getElementById('diaSemanaEdit').value = data.diaSemana;
+                document.getElementById('dispo_dia').value = data.disponibilidad;
+
+                // Actualizar el select de médicos
+                // actualizarSelectMedicos(data.id_esp, data.idMedico);
+
+                console.log(data.idMedico)
+
+                // Actualizar las horas (hora de inicio y fin)
+                document.getElementById('horaComienzoEdit').value = data.horaInicio.split(':').slice(0, 2).join(':');
+                document.getElementById('horaFEdit').value = data.horaFin.split(':').slice(0, 2).join(':');
+
+                // Pinta el modal con la información de los datos recibidos
             
-        })
-        .catch(error => {
-            console.error('Error al obtener médicos:', error);
-            // Opcionalmente, puedes manejar los errores de la obtención de médicos aquí.
+            })
+            .catch(error => {
+                // Si ocurre un error en cualquier parte del proceso
+                    console.error('Error:', error);
+                    alert('Hubo un error al procesar la solicitud. Inténtalo nuevamente.'); 
+            });
+        }
+
+        document.getElementById('FormEdicionHorarios').addEventListener('submit', function (event) {
+                const dia = document.getElementById('diaSemanaEdit').value;
+                const horaInicio = document.getElementById('horaComienzoEdit').value;
+                const horaFin = document.getElementById('horaFEdit').value;
+                const mensaje = document.getElementById('mensajeAlertEdit');
+
+                // Limpiar mensaje anterior
+                mensaje.textContent = '';
+
+                if (!dia || !horaInicio || !horaFin) {
+                    event.preventDefault(); // Evita el envío del formulario
+                    mensaje.textContent = 'Por favor, complete todos los campos antes de continuar.';
+                    mensaje.style.color = 'red';
+                    return;
+                }
+
+                // Validación adicional: la hora de fin debe ser mayor a la de inicio
+                if (horaFin <= horaInicio) {
+                    event.preventDefault();
+                    mensaje.textContent = 'La hora de fin debe ser mayor que la hora de inicio.';
+                    mensaje.style.color = 'red';
+                    return;
+                }
+
+            // Si todo está bien, el formulario se envía
         });
-}
 
 
-function pintarSelect(idMedico, horaInicio, horaFin, idDisponibilidad) {
-    // Actualiza el campo del formulario con el ID de la disponibilidad
-    document.getElementById('dispo_dia').value = idDisponibilidad;
-
-    // Actualiza el campo para la hora de inicio (sin los segundos)
-    document.getElementById('horaComienzoEdit').value = horaInicio;
-
-    // Actualiza el campo para la hora de fin (sin los segundos)
-    document.getElementById('horaFEdit').value = horaFin;
-
-    // Actualiza el campo del formulario con el ID del médico
-    document.getElementById('doctor_id_edit').value = idMedico;
-
-    // Muestra el modal con la información actualizada
-     // Abre el modal (asegúrate de tener un modal con este ID en tu HTML)
-
-    // Log para depuración (puedes eliminarlo si no lo necesitas)
-    console.log(idMedico);
-    console.log(horaFin);
-}
 
 
         
