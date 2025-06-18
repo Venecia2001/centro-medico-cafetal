@@ -958,7 +958,7 @@ td {
   width: 100%;
   height: 100px;
   margin-top: 20px;
-  background-color: #5690f9;
+  background-color: #5690f96e;
   text-align: center;
   display: flex;
   border-radius: 15px;
@@ -988,12 +988,12 @@ td {
   height: 35px;
   border: none;
   border-radius: 7px;
-  background-color: #24b8c0;
+  background-color: #13cbd5;
   color: white;
 }
 
 #btmBuscarFactura:hover {
-  background-color: #1acbd4;
+  background-color: #17e7f2;
 }
 
 .filtrosFacturas {
@@ -1009,11 +1009,13 @@ td {
   right: 2%;
   top: 35px;
   width: 60%;
-  padding: 8px;
-  background-color: #2e2e2e;
-  border: 1px solid teal;
-  color: white;
+  padding: 7px;
+  background-color: #f9f9f9;
+  color: #404040;
+  font-size: 1.1rem;
   border-radius: 7px;
+  margin-bottom: 15px;
+  border: none;
 }
 
 .espacioDeFacturas {
@@ -1164,6 +1166,11 @@ th:nth-child(4), td:nth-child(4) { width: 20%; } */
 
 #sumaTotal {
   border-top: 1px solid;
+}
+
+.tituloNewEmergencia {
+  margin: auto;
+  margin-bottom: 15px;
 }
 
 /* --------------------------------------------------REGISTROS DE MEDICAMENTOS Y SERVICIOS EN LA EMERGENCIA--------------------------------------------------- */
@@ -1629,4 +1636,51 @@ button:disabled {
   margin-bottom: 10px;
   border-radius: 5px;
   text-align: center;
+}
+
+.enlaceAimg {
+  text-decoration: none;
+  color: white;
+}
+
+.enlaceAimg:hover {
+  color: rgb(89, 206, 120);
+}
+
+#contendorIngresarComprobante {
+  display: none;
+}
+
+.spanPagado {
+  font-size: 26px;
+  background: #b4b4b4;
+  padding: 3px;
+  border: none;
+  border-radius: 4px;
+  color: #383838;
+}
+
+.detallesEmergencia {
+  font-size: 26px;
+  background: #e9e9ed;
+  border: none;
+  border-radius: 4px;
+  color: #383838;
+}
+
+.detallesEmergencia:hover {
+  background: #bebebe;
+}
+
+.contenidoMetodo {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 4px;
+  white-space: nowrap; /* Para evitar que el texto se divida en varias líneas */
+}
+
+.contenidoMetodo span {
+  font-size: 20px;
+  margin-top: 7px;
 }

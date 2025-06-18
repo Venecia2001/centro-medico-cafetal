@@ -26,7 +26,8 @@ if (isset($_GET['palabra_idCitas'])) {
                 'fechaEmision' => $row['fecha_emision'],
                 'montoTotal' => $row['monto_total'],
                 'metodoPago' => $row['metodo_pago'],
-                'estadoFact' => $row['estado_fact']
+                'estadoFact' => $row['estado_fact'],
+                'comprobante' => $row['comprobante']
             ];
         }
 

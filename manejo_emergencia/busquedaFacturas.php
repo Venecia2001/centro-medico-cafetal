@@ -34,7 +34,8 @@ if (isset($_GET['palabra_id'])) {
                 'totalHosp' => $row['total_hospitalizacion'],
                 'totalFact' => $row['total_factura'],
                 'metodoPago' => $row['metodo_pago'],
-                'estadoFact' => $row['estado']
+                'estadoFact' => $row['estado'],
+                'comprobante' => $row['comprobante']
             ];
         }
 

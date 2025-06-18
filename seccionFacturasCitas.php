@@ -3,11 +3,42 @@
 include("conex_bd.php");
 
 // Procesamiento del formulario
+// if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+
+//     $idFactura =  $_POST["idFactura"];
+//     $metodoDePago = mysqli_real_escape_string($conexion, $_POST['selectPago']);
+
+//     if (isset($_FILES['comprobante_pago']) && $_FILES['comprobante_pago']['error'] === UPLOAD_ERR_OK) {
+
+//         $directorio_destino = 'uploads/';
+//         $nombre_archivo = $_FILES['comprobante_pago']['name'];
+//         $ruta_temporal = $_FILES['comprobante_pago']['tmp_name'];
+//         $nombre_unico = uniqid() . '-' . $nombre_archivo;
+//         $ruta_destino = $directorio_destino . $nombre_unico;
+
+//         if (move_uploaded_file($ruta_temporal, $ruta_destino)) {
+//             // Guardar la ruta en la base de datos
+            
+//             $consultaSql = "UPDATE facturas_citas SET metodo_pago = '$metodoDePago', comprobante ='$ruta_destino', estado_fact = 'pagada' WHERE id_factura_cita = $idFactura";
+//             $result = mysqli_query($conexion,$consultaSql);
+
+//             header("Location: " . $_SERVER['REQUEST_URI']);
+//             exit;
+
+//         } else {
+//             echo "Hubo un error al subir el archivo.";
+//         }
+//     } else {
+//         echo "No se seleccionó archivo o hubo un error.";
+//     }
+// }
+
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
     $idFactura =  $_POST["idFactura"];
     $metodoDePago = mysqli_real_escape_string($conexion, $_POST['selectPago']);
 
+    // Verifica si se subió un archivo sin errores
     if (isset($_FILES['comprobante_pago']) && $_FILES['comprobante_pago']['error'] === UPLOAD_ERR_OK) {
 
         $directorio_destino = 'uploads/';
@@ -17,21 +48,35 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         $ruta_destino = $directorio_destino . $nombre_unico;
 
         if (move_uploaded_file($ruta_temporal, $ruta_destino)) {
-            // Guardar la ruta en la base de datos
-            
-            $consultaSql = "UPDATE facturas_citas SET metodo_pago = '$metodoDePago', comprobante ='$ruta_destino', estado_fact = 'pagada' WHERE id_factura_cita = $idFactura";
-            $result = mysqli_query($conexion,$consultaSql);
-
-            header("Location: " . $_SERVER['REQUEST_URI']);
-            exit;
-
+            //  Actualiza con comprobante
+            $consultaSql = "UPDATE facturas_citas 
+                            SET metodo_pago = '$metodoDePago', 
+                                comprobante = '$ruta_destino', 
+                                estado_fact = 'pagada' 
+                            WHERE id_factura_cita = $idFactura";
         } else {
             echo "Hubo un error al subir el archivo.";
+            exit;
         }
+
     } else {
-        echo "No se seleccionó archivo o hubo un error.";
+        // Actualiza sin comprobante
+        $consultaSql = "UPDATE facturas_citas 
+                        SET metodo_pago = '$metodoDePago', 
+                            estado_fact = 'pagada' 
+                        WHERE id_factura_cita = $idFactura";
     }
+
+    // Ejecutar la consulta (común para ambos casos)
+    $result = mysqli_query($conexion, $consultaSql);
+
+    // Redirigir después de guardar
+    header("Location: " . $_SERVER['REQUEST_URI']);
+    exit;
 }
+
+
+
 ?>
 
 
@@ -45,6 +90,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     <link rel="stylesheet" href="stilosRecepcion.css">
     <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined" rel="stylesheet" />
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css">
+    <link href="https://cdn.jsdelivr.net/npm/lightbox2@2/dist/css/lightbox.min.css" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/lightbox2@2/dist/js/lightbox.min.js"></script>
 </head>
 <body>
 
@@ -188,15 +235,32 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                     <td><?php echo $datos->id_cliente ?> </td>
                     <td><?php echo $datos->fecha_emision ?> </td>
                     <td ><?php echo $datos->monto_total ?> </td>
-                    <td ><?php echo $datos->metodo_pago ?> </td>
-                    <td class='<?php echo $datos->estado_fact ?>'> <?php echo $datos->estado_fact ?> </td>
                     <td>
-                        <form  action='manejo_emergencia/detallesDeEmergencia.php' id="form_detallesFac_<?php echo $datos->id_factura_cita ?>" method="POST" style="display:inline;">
-                                    <input type="hidden" name="idFactura" value="<?php echo $datos->id_factura_cita ?>">
-                                    <button type="button" class="detallesEmergencia" onclick="enviarMetodoPago(<?php echo $datos->id_factura_cita; ?>)"><span class="material-symbols-outlined">
-checkbook
-</span></button>
-                        </form> 
+                        <div class="contenidoMetodo">
+                            <?php echo ucfirst($datos->metodo_pago); ?>
+                            <?php if ($datos->metodo_pago === 'transferencia' && !empty($datos->comprobante)): ?>
+                                <a class='enlaceAimg' href="<?php echo htmlspecialchars($datos->comprobante); ?>"
+                                data-lightbox="comprobante-<?php echo $datos->factura_id; ?>" 
+                                data-title="Comprobante de la factura #<?php echo $datos->factura_id; ?>">
+                                    <span class="material-symbols-outlined">visibility</span>
+                                </a>
+                            <?php endif; ?>
+                        </div>
+                        </td>
+                    <td class='<?php echo $datos->estado_fact ?>'><?php echo ucfirst($datos->estado_fact); ?></td>
+                    <td>
+                        <?php if ($datos->estado_fact !== 'pagada'): ?>
+                            <form action='manejo_emergencia/detallesDeEmergencia.php' id="form_detallesFac_<?php echo $datos->id_factura_cita ?>" method="POST" style="display:inline;">
+                                <input type="hidden" name="idFactura" value="<?php echo $datos->id_factura_cita ?>">
+                                <button type="button" class="detallesEmergencia" onclick="enviarMetodoPago(<?php echo $datos->id_factura_cita; ?>)">
+                                    <span class="material-symbols-outlined">checkbook</span>
+                                </button>
+                            </form> 
+                        <?php else: ?>
+                            <span class="material-symbols-outlined spanPagado" style="font-size: 24px;">
+fact_check
+</span>
+                        <?php endif; ?>
                     </td>
                     <td>
                         <form  action='manejo_emergencia/detallesFacturasCitas.php' id="form_detalles_<?php echo $datos->id_cita ?>" method="POST" style="display:inline;">
@@ -312,7 +376,6 @@ content_paste_search
     <dialog id="DialogMetodoPago" class="dialogRegistrosNew">
 
         <div class="headerModel"> 
-            <h2>Registro Metodo de Pago</h2>
             <form method="dialog">
             <button class="ModalClose"> X</button>
             </form>
@@ -326,8 +389,8 @@ content_paste_search
                 <input id ="idFactura" type="hidden" name="idFactura" value="">
 
 
-                <label for="nombre">Servicio Prestado</label>
-                <select name="selectPago" id="selectPago">
+                <label for="nombre">Metodo de Pago</label>
+                <select name="selectPago" id="selectPago" class='selectMedicamento'>
                     <option value="">Seleccione Metodo de Pago</option>
                     <option value='efectivo'>Efectivo</option>
                     <option value='pago movil'>Tarjeta</option>
@@ -336,10 +399,14 @@ content_paste_search
                 
                 </select><br>
 
-                <label for="comprobante_pago">Subir comprobante de pago:</label>
-                <input type="file" name="comprobante_pago" id="comprobante_pago" accept="image/*" required />
+                <div id='contendorIngresarComprobante'>
 
-                <button type="submit" class="botonRegistro" id="botonRegistrarMed" name="actualizarMetodoPagoCita">Registrar Metodo Pago</button>
+                    <label for="comprobante_pago">Subir comprobante de pago:</label>
+                    <input type="file" name="comprobante_pago" id="comprobante_pago" accept="image/*" />
+
+                </div>
+
+                <button type="submit" class="botonRegistroDual" id="botonRegistrarMed" name="actualizarMetodoPagoCita">Registrar Metodo Pago</button>
             </form>
         </div>
 
@@ -408,7 +475,28 @@ content_paste_search
                     document.getElementById("idFactura").value = inputIdFactura;
 
                     const dialog = document.getElementById("DialogMetodoPago");
-                    dialog.showModal(); 
+                    dialog.showModal();
+
+                    const selectMetodoPago = document.getElementById('selectPago')
+                    const inputComprobante = document.getElementById('comprobante_pago')
+                    const contenedorInput = document.getElementById('contendorIngresarComprobante')
+
+
+                    document.getElementById('selectPago').addEventListener('change', function() {
+                        const resultSelect = this.value;
+
+                        console.log(resultSelect)
+
+                       if (resultSelect === "transferencia") {
+                            contenedorInput.style.display = 'block';
+                            inputComprobante.required = true; //  Obligatorio solo si es Transferencia
+                        } else {
+                            contenedorInput.style.display = 'none';
+                            inputComprobante.required = false; //  No obligatorio para otros métodos
+                        }
+                    
+                    })
+
         
         }
 
@@ -450,26 +538,45 @@ content_paste_search
                                 <td>${factura.cedulaPac}</td>
                                 <td>${factura.fechaEmision}</td>
                                 <td>${factura.montoTotal}</td>
-                                <td>${factura.metodoPago}</td>
-                                <td>${factura.estadoFact}</td>
-                               <td>
-                                    <form  action='manejo_emergencia/detallesDeEmergencia.php' id="form_detallesFac_${factura.facturaId}" method="POST" style="display:inline;">
-                                                <input type="hidden" name="idFactura" value="${factura.facturaId}">
-                                                <button type="button" class="detallesEmergencia" onclick="enviarMetodoPago(${factura.facturaId})"><span class="material-symbols-outlined">
-checkbook
-</span></button>
-                                    </form> 
+
+                                <td>
+                                    <div class="contenidoMetodo">
+                                        ${factura.metodoPago.charAt(0).toUpperCase() + factura.metodoPago.slice(1)}
+                                        ${factura.metodoPago === 'transferencia' && factura.comprobante ? `
+                                            <a class="enlaceAimg" href="${factura.comprobante}" 
+                                            data-lightbox="comprobante-${factura.facturaId}"
+                                            data-title="Comprobante de la factura #${factura.facturaId}">
+                                                <span class="material-symbols-outlined">visibility</span>
+                                            </a>` : ''}
+                                    </div>
+                                </td>
+
+                                <td class="${factura.estadoFact}">
+                                    ${factura.estadoFact.charAt(0).toUpperCase() + factura.estadoFact.slice(1)}
                                 </td>
 
                                 <td>
-                                    <form  action='manejo_emergencia/detallesFacturasCitas.php' id="form_detalles_${factura.idCita}" method="POST" style="display:inline;">
-                                                <input type="hidden" name="idCita" value="${factura.idCita}">
-                                                <button type="button" class="detallesEmergencia" onclick="enviarFormulario(${factura.idCita})"><span class="material-symbols-outlined">
-content_paste_search
-</span></button>
+                                    ${factura.estadoFact !== 'pagada' ? `
+                                        <form action="manejo_emergencia/detallesDeEmergencia.php" id="form_detallesFac_${factura.facturaId}" method="POST" style="display:inline;">
+                                            <input type="hidden" name="idFactura" value="${factura.facturaId}">
+                                            <button type="button" class="detallesEmergencia" onclick="enviarMetodoPago(${factura.facturaId})">
+                                                <span class="material-symbols-outlined">checkbook</span>
+                                            </button>
+                                        </form>` : `
+                                        <span class="material-symbols-outlined spanPagado" style="font-size: 24px;">
+                                            fact_check
+                                        </span>`}
+                                </td>
+
+                                <td>
+                                    <form action="manejo_emergencia/detallesFacturasCitas.php" id="form_detalles_${factura.idCita}" method="POST" style="display:inline;">
+                                        <input type="hidden" name="idCita" value="${factura.idCita}">
+                                        <button type="button" class="detallesEmergencia" onclick="enviarFormulario(${factura.idCita})">
+                                            <span class="material-symbols-outlined">content_paste_search</span>
+                                        </button>
                                     </form>
                                 </td>
-                                `;
+                            `;
                             
                             // Agregar la fila al cuerpo de la tabla
                             cuerpoTabla.appendChild(fila);
@@ -527,31 +634,50 @@ content_paste_search
                                 
                                 // Crear celdas para cada propiedad
                                 fila.innerHTML = `
-                                    <td>${factura.facturaId}</td>
-                                    <td>${factura.idCita}</td>
-                                    <td>${factura.cedulaPac}</td>
-                                    <td>${factura.fechaEmision}</td>
-                                    <td>${factura.montoTotal}</td>
-                                    <td>${factura.metodoPago}</td>
-                                    <td>${factura.estadoFact}</td>
-                                    <td>
-                                        <form  action='manejo_emergencia/detallesDeEmergencia.php' id="form_detallesFac_${factura.facturaId}" method="POST" style="display:inline;">
-                                                    <input type="hidden" name="idFactura" value="${factura.facturaId}">
-                                                    <button type="button" class="detallesEmergencia" onclick="enviarMetodoPago(${factura.facturaId})"><span class="material-symbols-outlined">
-checkbook
-</span></button>
-                                        </form> 
-                                    </td>
+                                <td>${factura.facturaId}</td>
+                                <td>${factura.idCita}</td>
+                                <td>${factura.cedulaPac}</td>
+                                <td>${factura.fechaEmision}</td>
+                                <td>${factura.montoTotal}</td>
 
-                                    <td>
-                                        <form  action='manejo_emergencia/detallesFacturasCitas.php' id="form_detalles_${factura.idCita}" method="POST" style="display:inline;">
-                                                    <input type="hidden" name="idCita" value="${factura.idCita}">
-                                                    <button type="button" class="detallesEmergencia" onclick="enviarFormulario(${factura.idCita})"><span class="material-symbols-outlined">
-content_paste_search
-</span></button>
-                                        </form>
-                                    </td>
-                                    `;
+                                <td>
+                                    <div class="contenidoMetodo">
+                                        ${factura.metodoPago.charAt(0).toUpperCase() + factura.metodoPago.slice(1)}
+                                        ${factura.metodoPago === 'transferencia' && factura.comprobante ? `
+                                            <a class="enlaceAimg" href="${factura.comprobante}" 
+                                            data-lightbox="comprobante-${factura.facturaId}"
+                                            data-title="Comprobante de la factura #${factura.facturaId}">
+                                                <span class="material-symbols-outlined">visibility</span>
+                                            </a>` : ''}
+                                    </div>
+                                </td>
+
+                                <td class="${factura.estadoFact}">
+                                    ${factura.estadoFact.charAt(0).toUpperCase() + factura.estadoFact.slice(1)}
+                                </td>
+
+                                <td>
+                                    ${factura.estadoFact !== 'pagada' ? `
+                                        <form action="manejo_emergencia/detallesDeEmergencia.php" id="form_detallesFac_${factura.facturaId}" method="POST" style="display:inline;">
+                                            <input type="hidden" name="idFactura" value="${factura.facturaId}">
+                                            <button type="button" class="detallesEmergencia" onclick="enviarMetodoPago(${factura.facturaId})">
+                                                <span class="material-symbols-outlined">checkbook</span>
+                                            </button>
+                                        </form>` : `
+                                        <span class="material-symbols-outlined spanPagado" style="font-size: 24px;">
+                                            fact_check
+                                        </span>`}
+                                </td>
+
+                                <td>
+                                    <form action="manejo_emergencia/detallesFacturasCitas.php" id="form_detalles_${factura.idCita}" method="POST" style="display:inline;">
+                                        <input type="hidden" name="idCita" value="${factura.idCita}">
+                                        <button type="button" class="detallesEmergencia" onclick="enviarFormulario(${factura.idCita})">
+                                            <span class="material-symbols-outlined">content_paste_search</span>
+                                        </button>
+                                    </form>
+                                </td>
+                            `;
                                 
                                 // Agregar la fila al cuerpo de la tabla
                                 cuerpoTabla.appendChild(fila);

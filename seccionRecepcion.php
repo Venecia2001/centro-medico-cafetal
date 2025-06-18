@@ -270,7 +270,7 @@
         <dialog class="DialogDeEmergencias">
 
             <div class="headerModel"> 
-                <h2>Registrar Emergencia</h2>
+                <h2 class='tituloNewEmergencia'>Registrar Emergencia</h2>
                 <form method="dialog">
                 <button class="ModalClose"> X</button>
                 </form>
@@ -597,6 +597,11 @@
             // Validar cédulas
             if (cedulaRegistrado === "" && cedulaTemporal === "") {
                 erroresDiv.innerText = "Debe ingresar la cédula del paciente registrado o del paciente no registrado.";
+                return;
+            }
+
+            if (cedulaRegistrado === medico) {
+                erroresDiv.innerText = "La cedula del paciente corresponde al medico que esta atendiendo la emergenecia, lo cual no es valido";
                 return;
             }
 

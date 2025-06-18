@@ -30,6 +30,7 @@ if (isset($_POST['registroMedicamento'])) {
         // Ejecutar la consulta
         if (mysqli_query($conexion, $consulta)) {
 
+            $_SESSION['mensajeExito'] = "✅ Medicamento ha sido registrado correctamente.";
             header("location:../gestionMedicamentos.php");
 
         } else {
@@ -100,7 +101,7 @@ if(isset($_POST['editarMedicamento'])){
     $result_edit = mysqli_query($conexion,$consultaEditar);
 
     if($result_edit){
-
+        $_SESSION['mensajeExito'] = "✅ Medicamento Modificado correctamente.";
         header("location:../gestionMedicamentos.php");
         
     }else{
@@ -201,6 +202,7 @@ if(isset($_POST['entradaNewMedicamentos'])){
 
     if($resultadoMovimiento){
 
+        $_SESSION['mensajeExito'] = "✅ El ingreso de nuevas unidades al inventario ha sido registrado correctamente.";
         header("location:../gestionMedicamentos.php");
 
     }
